@@ -3,7 +3,6 @@ import SwiftData
 
 @Model
 final class Pet {
-    @Attribute(.unique) var id: UUID
     var name: String
     var breed: String?
     var birthDate: Date
@@ -20,7 +19,7 @@ final class Pet {
     @Relationship(deleteRule: .cascade, minimumModelCount: 0)
     var reminders: [Reminder] = []
     
-    init(id: UUID,
+    init(
          name: String,
          breed: String? = nil,
          birthDate: Date,
@@ -28,7 +27,6 @@ final class Pet {
          weight: Double? = nil,
          gender: Gender? = nil)
     {
-        self.id = id
         self.name = name
         self.breed = breed
         self.birthDate = birthDate
@@ -40,6 +38,6 @@ final class Pet {
     }
     
     var age: Int {
-        Calendar.current.dateComponents([.year], from: birthDate ,to: Date()).year ?? 0
+        Calendar.current.dateComponents([.year, .month], from: birthDate ,to: Date()).year ?? 0
     }
 }
