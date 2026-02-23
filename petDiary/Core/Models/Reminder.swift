@@ -8,7 +8,7 @@ final class Reminder {
     var pet: Pet?
     var title: String
     var category: EventCategory
-    var scheduleDate: Date
+    var scheduleDate: Date?
     var isRepeating: Bool
     var repeatInterval: RepeatInterval?
     var isEnable: Bool
@@ -20,7 +20,7 @@ final class Reminder {
          pet: Pet? = nil,
          title: String,
          category: EventCategory,
-         scheduleDate: Date,
+         //scheduleDate: Date ,
          isRepeating: Bool,
          repeatInterval: RepeatInterval? = nil,
          isEnable: Bool)
@@ -29,7 +29,7 @@ final class Reminder {
         self.pet = pet
         self.title = title
         self.category = category
-        self.scheduleDate = scheduleDate
+        self.scheduleDate = Date()
         self.isRepeating = isRepeating
         self.repeatInterval = repeatInterval
         self.isEnable = isEnable

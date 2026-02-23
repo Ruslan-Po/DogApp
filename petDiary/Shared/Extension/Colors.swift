@@ -9,14 +9,12 @@ extension Color {
     static let petzenTeal = Color(red: 102/255, green: 188/255, blue: 180/255)
     
     // MARK: - Extended Palette
-    
     static let petzenBrown = Color(red: 139/255, green: 90/255, blue: 60/255)
     static let petzenCream = Color(red: 255/255, green: 248/255, blue: 231/255)
     static let petzenCoral = Color(red: 231/255, green: 111/255, blue: 81/255)
     static let petzenOlive = Color(red: 148/255, green: 166/255, blue: 132/255)
     
     // MARK: - Semantic
-    
     static let brandPrimary = petzenYellow
     static let brandAccent = petzenOrange
     static let brandBackground = petzenBeige

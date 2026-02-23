@@ -19,10 +19,10 @@ struct Coordinator: View {
         ZStack(alignment: .bottom) {
             TabView(selection: $coordinatorTags) {
                 NavigationStack{
-                    HomeView()
+                    HomeBuilder.build()
                 }.tag(CoordinatorTags.home)
                 NavigationStack{
-                    PetView()
+                    PetViewBuilder.build()
                 }.tag(CoordinatorTags.pets)
                 NavigationStack {
                     CalendarView()
