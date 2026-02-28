@@ -19,5 +19,9 @@ final class ReminderRepository: ReminderRepositoryProtocol {
         let reminders = try dataManager.getReminders(for: pet)
         return reminders
     }
+    
+    func update(_ reminder: Reminder,_ newReminder: Reminder) {
+        dataManager.updateReminder(reminder,newReminder)
+    }
 }
 

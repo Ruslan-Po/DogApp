@@ -61,3 +61,11 @@ enum RepeatInterval: String, Codable, CaseIterable {
     }
 }
 
+enum DataManagerError: Error {
+    case petNotFound
+}
+
+enum ReminderViewMode {
+    case add
+    case edit(Reminder)
+}

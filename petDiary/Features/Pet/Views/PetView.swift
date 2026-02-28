@@ -10,6 +10,7 @@ struct PetView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
             Text("\(name)")
+            
             Button {
                 removePet()
             } label: {
@@ -29,7 +30,14 @@ struct PetView: View {
             
             List{
                 ForEach(viewModel.reminders){ reminders in
-                    ReminderCardView(reminder: reminders)}
+                    ReminderCardView(reminder: reminders)
+                        .onChange(of: reminders.doneCondition) { _, isDone in
+                            if isDone {
+                                viewModel.removeReminder(reminders)
+                            }
+                        }
+                }
+                
                 .onDelete { indexSet in
                     for index in indexSet {
                         let reminder = viewModel.reminders[index]

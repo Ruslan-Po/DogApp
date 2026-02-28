@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct ReminderCardView: View {
-     let reminder: Reminder
+    @Bindable var reminder: Reminder
     
     var body: some View {
         HStack {
+            Toggle("TODO", isOn: $reminder.doneCondition).toggleStyle(CheckboxToggleStyle())
             Image(reminder.category.icon)
                             .renderingMode(.template)
                             .resizable()
@@ -19,6 +20,10 @@ struct ReminderCardView: View {
                         
             Text(reminder.title)
                 .font(.headline)
+            
+            Text(reminder.scheduleDate.formatted(date: .abbreviated, time: .shortened))
+                .font(.caption)
+            
         } .padding()
             .background(Color.brandBackgroundLight)
             .cornerRadius(12)

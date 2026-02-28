@@ -3,6 +3,7 @@ import SwiftData
 
 struct EditPetView: View {
     @StateObject var viewModel: EditPetViewModel
+    @Environment(\.dismiss) private var dismiss
     
     @State var name: String
     @State var breed: String
@@ -19,6 +20,7 @@ struct EditPetView: View {
         TextField("Breed", text: $breed)
         Button {
             updatePet()
+            dismiss()
         } label: {
             Text("Update")
         }

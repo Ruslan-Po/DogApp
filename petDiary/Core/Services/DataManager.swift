@@ -2,24 +2,29 @@ import SwiftUI
 import SwiftData
 
 final class DataManager: DataManagerProtocol {
+
+    
     private let context: ModelContext
     
     init(context: ModelContext) {
         self.context = context
     }
     
+    //MARK: - Pet
+    
     func getPet() throws -> Pet {
         var descriptor = FetchDescriptor<Pet>()
         descriptor.fetchLimit = 1
         let pets = try context.fetch(descriptor)
         guard let pet = pets.first else {
-            fatalError("No pet found")
-        }
+                throw DataManagerError.petNotFound
+            }
         return pet
     }
     
     func savePet(_ pet: Pet) {
         context.insert(pet)
+        try? context.save()
     }
     
     func updatePet(_ pet: Pet,_ newPet: Pet)  {
@@ -31,6 +36,8 @@ final class DataManager: DataManagerProtocol {
         context.delete(pet)
     }
     
+    
+    //MARK: - Reiminders
     func saveReminder(_ reminder: Reminder, for pet: Pet) {
         reminder.pet = pet
         context.insert(reminder)
@@ -52,6 +59,12 @@ final class DataManager: DataManagerProtocol {
             print(error)
         }
         return reminders
+    }
+    
+    func updateReminder(_ reminder: Reminder, _ newReminder: Reminder) {
+        if reminder.update(other: newReminder) {
+            try? context.save()
+        }
     }
     
 }

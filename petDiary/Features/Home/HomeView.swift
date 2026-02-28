@@ -9,8 +9,14 @@ struct HomeView: View {
             VStack {
                 Text("Home")
                 List(viewModel.reminders) { reminder in
-                             ReminderCardView(reminder: reminder)
-                         }
+                                   NavigationLink {
+                                       if let pet = viewModel.pet {
+                                           ReminderBuilder.buildEdit(for: reminder, pet: pet)
+                                       }
+                                   } label: {
+                                       ReminderCardView(reminder: reminder)
+                                   }
+                               }
             }
         }.onAppear{viewModel.loadData()}
     }

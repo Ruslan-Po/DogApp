@@ -18,6 +18,7 @@ final class PetRepository: PetRepositoryProtocol {
     
     func addPet(_ pet: Pet) {
         dataManager.savePet(pet)
+    
     }
     
     func update(_ pet: Pet,_ new: Pet ) {
