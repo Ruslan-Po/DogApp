@@ -3,6 +3,7 @@ import SwiftData
 
 final class DataManager: DataManagerProtocol {
 
+
     
     private let context: ModelContext
     
@@ -67,4 +68,33 @@ final class DataManager: DataManagerProtocol {
         }
     }
     
+    //MARK: - Events
+    func saveEvent(_ event: Event, for pet: Pet) {
+        event.pet = pet
+        context.insert(event)
+    }
+    
+    func deleteEvent(_ event: Event, for pet: Pet) {
+        context.delete(event)
+    }
+    
+    func getEvents(for pet: Pet) throws -> [Event] {
+        var events: [Event] = []
+        
+        let descriptor = FetchDescriptor<Event>(
+            sortBy: [SortDescriptor(\Event.date)]
+        )
+        do{
+            events = try context.fetch(descriptor)
+        } catch {
+            print(error)
+        }
+        return events
+    }
+    
+    func updateEvent(_ event: Event, _ newEvent: Event) {
+        if event.update(other: newEvent) {
+            try? context.save()
+        }
+    }
 }

@@ -46,7 +46,8 @@ final class ReminderViewModel: ObservableObject{
                         isRepeating: Bool,
                         scheduleDate: Date,
                         doneTime: Date,
-                        isDone: Bool) {
+                        isDone: Bool)
+    {
         let updated = Reminder(
             id: reminder.id,
             pet: reminder.pet,
