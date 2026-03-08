@@ -7,14 +7,24 @@ struct PetViewBuilder {
         let dataManager = DataManager(context: context)
         let repository = PetRepository(dataManager: dataManager)
         let reminderRepository = ReminderRepository(dataManager: dataManager)
+        let eventRepository = EventRepository(dataManager: dataManager)
         let get = GetPetUseCase(repository: repository)
         let remove = RemovePetUseCase(repository: repository)
         let removeReminder = RemoveReminderUseCase(repository: reminderRepository)
         let saveReminder = SaveReminderUseCase(repository: reminderRepository)
+        let convertReminder = ConvertReminderToEventUseCase(repository: eventRepository)
+        let saveEvent = SaveEventUseCase(repository: eventRepository)
+        let removeEvent = RemoveEventUseCase(repository: eventRepository)
+        let getEvent = GetEventsUseCase(repository: eventRepository)
+        
         let viewModel = PetViewModel(getPet: get,
                                      remove: remove,
                                      saveReminder: saveReminder,
-                                     deleteReminder: removeReminder)
+                                     deleteReminder: removeReminder,
+                                     convertReminder: convertReminder,
+                                     saveEvent: saveEvent,
+                                     removeEvent: removeEvent ,
+            getEvents: getEvent)
         
         return PetView(viewModel: viewModel)
     }

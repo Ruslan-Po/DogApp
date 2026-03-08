@@ -1,7 +1,7 @@
 import Foundation
 
 protocol GetEventsUseCaseProtocol {
-    func execute(_ pet: Pet) throws -> [Event]
+    func execute() throws -> [Event]
 }
 
 final class GetEventsUseCase: GetEventsUseCaseProtocol {
@@ -11,8 +11,8 @@ final class GetEventsUseCase: GetEventsUseCaseProtocol {
         self.repository = repository
     }
     
-    func execute(_ pet: Pet) throws -> [Event] {
-        let events = try repository.getAll(for: pet)
+    func execute() throws -> [Event] {
+        let events = try repository.getAll()
         return events
     }
 }

@@ -69,3 +69,9 @@ enum ReminderViewMode {
     case add
     case edit(Reminder)
 }
+
+enum EventViewMode{
+    case add
+    case edit(Event)
+    //case check(Event)
+}

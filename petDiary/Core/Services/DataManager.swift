@@ -2,9 +2,6 @@ import SwiftUI
 import SwiftData
 
 final class DataManager: DataManagerProtocol {
-
-
-    
     private let context: ModelContext
     
     init(context: ModelContext) {
@@ -69,16 +66,16 @@ final class DataManager: DataManagerProtocol {
     }
     
     //MARK: - Events
-    func saveEvent(_ event: Event, for pet: Pet) {
-        event.pet = pet
+    func saveEvent(_ event: Event) {
+
         context.insert(event)
     }
     
-    func deleteEvent(_ event: Event, for pet: Pet) {
+    func deleteEvent(_ event: Event) {
         context.delete(event)
     }
     
-    func getEvents(for pet: Pet) throws -> [Event] {
+    func getEvents() throws -> [Event] {
         var events: [Event] = []
         
         let descriptor = FetchDescriptor<Event>(

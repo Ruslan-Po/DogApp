@@ -7,7 +7,7 @@ struct HomeView: View {
         ZStack {
             Color.brandBackgroundLight.ignoresSafeArea()
             VStack {
-                Text("Home")
+                Text("Reminders")
                 List(viewModel.reminders) { reminder in
                                    NavigationLink {
                                        if let pet = viewModel.pet {
@@ -17,7 +17,12 @@ struct HomeView: View {
                                        ReminderCardView(reminder: reminder)
                                    }
                                }
+                Text("Events")
+                List(viewModel.events) { event in
+                    EventCardView(event: event)
+                }
             }
+           
         }.onAppear{viewModel.loadData()}
     }
 }

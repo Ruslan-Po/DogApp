@@ -1,7 +1,7 @@
 import Foundation
 
 protocol RemoveEventUseCaseProtocol {
-    func execute(_ event: Event,_ pet: Pet)
+    func execute(_ event: Event)
 }
 
 final class RemoveEventUseCase: RemoveEventUseCaseProtocol {
@@ -10,7 +10,7 @@ final class RemoveEventUseCase: RemoveEventUseCaseProtocol {
         self.repository = repository
     }
     
-    func execute(_ event: Event, _ pet: Pet) {
-        repository.delete(event: event, for: pet)
+    func execute(_ event: Event) {
+        repository.delete(event)
     }
 }

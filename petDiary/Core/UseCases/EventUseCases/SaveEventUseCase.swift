@@ -1,7 +1,7 @@
 import Foundation
 
 protocol SaveEventUseCaseProtocol {
-    func execute(_ event: Event,_ pet: Pet)
+    func execute(_ event: Event)
 }
 
 final class SaveEventUseCase: SaveEventUseCaseProtocol {
@@ -10,7 +10,7 @@ final class SaveEventUseCase: SaveEventUseCaseProtocol {
     init(repository: EventRepositoryProtocol) {
         self.repository = repository
     }
-    func execute(_ event: Event, _ pet: Pet) {
-        repository.save(event, for: pet)
+    func execute(_ event: Event) {
+        repository.save(event)
     }
 }

@@ -19,20 +19,27 @@ struct PetView: View {
             Button {
                 showEdit = true
             } label: {
-                Text("Редактировать")
+                Text("Edit Pet")
             }
             
             if let pet = viewModel.pet{
-                NavigationLink("Добавить" ){
+                NavigationLink("Add Reminder" ){
                     ReminderBuilder.build(for: pet)
                 }
             }
+            
+            NavigationLink("Add Event") {
+                EventBuilder.build()
+            }
+            
+            Text("Reminders")
             
             List{
                 ForEach(viewModel.reminders){ reminders in
                     ReminderCardView(reminder: reminders)
                         .onChange(of: reminders.doneCondition) { _, isDone in
                             if isDone {
+                                viewModel.convertToEvent(reminders)
                                 viewModel.removeReminder(reminders)
                             }
                         }
@@ -45,6 +52,18 @@ struct PetView: View {
                     }
                 }
             }
+            
+            Text("Events")
+            List{
+                ForEach(viewModel.events) {events in
+                    EventCardView(event: events)
+                }.onDelete { indexSet in
+                    for index in indexSet {
+                        let event = viewModel.events[index]
+                        viewModel.removeEvent(event)
+                    }
+                }
+            }
         }
         .sheet(isPresented: $showEdit, onDismiss: getData) {
             EditPetBuilder.build()
@@ -52,6 +71,7 @@ struct PetView: View {
         .onAppear{
             getData()
             viewModel.reminders = viewModel.pet?.reminders ?? []
+           
         }
 
     }
@@ -60,6 +80,7 @@ struct PetView: View {
         do{
             let currentPet = try viewModel.getPet()
             self.name = currentPet.name
+            try viewModel.loadEvents()
         } catch {
             print("Ошибка: \(error)")
         }
