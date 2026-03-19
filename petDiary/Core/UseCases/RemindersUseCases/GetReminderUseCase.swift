@@ -13,7 +13,7 @@ final class GetReminderUseCase: GetReminderUseCaseProtocol {
     }
     
     func execute(pet: Pet) throws -> [Reminder] {
-       let reminders = try repository.fetchAll(for: pet)
+       let reminders = try repository.fetchAll()
         return reminders
     }
 }

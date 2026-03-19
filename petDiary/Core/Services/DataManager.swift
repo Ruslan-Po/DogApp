@@ -45,7 +45,7 @@ final class DataManager: DataManagerProtocol {
         context.delete(reminder)
     }
     
-    func getReminders(for pet: Pet)  -> [Reminder] {
+    func getReminders()  -> [Reminder] {
         var reminders: [Reminder] = []
         
         let descriptor = FetchDescriptor<Reminder>(

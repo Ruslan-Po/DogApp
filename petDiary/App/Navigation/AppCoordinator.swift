@@ -25,7 +25,7 @@ struct Coordinator: View {
                     PetViewBuilder.build()
                 }.tag(CoordinatorTags.pets)
                 NavigationStack {
-                    CalendarView()
+                    CalendarBuilder.build()
                 } .tag(CoordinatorTags.calendar)
                 ProfileView()
                     .tag(CoordinatorTags.profile)

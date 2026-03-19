@@ -15,8 +15,8 @@ final class ReminderRepository: ReminderRepositoryProtocol {
         dataManager.deleteReminder(reminder, for: pet)
     }
     
-    func fetchAll(for pet: Pet) throws -> [Reminder] {
-        let reminders = try dataManager.getReminders(for: pet)
+    func fetchAll() throws -> [Reminder] {
+        let reminders = try dataManager.getReminders()
         return reminders
     }
     
