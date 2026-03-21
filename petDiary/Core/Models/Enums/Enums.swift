@@ -73,5 +73,9 @@ enum ReminderViewMode {
 enum EventViewMode{
     case add
     case edit(Event)
-    //case check(Event)
+}
+
+enum NavigationDirection {
+    case forward
+    case backward
 }

@@ -41,8 +41,8 @@ final class PetViewModel: ObservableObject {
     }
     
     func removeReminder(_ reminder: Reminder)  {
-       guard let pet = reminder.pet else { return }
-        deleteReminder.execute(reminder: reminder, for: pet)
+        guard reminder.pet != nil else { return }
+        deleteReminder.execute(reminder)
         reminders = reminders.filter {$0.id != reminder.id}
     }
     

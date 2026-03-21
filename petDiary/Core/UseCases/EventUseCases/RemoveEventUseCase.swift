@@ -13,4 +13,6 @@ final class RemoveEventUseCase: RemoveEventUseCaseProtocol {
     func execute(_ event: Event) {
         repository.delete(event)
     }
+    
+    
 }

@@ -8,8 +8,8 @@ protocol DataManagerProtocol{
     func deletePet(_ pet: Pet)
     
     // MARK: - Reminders
-    func saveReminder(_ reminder: Reminder, for pet: Pet)
-    func deleteReminder(_ reminder: Reminder, for pet: Pet)
+    func saveReminder(_ reminder: Reminder,)
+    func deleteReminder(_ reminder: Reminder)
     func getReminders() throws -> [Reminder]
     func updateReminder(_ reminder: Reminder, _ newReminder: Reminder)
     

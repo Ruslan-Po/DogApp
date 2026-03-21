@@ -36,12 +36,11 @@ final class DataManager: DataManagerProtocol {
     
     
     //MARK: - Reiminders
-    func saveReminder(_ reminder: Reminder, for pet: Pet) {
-        reminder.pet = pet
+    func saveReminder(_ reminder: Reminder) {
         context.insert(reminder)
     }
     
-    func deleteReminder(_ reminder: Reminder, for pet: Pet) {
+    func deleteReminder(_ reminder: Reminder) {
         context.delete(reminder)
     }
     

@@ -3,7 +3,7 @@ import Combine
 
 final class HomeViewModel: ObservableObject {
     private let getPet: GetPetUseCaseProtocol
-    private let getReminders: GetReminderUseCaseProtocol
+    private let getReminders: GetRemindersUseCaseProtocol
     private let getEvents: GetEventsUseCaseProtocol
     
     @Published var pet: Pet?
@@ -12,7 +12,7 @@ final class HomeViewModel: ObservableObject {
     @Published var events: [Event] = []
     
     init(getPet: GetPetUseCaseProtocol,
-         getReminders: GetReminderUseCaseProtocol,
+         getReminders: GetRemindersUseCaseProtocol,
         getEvents: GetEventsUseCaseProtocol) {
         self.getPet = getPet
         self.getReminders = getReminders
@@ -23,7 +23,7 @@ final class HomeViewModel: ObservableObject {
         do{
             let pet = try getPet.execute()
             self.pet = pet
-            self.reminders = try getReminders.execute(pet: pet)
+            self.reminders = try getReminders.execute()
             self.events = try getEvents.execute()
         } catch {
             self.errorMessage = error.localizedDescription

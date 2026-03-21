@@ -35,12 +35,14 @@ enum CalendarHelper {
         
         return days
     }
-    static func nextMonth(for date: Date) -> Date? {
-        return calendar.date(byAdding: .month, value: 1, to: date) ?? date
+    /// Следующий месяц
+    static func nextMonth(from date: Date) -> Date {
+        calendar.date(byAdding: .month, value: 1, to: date) ?? date
     }
     
-    static func previousMonth(for date: Date) -> Date? {
-        return calendar.date(byAdding: .month, value: -1, to: date) ?? date
+    /// Предыдущий месяц
+    static func previousMonth(from date: Date) -> Date {
+        calendar.date(byAdding: .month, value: -1, to: date) ?? date
     }
     
     static func monthString(for date: Date) -> String {
@@ -49,12 +51,13 @@ enum CalendarHelper {
         return formatter.string(from: date)
     }
     
-    static func weekdaySymbol(for date: Date) -> [String] {
+    static var weekdaySymbol:[String] {
         var symbols = calendar.shortWeekdaySymbols
         let sunday = symbols.removeFirst()
         symbols.append(sunday)
         return symbols.map {$0.uppercased()}
     }
+ 
     
     static func isToday(_ date: Date) -> Bool {
         return calendar.isDateInToday(date)

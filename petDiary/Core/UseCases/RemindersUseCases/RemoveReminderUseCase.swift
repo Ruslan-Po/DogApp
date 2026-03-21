@@ -1,7 +1,7 @@
 import Foundation
 
 protocol RemoveReminderUseCaseProtocol {
-    func execute(reminder: Reminder, for pet: Pet)
+    func execute(_ reminder: Reminder,)
 }
 
 final class RemoveReminderUseCase: RemoveReminderUseCaseProtocol {
@@ -10,7 +10,7 @@ final class RemoveReminderUseCase: RemoveReminderUseCaseProtocol {
         self.repository = repository
     }
     
-    func execute(reminder: Reminder, for pet: Pet)  {
-        repository.delete(reminder, for: pet)
+    func execute(_ reminder: Reminder)  {
+        repository.delete(reminder)
     }
 }
