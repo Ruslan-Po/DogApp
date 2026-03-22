@@ -1,7 +1,10 @@
 import SwiftUI
+import SwiftData
 
 
 struct Coordinator: View {
+    @Query private var reminders: [Reminder]
+    
     init() {
         UITabBar.appearance().isHidden = true
     }
@@ -40,6 +43,11 @@ struct Coordinator: View {
             .padding(.top, 20)
             .background(Color.brandBackground)
             
+        }.task {
+            try? await NotificationServise.requestNotification()
+            if NotificationServise.notificationsEnabled {
+                try? await NotificationServise.scheduleAllNotifications(reminders: reminders)
+            }
         }
     }
 }
