@@ -3,6 +3,7 @@ import SwiftUI
 
 struct AddPetView: View {
     @StateObject var viewModel: AddPetViewModel
+    @Environment(\.dismiss) private var dismiss
     
     @State var name: String = "Dobby"
     @State var birthDate: Date = Date(timeIntervalSince1970: 1_000_000)
@@ -35,5 +36,6 @@ struct AddPetView: View {
         )
 
         viewModel.save(pet: pet)
+        dismiss()
     }
 }

@@ -66,7 +66,7 @@ enum DataManagerError: Error {
 }
 
 enum ReminderViewMode {
-    case add
+    case add(Pet?)
     case edit(Reminder)
 }
 

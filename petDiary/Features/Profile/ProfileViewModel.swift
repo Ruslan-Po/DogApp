@@ -20,4 +20,6 @@ final class ProfileViewModel: ObservableObject {
             NotificationService.cancelNotification()
         }
     }
+    
+    
 }

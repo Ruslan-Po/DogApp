@@ -10,7 +10,7 @@ struct HomeView: View {
                 Text("Reminders")
                 List(viewModel.reminders) { reminder in
                                    NavigationLink {
-                                       if let pet = viewModel.pet {
+                                       if let pet = reminder.pet {
                                            ReminderBuilder.buildEdit(for: reminder, pet: pet)
                                        }
                                    } label: {

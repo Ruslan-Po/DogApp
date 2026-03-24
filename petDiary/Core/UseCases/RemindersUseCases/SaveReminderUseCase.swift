@@ -11,7 +11,7 @@ final class SaveReminderUseCase: SaveReminderUseCaseProtocol {
     }
     
     func save(_ reminder: Reminder,pet: Pet) {
-        repository.save(reminder)
+        repository.save(pet: pet, reminder)
     }
 }
 

@@ -13,7 +13,8 @@ final class PetViewModel: ObservableObject {
     private var getEvents: GetEventsUseCaseProtocol
     
     
-    @Published var pet: Pet?
+    @Published var pets: [Pet]?
+    @Published var selectedPet: Pet?
     @Published var reminders: [Reminder] = []
     @Published var events: [Event] = []
     
@@ -35,9 +36,9 @@ final class PetViewModel: ObservableObject {
         self.getEvents = getEvents
     }
     
-    func removePet() throws {
-        guard let pet else { return }
+    func removePet(pet: Pet) throws {
         remove.execute(pet)
+        _ = try getPet()
     }
     
     func removeReminder(_ reminder: Reminder)  {
@@ -50,15 +51,16 @@ final class PetViewModel: ObservableObject {
         removeEvent.execute(event)
     }
     
-    func getPet() throws -> Pet {
+    func getPet() throws -> [Pet] {
         let result = try loadPet.execute()
-        self.pet = result
-        self.reminders = result.reminders
+        self.pets = result
+        self.selectedPet = result.first
+        self.reminders = result.first?.reminders ?? []
         return result
     }
     
     func loadReminders(){
-        reminders = pet?.reminders ?? []
+        reminders = selectedPet?.reminders ?? []
     }
     
     func loadEvents() throws {
@@ -68,5 +70,10 @@ final class PetViewModel: ObservableObject {
     func convertToEvent(_ reminder: Reminder) {
         let newEvent = convertReminder.execute(reminder)
         saveEvent.execute(newEvent)
+    }
+    
+    func selectPet(_ pet: Pet) {
+        self.selectedPet = pet
+        self.reminders = pet.reminders
     }
 }

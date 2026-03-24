@@ -6,7 +6,7 @@ final class HomeViewModel: ObservableObject {
     private let getReminders: GetRemindersUseCaseProtocol
     private let getEvents: GetEventsUseCaseProtocol
     
-    @Published var pet: Pet?
+    @Published var pet: [Pet]?
     @Published var reminders: [Reminder] = []
     @Published var errorMessage: String?
     @Published var events: [Event] = []

@@ -30,7 +30,7 @@ struct Coordinator: View {
                 NavigationStack {
                     CalendarBuilder.build()
                 } .tag(CoordinatorTags.calendar)
-                ProfileView()
+                ProfileBuilder.build()
                     .tag(CoordinatorTags.profile)
             }
             
@@ -44,9 +44,9 @@ struct Coordinator: View {
             .background(Color.brandBackground)
             
         }.task {
-            try? await NotificationServise.requestNotification()
-            if NotificationServise.notificationsEnabled {
-                try? await NotificationServise.scheduleAllNotifications(reminders: reminders)
+            try? await NotificationService.requestNotification()
+            if NotificationService.notificationsEnabled {
+                try? await NotificationService.scheduleAllNotifications(reminders: reminders)
             }
         }
     }

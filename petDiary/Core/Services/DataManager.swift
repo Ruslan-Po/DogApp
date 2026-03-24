@@ -10,19 +10,16 @@ final class DataManager: DataManagerProtocol {
     
     //MARK: - Pet
     
-    func getPet() throws -> Pet {
-        var descriptor = FetchDescriptor<Pet>()
-        descriptor.fetchLimit = 1
+    func getPet() throws -> [Pet] {
+        let descriptor = FetchDescriptor<Pet>()
         let pets = try context.fetch(descriptor)
-        guard let pet = pets.first else {
-                throw DataManagerError.petNotFound
-            }
-        return pet
+        return pets
     }
     
     func savePet(_ pet: Pet) {
         context.insert(pet)
         try? context.save()
+        print("Pet saved: \(pet.name)")
     }
     
     func updatePet(_ pet: Pet,_ newPet: Pet)  {
@@ -36,8 +33,9 @@ final class DataManager: DataManagerProtocol {
     
     
     //MARK: - Reiminders
-    func saveReminder(_ reminder: Reminder) {
+    func saveReminder(for pet: Pet,_ reminder: Reminder) {
         context.insert(reminder)
+        try? context.save()
     }
     
     func deleteReminder(_ reminder: Reminder) {

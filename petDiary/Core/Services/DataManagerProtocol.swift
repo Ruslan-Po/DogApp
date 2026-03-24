@@ -2,13 +2,13 @@ import Foundation
 
 protocol DataManagerProtocol{
     // MARK: - Pets
-    func getPet() throws -> Pet
+    func getPet() throws -> [Pet]
     func savePet(_ pet: Pet)
     func updatePet(_ pet: Pet,_ newPet: Pet)
     func deletePet(_ pet: Pet)
     
     // MARK: - Reminders
-    func saveReminder(_ reminder: Reminder,)
+    func saveReminder(for pet: Pet,_ reminder: Reminder,)
     func deleteReminder(_ reminder: Reminder)
     func getReminders() throws -> [Reminder]
     func updateReminder(_ reminder: Reminder, _ newReminder: Reminder)

@@ -1,7 +1,7 @@
 import Foundation
 
 protocol GetPetUseCaseProtocol {
-    func execute() throws -> Pet
+    func execute() throws -> [Pet]
 }
 
 final class GetPetUseCase: GetPetUseCaseProtocol {
@@ -11,7 +11,7 @@ final class GetPetUseCase: GetPetUseCaseProtocol {
         self.repository = repository
     }
     
-    func execute() throws -> Pet {
+    func execute() throws -> [Pet] {
         try repository.fetchPets()
     }
 }

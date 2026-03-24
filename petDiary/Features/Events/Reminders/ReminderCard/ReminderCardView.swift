@@ -21,6 +21,8 @@ struct ReminderCardView: View {
             Text(reminder.title)
                 .font(.headline)
             
+            Text(reminder.pet?.name ?? "")
+            
             Text(reminder.scheduleDate.formatted(date: .abbreviated, time: .shortened))
                 .font(.caption)
             

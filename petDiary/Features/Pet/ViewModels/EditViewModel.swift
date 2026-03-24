@@ -3,14 +3,12 @@ import Combine
 
 final class EditPetViewModel: ObservableObject {
     private let update: UpdatePetUseCaseProtocol
-    private let load: GetPetUseCaseProtocol
-    
+  
     @Published var pet: Pet?
     
-    init(update: UpdatePetUseCaseProtocol, load: GetPetUseCaseProtocol) {
+    init(update: UpdatePetUseCaseProtocol, pet: Pet) {
         self.update = update
-        self.load = load
-        self.pet = try? load.execute() 
+        self.pet =  pet
     }
     
     func updatePet(_ newData: Pet) {

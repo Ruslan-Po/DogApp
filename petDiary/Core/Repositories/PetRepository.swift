@@ -7,7 +7,7 @@ final class PetRepository: PetRepositoryProtocol {
         self.dataManager = dataManager
     }
     
-    func fetchPets() throws -> Pet {
+    func fetchPets() throws -> [Pet] {
         let pet = try dataManager.getPet()
         return pet
     }
@@ -18,7 +18,7 @@ final class PetRepository: PetRepositoryProtocol {
     
     func addPet(_ pet: Pet) {
         dataManager.savePet(pet)
-    
+
     }
     
     func update(_ pet: Pet,_ new: Pet ) {

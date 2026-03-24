@@ -4,7 +4,6 @@ protocol GetRemindersUseCaseProtocol{
     func execute() throws -> [Reminder]
 }
 
-
 final class GetRemindersUseCase: GetRemindersUseCaseProtocol {
     private let repository: ReminderRepositoryProtocol
     

@@ -7,8 +7,8 @@ final class ReminderRepository: ReminderRepositoryProtocol {
         self.dataManager = dataManager
     }
     
-    func save(_ reminder: Reminder) {
-        dataManager.saveReminder(reminder)
+    func save(pet: Pet,_ reminder: Reminder) {
+        dataManager.saveReminder(for: pet, reminder)
     }
     
     func delete(_ reminder: Reminder) {

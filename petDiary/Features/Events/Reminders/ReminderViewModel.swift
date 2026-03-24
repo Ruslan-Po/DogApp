@@ -5,18 +5,18 @@ import SwiftData
 final class ReminderViewModel: ObservableObject{
     private let saveReminder: SaveReminderUseCaseProtocol
     private let updateReminder: UpdateReminderUseCaseProtocol
+    private let getPets: GetPetUseCaseProtocol
     
-    private let pet: Pet
-    
+    @Published var pets: [Pet]? = nil
+
     @Published var reminders: [Reminder] = []
     
     init(saveReminder: SaveReminderUseCaseProtocol,
-         pet: Pet,
-         updateReminder: UpdateReminderUseCaseProtocol) {
+         updateReminder: UpdateReminderUseCaseProtocol,
+         getPets: GetPetUseCaseProtocol) {
         self.saveReminder = saveReminder
-        self.pet = pet
-        self.reminders = pet.reminders
         self.updateReminder = updateReminder
+        self.getPets = getPets
     }
     
     func addReminder(title: String,
@@ -24,7 +24,8 @@ final class ReminderViewModel: ObservableObject{
                      isRepeating: Bool,
                      scheduleDate: Date,
                      doneTime: Date,
-                     isDone: Bool) {
+                     isDone: Bool,
+                     pet: Pet) {
         let reminder = Reminder(
             id: UUID(),
             pet: pet,
@@ -60,5 +61,10 @@ final class ReminderViewModel: ObservableObject{
             doneCondition: isDone
         )
         updateReminder.execute(reminder, updated)
+    }
+    
+    func loadPets() {
+        let pets = try? getPets.execute()
+        self.pets = pets
     }
 }

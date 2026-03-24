@@ -12,9 +12,16 @@ struct ReminderView: View {
     @State private var isDone: Bool = false
     @State private var doneTime: Date = Date()
     
-    init(viewModel: ReminderViewModel, mode: ReminderViewMode = .add) {
+    @State private var pet: Pet? = nil
+    
+    init(viewModel: ReminderViewModel,
+         mode: ReminderViewMode = .add(nil)) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.mode = mode
+        
+        if case .add(let pet) = mode {
+            self._pet = State(initialValue: pet)
+        }
         
         if case .edit(let reminder) = mode {
             self._title = State(initialValue: reminder.title)
@@ -27,50 +34,72 @@ struct ReminderView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            
-            TextField("Название", text: $title)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(12)
-            
-            Text("Категория")
-                .font(.headline)
-            
-            CategoryGridView(selected: $selectedCategory)
-            
-            DatePicker("Дата и время", selection: $scheduleDate, displayedComponents: [.date, .hourAndMinute])
-                .padding()
-            
-            Toggle("Повторять", isOn: $isRepeating)
-            
-            Button ("Сохранить"){
-                switch mode {
-                case .add:
-                    viewModel.addReminder(
-                        title: title,
-                        category: selectedCategory,
-                        isRepeating: isRepeating,
-                        scheduleDate: scheduleDate,
-                        doneTime: doneTime,
-                        isDone: isDone
-                    )
-                case .edit(let reminder):
-                    viewModel.updateReminder(
-                        reminder,
-                        title: title,
-                        category: selectedCategory,
-                        isRepeating: isRepeating,
-                        scheduleDate: scheduleDate,
-                        doneTime: doneTime,
-                        isDone: isDone
-                    )
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                
+                TextField("Название", text: $title)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                
+                Text("Категория")
+                    .font(.headline)
+                
+                CategoryGridView(selected: $selectedCategory)
+                
+                VStack() {
+                    if let pet = pet {
+                        Text(pet.name)
+                    } else {
+                        Picker("Питомец", selection: $pet) {
+                            // Text("Выберите питомца").tag(nil as Pet?)
+                            ForEach(viewModel.pets ?? []) { pet in
+                                Text(pet.name).tag(pet as Pet?)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                    }
+                    DatePicker("Дата и время", selection: $scheduleDate, displayedComponents: [.date, .hourAndMinute])
+                        .padding()
                 }
-                dismiss()
+              
+                
+                Toggle("Повторять", isOn: $isRepeating)
+                
+                Button ("Сохранить"){
+                    
+                    switch mode {
+                    case .add:
+                        guard let pet = self.pet else { return }
+                        viewModel.addReminder(
+                            title: title,
+                            category: selectedCategory,
+                            isRepeating: isRepeating,
+                            scheduleDate: scheduleDate,
+                            doneTime: doneTime,
+                            isDone: isDone,
+                            pet: pet
+                        )
+                    case .edit(let reminder):
+                        viewModel.updateReminder(
+                            reminder,
+                            title: title,
+                            category: selectedCategory,
+                            isRepeating: isRepeating,
+                            scheduleDate: scheduleDate,
+                            doneTime: doneTime,
+                            isDone: isDone
+                        )
+                    }
+                    dismiss()
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(title.isEmpty)
             }
-            .buttonStyle(.borderedProminent)
-            .disabled(title.isEmpty)
+            .task {
+                viewModel.loadPets()
+            }
+            .padding()
         }
-        .padding()
-    }
+        }
 }

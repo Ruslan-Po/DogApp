@@ -1,20 +1,29 @@
 import SwiftUI
-import SwiftData
 
 struct PetView: View {
     @StateObject var viewModel: PetViewModel
     
     @State var name: String = ""
     @State var showEdit: Bool = false
+    @State var showAdd: Bool = false
     
     var body: some View {
+
         VStack(alignment: .center, spacing: 20) {
-            Text("\(name)")
+            if let pets = viewModel.pets{
+                PetScrollView(pets: pets,
+                              onPetSelected: {pet in viewModel.selectPet(pet)},
+                              onAddNewPet: {showAdd = true})
+            }
+            if let pet = viewModel.selectedPet{
+                Text("\(pet.name)")
+            }
+           
             
             Button {
                 removePet()
             } label: {
-                Text("remove")
+                Text("remove pet")
             }
             Button {
                 showEdit = true
@@ -22,7 +31,7 @@ struct PetView: View {
                 Text("Edit Pet")
             }
             
-            if let pet = viewModel.pet{
+            if let pet = viewModel.selectedPet{
                 NavigationLink("Add Reminder" ){
                     ReminderBuilder.build(for: pet)
                 }
@@ -65,21 +74,23 @@ struct PetView: View {
                 }
             }
         }
-        .sheet(isPresented: $showEdit, onDismiss: getData) {
-            EditPetBuilder.build()
-        }
         .onAppear{
             getData()
-            viewModel.reminders = viewModel.pet?.reminders ?? []
-           
+            viewModel.reminders = viewModel.selectedPet?.reminders ?? []
         }
-
+        .sheet(isPresented: $showEdit, onDismiss: getData) {
+            if let pet = viewModel.selectedPet {
+                EditPetBuilder.build(for: pet)
+            }
+        }
+        .sheet(
+            isPresented: $showAdd, onDismiss: getData){AddPetViewBuilder.build()}
     }
     
     func getData(){
         do{
             let currentPet = try viewModel.getPet()
-            self.name = currentPet.name
+            self.name = currentPet.first?.name ?? ""
             try viewModel.loadEvents()
         } catch {
             print("Ошибка: \(error)")
@@ -88,7 +99,10 @@ struct PetView: View {
     
     func removePet(){
         do {
-            try viewModel.removePet()
+            if let pet = viewModel.selectedPet{
+                try viewModel.removePet(pet: pet)
+            }
+    
         }catch {
             print("Нету нахуй")
         }
