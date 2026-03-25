@@ -21,6 +21,8 @@ struct EventCardView : View {
             Text(event.title)
                 .font(.headline)
             
+            Text(event.pet?.name ?? "")
+            
             Text(event.date.formatted(date: .abbreviated, time: .shortened))
                 .font(.caption)
             

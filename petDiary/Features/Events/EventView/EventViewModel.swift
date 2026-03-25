@@ -6,29 +6,32 @@ import SwiftData
 final class EventViewModel: ObservableObject {
     private let  saveEvent: SaveEventUseCaseProtocol
     private let  updateEvent: UpdateEventUseCaseProtocol
+    private let getPet: GetPetUseCaseProtocol
 
-   // private let pet: Pet
-    
+    @Published var pets: [Pet]? = nil
+
     @Published var events: [Event] = []
     
     init (saveEvent: SaveEventUseCaseProtocol,
           updateEvent: UpdateEventUseCaseProtocol,
-        //pet: Pet
+          getPet: GetPetUseCaseProtocol
+   
     ) {
         self.saveEvent = saveEvent
         self.updateEvent = updateEvent
-        //self.pet = pet
+        self.getPet = getPet
     }
     
     func addEvent(title: String,
                   category: EventCategory,
                   date: Date,
-                  note: String?) {
+                  note: String?,
+                  pet: Pet) {
         let event = Event(id: UUID(),
                           category: category,
                           title: title,
                           date: date)
-        saveEvent.execute(event)
+        saveEvent.execute(for: pet, event)
     }
     
     func updateEvent(_ newEvent: Event,
@@ -40,5 +43,10 @@ final class EventViewModel: ObservableObject {
                           title: title,
                           date: date)
         updateEvent.execute(event, newEvent)
+    }
+    
+    func loadPets() {
+        let pets = try? getPet.execute()
+        self.pets = pets
     }
 }

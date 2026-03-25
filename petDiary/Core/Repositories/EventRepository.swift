@@ -6,8 +6,8 @@ final class EventRepository: EventRepositoryProtocol {
         self.dataManager = dataManager
     }
     
-    func save(_ event: Event) {
-        dataManager.saveEvent(event)
+    func save(for pet: Pet, _ event: Event) {
+        dataManager.saveEvent(for: pet, event)
     }
     
     func delete(_ event: Event) {

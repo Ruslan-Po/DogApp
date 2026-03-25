@@ -71,7 +71,7 @@ enum ReminderViewMode {
 }
 
 enum EventViewMode{
-    case add
+    case add(Pet?)
     case edit(Event)
 }
 

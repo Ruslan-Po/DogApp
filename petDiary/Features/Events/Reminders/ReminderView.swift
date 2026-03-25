@@ -62,7 +62,7 @@ struct ReminderView: View {
                     DatePicker("Дата и время", selection: $scheduleDate, displayedComponents: [.date, .hourAndMinute])
                         .padding()
                 }
-              
+                
                 
                 Toggle("Повторять", isOn: $isRepeating)
                 
@@ -101,5 +101,5 @@ struct ReminderView: View {
             }
             .padding()
         }
-        }
+    }
 }

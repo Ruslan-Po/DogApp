@@ -14,7 +14,7 @@ protocol DataManagerProtocol{
     func updateReminder(_ reminder: Reminder, _ newReminder: Reminder)
     
     // MARK: - Events
-    func saveEvent(_ event: Event)
+    func saveEvent(for pet: Pet, _ event: Event)
     func deleteEvent(_ event: Event)
     func getEvents() throws -> [Event]
     func updateEvent(_ event: Event, _ newEvent: Event)

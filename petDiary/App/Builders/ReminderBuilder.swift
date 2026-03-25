@@ -19,7 +19,6 @@ struct ReminderBuilder {
     }
     
     static func build(for pet: Pet) -> ReminderView {
-        
         return ReminderView(viewModel: makeViewModel(for: pet), mode: .add(pet))
     }
     

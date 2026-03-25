@@ -36,11 +36,13 @@ struct PetView: View {
                     ReminderBuilder.build(for: pet)
                 }
             }
-            
-            NavigationLink("Add Event") {
-                EventBuilder.build()
+            if let pet = viewModel.selectedPet{
+                NavigationLink("Add Event") {
+                    EventBuilder.build(for: pet)
+                }
             }
-            
+           
+
             Text("Reminders")
             
             List{
@@ -48,7 +50,9 @@ struct PetView: View {
                     ReminderCardView(reminder: reminders)
                         .onChange(of: reminders.doneCondition) { _, isDone in
                             if isDone {
-                                viewModel.convertToEvent(reminders)
+                                if let pet = reminders.pet {
+                                    viewModel.convertToEvent(for: pet, reminders)
+                                }
                                 viewModel.removeReminder(reminders)
                             }
                         }

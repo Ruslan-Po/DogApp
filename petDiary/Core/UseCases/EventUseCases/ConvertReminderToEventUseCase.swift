@@ -1,7 +1,7 @@
 import Foundation
 
 protocol ConvertReminderToEventUseCaseProtocol {
-    func execute  (_ reminder: Reminder) -> Event
+    func execute  (for pet: Pet, _ reminder: Reminder) -> Event
 }
 
 final class ConvertReminderToEventUseCase: ConvertReminderToEventUseCaseProtocol {
@@ -11,13 +11,14 @@ final class ConvertReminderToEventUseCase: ConvertReminderToEventUseCaseProtocol
         self.repository = repository
     }
     
-    func execute(_ reminder: Reminder) -> Event {
+    func execute(for pet: Pet,_ reminder: Reminder) -> Event {
         let event = Event(
             id: UUID(),
+            pet: pet,
             category: reminder.category,
             title: reminder.title,
             date: reminder.doneTime,
-            note: nil,
+            note: nil
     )
         return event
     }

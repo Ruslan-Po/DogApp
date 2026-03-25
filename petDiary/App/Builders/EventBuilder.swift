@@ -6,16 +6,18 @@ struct EventBuilder {
         let context = ModelContainer.appContainer.mainContext
         let dataManager = DataManager(context: context)
         let repository = EventRepository(dataManager: dataManager)
+        let petsRepository = PetRepository(dataManager: dataManager)
         let save = SaveEventUseCase(repository: repository)
         let update = UpdateEventUseCase(repository: repository)
         //let delete = DeleteEventUseCase(repository: repository)
+        let getPet = GetPetUseCase(repository: petsRepository)
         
-        return EventViewModel(saveEvent: save, updateEvent: update)
+        return EventViewModel(saveEvent: save, updateEvent: update, getPet: getPet)
         
     }
     
-    static func build() -> EventView {
-        let view = EventView(viewModel: buildModel(), mode: .add)
+    static func build(for pet: Pet) -> EventView {
+        let view = EventView(viewModel: buildModel(), mode: .add(pet))
         return view
     }
     

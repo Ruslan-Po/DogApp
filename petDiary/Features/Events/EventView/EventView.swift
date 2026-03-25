@@ -9,9 +9,11 @@ struct EventView: View {
     @State var note: String = ""
     @State var date: Date = Date()
     
+    @State private var pet: Pet? = nil
+    
     let mode: EventViewMode
     
-    init(viewModel: EventViewModel, mode: EventViewMode = .add) {
+    init(viewModel: EventViewModel, mode: EventViewMode = .add(nil)) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.mode = mode
         
@@ -38,17 +40,32 @@ struct EventView: View {
                 
                 CategoryGridView(selected: $category)
                 
-                DatePicker("Дата и время", selection: $date, displayedComponents: [.date, .hourAndMinute])
-                    .padding()
+                VStack() {
+                    if let pet = pet {
+                        Text(pet.name)
+                    } else {
+                        Picker("Питомец", selection: $pet) {
+                            // Text("Выберите питомца").tag(nil as Pet?)
+                            ForEach(viewModel.pets ?? []) { pet in
+                                Text(pet.name).tag(pet as Pet?)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                    }
+                    DatePicker("Дата и время", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                        .padding()
+                }
                 
                 
                 Button ("Сохранить"){
                     switch mode {
                     case .add:
+                        guard let pet = self.pet else { return }
                         viewModel.addEvent(title: title,
                                            category: category,
                                            date: date,
-                                           note: note)
+                                           note: note,
+                                           pet: pet)
                     case .edit(let event):
                         viewModel.updateEvent(event,
                                               title: title,
@@ -59,11 +76,13 @@ struct EventView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(title.isEmpty)
+            }.task {
+                viewModel.loadPets()
             }
             .padding()
         }
-        }
     }
+}
 
 
 

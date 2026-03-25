@@ -63,9 +63,9 @@ final class DataManager: DataManagerProtocol {
     }
     
     //MARK: - Events
-    func saveEvent(_ event: Event) {
-
+    func saveEvent(for pet: Pet, _ event: Event) {
         context.insert(event)
+        try? context.save()
     }
     
     func deleteEvent(_ event: Event) {

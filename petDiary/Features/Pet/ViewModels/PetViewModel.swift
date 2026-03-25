@@ -67,9 +67,9 @@ final class PetViewModel: ObservableObject {
         events = try getEvents.execute()
     }
     
-    func convertToEvent(_ reminder: Reminder) {
-        let newEvent = convertReminder.execute(reminder)
-        saveEvent.execute(newEvent)
+    func convertToEvent(for pet: Pet, _ reminder: Reminder) {
+        let newEvent = convertReminder.execute(for: pet, reminder)
+        saveEvent.execute(for: pet, newEvent)
     }
     
     func selectPet(_ pet: Pet) {
