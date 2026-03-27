@@ -7,15 +7,14 @@ final class EventViewModel: ObservableObject {
     private let  saveEvent: SaveEventUseCaseProtocol
     private let  updateEvent: UpdateEventUseCaseProtocol
     private let getPet: GetPetUseCaseProtocol
-
+    
     @Published var pets: [Pet]? = nil
-
     @Published var events: [Event] = []
     
     init (saveEvent: SaveEventUseCaseProtocol,
           updateEvent: UpdateEventUseCaseProtocol,
           getPet: GetPetUseCaseProtocol
-   
+          
     ) {
         self.saveEvent = saveEvent
         self.updateEvent = updateEvent
@@ -28,6 +27,7 @@ final class EventViewModel: ObservableObject {
                   note: String?,
                   pet: Pet) {
         let event = Event(id: UUID(),
+                          pet: pet,
                           category: category,
                           title: title,
                           date: date)

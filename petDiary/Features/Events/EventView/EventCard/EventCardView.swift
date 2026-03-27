@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 struct EventCardView : View {
-    @Bindable var event: Event
+    var event: Event
     
     var body: some View {
         HStack {

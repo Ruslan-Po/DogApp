@@ -52,7 +52,7 @@ struct ReminderView: View {
                         Text(pet.name)
                     } else {
                         Picker("Питомец", selection: $pet) {
-                            // Text("Выберите питомца").tag(nil as Pet?)
+                            Text("Выберите питомца").tag(Pet?.none)
                             ForEach(viewModel.pets ?? []) { pet in
                                 Text(pet.name).tag(pet as Pet?)
                             }

@@ -42,41 +42,6 @@ struct PetView: View {
                 }
             }
            
-
-            Text("Reminders")
-            
-            List{
-                ForEach(viewModel.reminders){ reminders in
-                    ReminderCardView(reminder: reminders)
-                        .onChange(of: reminders.doneCondition) { _, isDone in
-                            if isDone {
-                                if let pet = reminders.pet {
-                                    viewModel.convertToEvent(for: pet, reminders)
-                                }
-                                viewModel.removeReminder(reminders)
-                            }
-                        }
-                }
-                
-                .onDelete { indexSet in
-                    for index in indexSet {
-                        let reminder = viewModel.reminders[index]
-                        viewModel.removeReminder(reminder)
-                    }
-                }
-            }
-            
-            Text("Events")
-            List{
-                ForEach(viewModel.events) {events in
-                    EventCardView(event: events)
-                }.onDelete { indexSet in
-                    for index in indexSet {
-                        let event = viewModel.events[index]
-                        viewModel.removeEvent(event)
-                    }
-                }
-            }
         }
         .onAppear{
             getData()
@@ -95,7 +60,6 @@ struct PetView: View {
         do{
             let currentPet = try viewModel.getPet()
             self.name = currentPet.first?.name ?? ""
-            try viewModel.loadEvents()
         } catch {
             print("Ошибка: \(error)")
         }

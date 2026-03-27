@@ -23,6 +23,10 @@ struct EventView: View {
             self._note = State(initialValue: event.note ?? " ")
             self._date = State(initialValue: event.date)
         }
+        
+        if case .add(let pet) = mode {
+              self._pet = State(initialValue: pet)
+          }
     }
     
     var body: some View {
@@ -41,16 +45,16 @@ struct EventView: View {
                 CategoryGridView(selected: $category)
                 
                 VStack() {
-                    if let pet = pet {
-                        Text(pet.name)
-                    } else {
+                    if pet == nil {
                         Picker("Питомец", selection: $pet) {
-                            // Text("Выберите питомца").tag(nil as Pet?)
-                            ForEach(viewModel.pets ?? []) { pet in
-                                Text(pet.name).tag(pet as Pet?)
+                            Text("Выбери питомца").tag(Pet?.none)
+                            ForEach(viewModel.pets ?? []) { p in
+                                Text(p.name).tag(p as Pet?)
                             }
                         }
                         .pickerStyle(.menu)
+                    } else {
+                        Text(pet!.name)
                     }
                     DatePicker("Дата и время", selection: $date, displayedComponents: [.date, .hourAndMinute])
                         .padding()
@@ -60,6 +64,7 @@ struct EventView: View {
                 Button ("Сохранить"){
                     switch mode {
                     case .add:
+                        print("mode add works")
                         guard let pet = self.pet else { return }
                         viewModel.addEvent(title: title,
                                            category: category,
@@ -67,6 +72,7 @@ struct EventView: View {
                                            note: note,
                                            pet: pet)
                     case .edit(let event):
+                        print("mode add works")
                         viewModel.updateEvent(event,
                                               title: title,
                                               date: date,

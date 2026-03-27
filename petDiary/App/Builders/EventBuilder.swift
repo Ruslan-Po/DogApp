@@ -16,7 +16,7 @@ struct EventBuilder {
         
     }
     
-    static func build(for pet: Pet) -> EventView {
+    static func build(for pet: Pet?) -> EventView {
         let view = EventView(viewModel: buildModel(), mode: .add(pet))
         return view
     }

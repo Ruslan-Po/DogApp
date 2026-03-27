@@ -70,6 +70,7 @@ final class DataManager: DataManagerProtocol {
     
     func deleteEvent(_ event: Event) {
         context.delete(event)
+        try? context.save()
     }
     
     func getEvents() throws -> [Event] {

@@ -2,7 +2,8 @@ import Foundation
 import SwiftData
 
 @Model
-final class Pet {
+final class Pet: Hashable, Identifiable{
+    var id: UUID = UUID()
     var name: String
     var breed: String?
     var birthDate: Date
@@ -27,6 +28,7 @@ final class Pet {
          gender: Gender? = nil)
     {
         self.name = name
+        self.id = UUID() 
         self.breed = breed
         self.birthDate = birthDate
         self.avatar = avatar

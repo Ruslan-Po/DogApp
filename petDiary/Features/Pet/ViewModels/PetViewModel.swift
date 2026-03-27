@@ -41,16 +41,16 @@ final class PetViewModel: ObservableObject {
         _ = try getPet()
     }
     
-    func removeReminder(_ reminder: Reminder)  {
-        guard reminder.pet != nil else { return }
-        deleteReminder.execute(reminder)
-        reminders = reminders.filter {$0.id != reminder.id}
-    }
-    
-    func removeEvent(_ event: Event) {
-        removeEvent.execute(event)
-    }
-    
+//    func removeReminder(_ reminder: Reminder)  {
+//        guard reminder.pet != nil else { return }
+//        deleteReminder.execute(reminder)
+//        reminders = reminders.filter {$0.id != reminder.id}
+//    }
+//    
+//    func removeEvent(_ event: Event) {
+//        removeEvent.execute(event)
+//    }
+//    
     func getPet() throws -> [Pet] {
         let result = try loadPet.execute()
         self.pets = result
@@ -59,18 +59,18 @@ final class PetViewModel: ObservableObject {
         return result
     }
     
-    func loadReminders(){
-        reminders = selectedPet?.reminders ?? []
-    }
-    
-    func loadEvents() throws {
-        events = try getEvents.execute()
-    }
-    
-    func convertToEvent(for pet: Pet, _ reminder: Reminder) {
-        let newEvent = convertReminder.execute(for: pet, reminder)
-        saveEvent.execute(for: pet, newEvent)
-    }
+//    func loadReminders(){
+//        reminders = selectedPet?.reminders ?? []
+//    }
+//    
+//    func loadEvents() throws {
+//        events = try getEvents.execute()
+//    }
+//    
+//    func convertToEvent(for pet: Pet, _ reminder: Reminder) {
+//        let newEvent = convertReminder.execute(for: pet, reminder)
+//        saveEvent.execute(for: pet, newEvent)
+//    }
     
     func selectPet(_ pet: Pet) {
         self.selectedPet = pet
