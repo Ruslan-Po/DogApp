@@ -12,6 +12,8 @@ final class Pet: Hashable, Identifiable{
     var gender: Gender?
     var createdAt: Date?
     var updatedAt: Date?
+    var detail: String?
+
     
     @Relationship(deleteRule: .cascade, minimumModelCount: 0)
     var events: [Event] = []
@@ -25,7 +27,8 @@ final class Pet: Hashable, Identifiable{
          birthDate: Date,
          avatar: Data? = nil,
          weight: Double? = nil,
-         gender: Gender? = nil)
+         gender: Gender? = nil,
+         detail: String? = nil)
     {
         self.name = name
         self.id = UUID() 
@@ -36,6 +39,7 @@ final class Pet: Hashable, Identifiable{
         self.gender = gender
         self.createdAt = Date()
         self.updatedAt = Date()
+        self.detail = detail
     }
     
     var age: Int {
@@ -67,6 +71,11 @@ final class Pet: Hashable, Identifiable{
         }
         if gender != other.gender {
             gender = other.gender  
+            hasChanges = true
+        }
+        
+        if detail != other.detail {
+            detail = other.detail
             hasChanges = true
         }
         

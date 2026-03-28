@@ -17,7 +17,7 @@ struct ReminderCardView: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .fill(Color.blue.opacity(0.1))
                             )
-                        
+
             Text(reminder.title)
                 .font(.headline)
             

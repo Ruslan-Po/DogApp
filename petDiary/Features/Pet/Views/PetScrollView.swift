@@ -2,8 +2,9 @@ import Foundation
 import SwiftUI
 
 struct PetScrollView: View {
-    let pets: [Pet]
     
+    let pets: [Pet]
+    let selectedPet: Pet?
     var onPetSelected: (Pet) -> Void
     var onAddNewPet: () -> Void
     
@@ -12,7 +13,7 @@ struct PetScrollView: View {
         ScrollView(.horizontal){
             HStack {
                 ForEach(pets) { pet in
-                    PetCardScrollView(pet: pet).onTapGesture {
+                    PetCardScrollView(pet: pet,isSelected: pet.id == selectedPet?.id).onTapGesture {
                         onPetSelected(pet)
                     }
                 }

@@ -22,14 +22,16 @@ struct HomeView: View {
                     .pickerStyle(.segmented)
                     .padding(.horizontal)
                 }
-                if let pets = viewModel.pet, !pets.isEmpty {
-                    
-                    NavigationLink("Add Reminder") {
-                        ReminderBuilder.build(for: viewModel.filterPet)
-                    }
-                    
-                    NavigationLink("Add Event") {
-                        EventBuilder.build(for: viewModel.filterPet)
+                HStack{
+                    if let pets = viewModel.pet, !pets.isEmpty {
+                        
+                        NavigationLink("Add Reminder") {
+                            ReminderBuilder.build(for: viewModel.filterPet)
+                        }
+                        
+                        NavigationLink("Add Event") {
+                            EventBuilder.build(for: viewModel.filterPet)
+                        }
                     }
                 }
                 

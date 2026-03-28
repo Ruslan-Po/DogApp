@@ -16,6 +16,7 @@ struct PetViewBuilder {
         let saveEvent = SaveEventUseCase(repository: eventRepository)
         let removeEvent = RemoveEventUseCase(repository: eventRepository)
         let getEvent = GetEventsUseCase(repository: eventRepository)
+        let updatePet = UpdatePetUseCase(repository: repository)
         
         let viewModel = PetViewModel(getPet: get,
                                      remove: remove,
@@ -24,7 +25,7 @@ struct PetViewBuilder {
                                      convertReminder: convertReminder,
                                      saveEvent: saveEvent,
                                      removeEvent: removeEvent ,
-            getEvents: getEvent)
+                                     getEvents: getEvent, updatePet: updatePet)
         
         return PetView(viewModel: viewModel)
     }

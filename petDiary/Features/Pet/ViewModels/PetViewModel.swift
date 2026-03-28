@@ -11,6 +11,7 @@ final class PetViewModel: ObservableObject {
     private var removeEvent: RemoveEventUseCaseProtocol
     private var convertReminder: ConvertReminderToEventUseCaseProtocol
     private var getEvents: GetEventsUseCaseProtocol
+    private var updatePet: UpdatePetUseCaseProtocol
     
     
     @Published var pets: [Pet]?
@@ -25,7 +26,8 @@ final class PetViewModel: ObservableObject {
          convertReminder: ConvertReminderToEventUseCaseProtocol,
          saveEvent: SaveEventUseCaseProtocol,
          removeEvent: RemoveEventUseCaseProtocol,
-        getEvents: GetEventsUseCaseProtocol) {
+         getEvents: GetEventsUseCaseProtocol,
+         updatePet: UpdatePetUseCaseProtocol) {
         self.loadPet = getPet
         self.remove = remove
         self.saveReminder = saveReminder
@@ -34,6 +36,7 @@ final class PetViewModel: ObservableObject {
         self.saveEvent = saveEvent
         self.removeEvent = removeEvent
         self.getEvents = getEvents
+        self.updatePet = updatePet
     }
     
     func removePet(pet: Pet) throws {
@@ -41,39 +44,37 @@ final class PetViewModel: ObservableObject {
         _ = try getPet()
     }
     
-//    func removeReminder(_ reminder: Reminder)  {
-//        guard reminder.pet != nil else { return }
-//        deleteReminder.execute(reminder)
-//        reminders = reminders.filter {$0.id != reminder.id}
-//    }
-//    
-//    func removeEvent(_ event: Event) {
-//        removeEvent.execute(event)
-//    }
-//    
+    
     func getPet() throws -> [Pet] {
         let result = try loadPet.execute()
-        self.pets = result
-        self.selectedPet = result.first
-        self.reminders = result.first?.reminders ?? []
+        self.pets = result                                  
+       
+        if let current = selectedPet, let updated = result.first(where: { $0.id == current.id }) {
+            self.selectedPet = updated
+        } else {
+            self.selectedPet = result.first
+        }
+        self.reminders = selectedPet?.reminders ?? []
         return result
     }
     
-//    func loadReminders(){
-//        reminders = selectedPet?.reminders ?? []
-//    }
-//    
-//    func loadEvents() throws {
-//        events = try getEvents.execute()
-//    }
-//    
-//    func convertToEvent(for pet: Pet, _ reminder: Reminder) {
-//        let newEvent = convertReminder.execute(for: pet, reminder)
-//        saveEvent.execute(for: pet, newEvent)
-//    }
     
     func selectPet(_ pet: Pet) {
         self.selectedPet = pet
         self.reminders = pet.reminders
+    }
+    
+    func updatePet(_ update: (Pet) -> Void) {
+        guard let pet = selectedPet else { return }
+        let updated = Pet(
+            name: pet.name,
+            breed: pet.breed,
+            birthDate: pet.birthDate,
+            avatar: pet.avatar,
+            weight: pet.weight,
+            gender: pet.gender
+        )
+        update(updated)
+        updatePet.execute(pet: pet, newData: updated)
     }
 }

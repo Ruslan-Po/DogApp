@@ -1,5 +1,5 @@
 import SwiftUI
-import SwiftData
+import PhotosUI
 
 struct EditPetView: View {
     @StateObject var viewModel: EditPetViewModel
@@ -7,22 +7,53 @@ struct EditPetView: View {
     
     @State var name: String
     @State var breed: String
+    @State private var selectedPhoto: PhotosPickerItem?
+    @State private var avatarData: Data?
+    @State var details: String
     
-    
-    init(viewModel: EditPetViewModel){
+    init(viewModel: EditPetViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
         _name = State(initialValue: viewModel.pet?.name ?? "")
         _breed = State(initialValue: viewModel.pet?.breed ?? "")
+        _avatarData = State(initialValue: viewModel.pet?.avatar)
+        _details = State(initialValue: viewModel.pet?.detail ?? "")
     }
     
     var body: some View {
-        TextField("Name", text: $name)
-        TextField("Breed", text: $breed)
-        Button {
-            updatePet()
-            dismiss()
-        } label: {
-            Text("Update")
+        VStack {
+            PhotosPicker(selection: $selectedPhoto, matching: .images) {
+                if let data = avatarData, let uiImage = UIImage(data: data) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
+                } else {
+                    Image(systemName: "pawprint.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        .foregroundStyle(.gray)
+                }
+            }
+            .onChange(of: selectedPhoto) { _, newValue in
+                Task {
+                    if let item = newValue {
+                        avatarData = try? await item.loadTransferable(type: Data.self)
+                    }
+                }
+            }
+            
+            TextField("Name", text: $name)
+            TextField("Breed", text: $breed)
+            TextField("Description", text: $details)
+            
+            Button {
+                updatePet()
+                dismiss()
+            } label: {
+                Text("Update")
+            }
         }
     }
     
@@ -30,7 +61,9 @@ struct EditPetView: View {
         let pet = Pet(
             name: self.name,
             breed: self.breed,
-            birthDate: Date()
+            birthDate: viewModel.pet?.birthDate ?? Date(),
+            avatar: avatarData,
+            detail: self.details
         )
         viewModel.updatePet(pet)
     }

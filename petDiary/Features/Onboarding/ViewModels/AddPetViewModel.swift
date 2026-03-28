@@ -11,7 +11,6 @@ final class AddPetViewModel: ObservableObject {
     }
     
     func save(pet: Pet){
-        print("Saving pet: \(pet.name)")
         savePet.execute(pet)
     }
 }
