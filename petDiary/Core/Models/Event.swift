@@ -9,16 +9,17 @@ final class Event {
     var title: String
     var date: Date
     var note: String?
+    var portionSize: Double?
     var createAt: Date
     var updateAt: Date
- 
-    
+
     init(id: UUID,
          pet: Pet? = nil,
          category: EventCategory,
          title: String,
          date: Date,
-         note: String? = nil)
+         note: String? = nil,
+         portionSize: Double? = nil)
     {
         self.id = id
         self.pet = pet
@@ -26,6 +27,7 @@ final class Event {
         self.title = title
         self.date = date
         self.note = note
+        self.portionSize = portionSize
         self.createAt = Date()
         self.updateAt = Date()
     }
@@ -48,6 +50,10 @@ final class Event {
         }
         if note != other.note {
             note = other.note
+            isChange = true
+        }
+        if portionSize != other.portionSize {
+            portionSize = other.portionSize
             isChange = true
         }
         self.updateAt = Date()

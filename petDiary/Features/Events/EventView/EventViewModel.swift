@@ -25,23 +25,29 @@ final class EventViewModel: ObservableObject {
                   category: EventCategory,
                   date: Date,
                   note: String?,
-                  pet: Pet) {
+                  pet: Pet,
+                  portionSize: Double? = nil) {
         let event = Event(id: UUID(),
                           pet: pet,
                           category: category,
                           title: title,
-                          date: date)
+                          date: date,
+                          note: note,
+                          portionSize: portionSize)
         saveEvent.execute(for: pet, event)
     }
-    
+
     func updateEvent(_ newEvent: Event,
                      title: String,
                      date: Date,
-                     note: String?) {
+                     note: String?,
+                     portionSize: Double? = nil) {
         let event = Event(id: newEvent.id,
                           category: newEvent.category,
                           title: title,
-                          date: date)
+                          date: date,
+                          note: note,
+                          portionSize: portionSize)
         updateEvent.execute(event, newEvent)
     }
     

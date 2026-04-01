@@ -10,9 +10,9 @@ struct PetView: View {
     @State private var selectedPhoto: PhotosPickerItem?
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .center, spacing: 20) {
-
+        VStack(spacing: 0) {
+            // Fixed header
+            VStack(spacing: 12) {
                 if let pets = viewModel.pets {
                     PetScrollView(pets: pets,
                                   selectedPet: viewModel.selectedPet,
@@ -20,19 +20,19 @@ struct PetView: View {
                                   onAddNewPet: { showAdd = true })
                 }
 
-                HStack(alignment: .center, spacing: 20) {
+                HStack(spacing: 12) {
                     PhotosPicker(selection: $selectedPhoto, matching: .images) {
                         if let data = viewModel.selectedPet?.avatar, let uiImage = UIImage(data: data) {
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .scaledToFill()
-                                .frame(width: 100, height: 100)
+                                .frame(width: 60, height: 60)
                                 .clipShape(Circle())
                         } else {
                             Image(systemName: "pawprint.circle.fill")
                                 .resizable()
                                 .scaledToFill()
-                                .frame(width: 100, height: 100)
+                                .frame(width: 60, height: 60)
                                 .foregroundStyle(.gray)
                         }
                     }
@@ -42,47 +42,93 @@ struct PetView: View {
                             viewModel.updatePet { $0.avatar = data }
                         }
                     }
-                }
 
-                Button { removePet() } label: { Text("remove pet") }
-                Button { showEdit = true } label: { Text("Edit Pet") }
-
-                HStack {
-                    Text("Gender").foregroundStyle(.secondary)
-                    Text(viewModel.selectedPet?.gender?.title ?? "Unknown")
-                }
-
-                Text(viewModel.selectedPet?.detail ?? "Description")
-                Text(viewModel.selectedPet?.foodBrand ?? "foodBrand")
-                Text(viewModel.selectedPet?.vetContact ?? "vetContact")
-
-                if let allergens = viewModel.selectedPet?.allergens, !allergens.isEmpty {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Allergens")
-                            .font(.headline)
-                        AllergenTagsView(allergens: allergens)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(viewModel.selectedPet?.name ?? "")
+                            .font(.title3.bold())
+                        HStack(spacing: 8) {
+                            Text(viewModel.selectedPet?.breed ?? "")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                            Text(viewModel.selectedPet?.gender?.title ?? "")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Spacer()
+
+                    Button { showEdit = true } label: {
+                        Image(systemName: "pencil.circle.fill")
+                            .font(.title2)
+                            .foregroundStyle(.blue)
+                    }
                 }
+                .padding(.horizontal)
             }
-            .onAppear {
-               try? viewModel.loadPets()
-            }
-            .sheet(isPresented: $showEdit, onDismiss: {
-                try? viewModel.loadPets()
-            }) {
-                if let pet = viewModel.selectedPet {
-                    EditPetBuilder.build(for: pet)
+            .padding(.bottom, 8)
+
+            Divider()
+
+            // Scrollable content
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+
+                    if let detail = viewModel.selectedPet?.detail, !detail.isEmpty {
+                        Text(detail)
+                            .font(.subheadline)
+                    }
+
+                    if let food = viewModel.selectedPet?.foodBrand, !food.isEmpty {
+                        HStack {
+                            Text("Food").foregroundStyle(.secondary).font(.caption)
+                            Text(food).font(.subheadline)
+                        }
+                    }
+
+                    if let vet = viewModel.selectedPet?.vetContact, !vet.isEmpty {
+                        HStack {
+                            Text("Vet").foregroundStyle(.secondary).font(.caption)
+                            Text(vet).font(.subheadline)
+                        }
+                    }
+
+                    if let allergens = viewModel.selectedPet?.allergens, !allergens.isEmpty {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Allergens")
+                                .font(.headline)
+                            AllergenTagsView(allergens: allergens)
+                        }
+                    }
+
+                    if let pet = viewModel.selectedPet {
+                        PetStatsView(events: pet.events)
+                    }
+
+                    Button(role: .destructive) { removePet() } label: {
+                        Text("Remove pet")
+                            .font(.subheadline)
+                    }
+                    .padding(.top, 8)
                 }
-            }
-            .sheet(isPresented: $showAdd) {
-                AddPetViewBuilder.build { newPetID in
-                    try? viewModel.loadPetsAndSelect(newPetID)
-                }
-            
+                .padding()
             }
         }
-        .padding(20)
+        .onAppear {
+           _ = try? viewModel.loadPets()
+        }
+        .sheet(isPresented: $showEdit, onDismiss: {
+           _ = try? viewModel.loadPets()
+        }) {
+            if let pet = viewModel.selectedPet {
+                EditPetBuilder.build(for: pet)
+            }
+        }
+        .sheet(isPresented: $showAdd) {
+            AddPetViewBuilder.build { newPetID in
+                try? viewModel.loadPetsAndSelect(newPetID)
+            }
+        }
     }
 
     func removePet() {

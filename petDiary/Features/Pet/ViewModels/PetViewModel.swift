@@ -43,7 +43,7 @@ final class PetViewModel: ObservableObject {
         _ = try loadPets()
     }
 
-    // Загружает питомцев, сохраняет selectedPet если он есть, иначе берёт первого
+    
     @discardableResult
     func loadPets() throws -> [Pet] {
         let result = try loadPet.execute()

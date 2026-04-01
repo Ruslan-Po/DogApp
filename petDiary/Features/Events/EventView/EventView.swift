@@ -8,22 +8,26 @@ struct EventView: View {
     @State var category: EventCategory = .other
     @State var note: String = ""
     @State var date: Date = Date()
-    
+    @State var portionSizeGrams: String = ""
+
     @State private var pet: Pet? = nil
-    
+
     let mode: EventViewMode
-    
+
     init(viewModel: EventViewModel, mode: EventViewMode = .add(nil)) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.mode = mode
-        
+
         if case .edit(let event) = mode {
             self._title = State(initialValue: event.title)
             self._category = State(initialValue: event.category)
             self._note = State(initialValue: event.note ?? " ")
             self._date = State(initialValue: event.date)
+            if let p = event.portionSize {
+                self._portionSizeGrams = State(initialValue: String(Int(p)))
+            }
         }
-        
+
         if case .add(let pet) = mode {
               self._pet = State(initialValue: pet)
           }
@@ -59,24 +63,33 @@ struct EventView: View {
                     DatePicker("Дата и время", selection: $date, displayedComponents: [.date, .hourAndMinute])
                         .padding()
                 }
-                
-                
+
+                if category == .nutrition {
+                    TextField("Размер порции (г)", text: $portionSizeGrams)
+                        .keyboardType(.numberPad)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
+                }
+
                 Button ("Сохранить"){
+                    let portion = Double(portionSizeGrams)
+
                     switch mode {
                     case .add:
-                        print("mode add works")
                         guard let pet = self.pet else { return }
                         viewModel.addEvent(title: title,
                                            category: category,
                                            date: date,
                                            note: note,
-                                           pet: pet)
+                                           pet: pet,
+                                           portionSize: portion)
                     case .edit(let event):
-                        print("mode add works")
                         viewModel.updateEvent(event,
                                               title: title,
                                               date: date,
-                                              note: note)
+                                              note: note,
+                                              portionSize: portion)
                     }
                     dismiss()
                 }

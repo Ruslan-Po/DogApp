@@ -48,13 +48,24 @@ final class HomeViewModel: ObservableObject {
     }
     
     func loadData() {
-        do{
+        do {
             let pet = try getPet.execute()
             self.pet = pet
             self.reminders = try getReminders.execute()
             self.events = try getEvents.execute()
+            loadAutoConvertSetting()
         } catch {
             self.errorMessage = error.localizedDescription
+        }
+    }
+
+    private func loadAutoConvertSetting() {
+        if let profile = try? getProfile.execute() {
+            let newValue = profile.autoConvertReminders
+            if newValue != autoConvertEnabled {
+                autoConvertEnabled = newValue
+                updateAutoConvertTimer()
+            }
         }
     }
     
@@ -93,7 +104,9 @@ final class HomeViewModel: ObservableObject {
     private func updateAutoConvertTimer() {
         autoConvertTimer?.cancel()
         guard autoConvertEnabled else { return }
-        
+
+        autoConvertExpiredReminders()
+
         autoConvertTimer = Timer.publish(every: 60, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
@@ -105,7 +118,7 @@ final class HomeViewModel: ObservableObject {
         let expired = reminders.filter {
             !$0.doneCondition && $0.scheduleDate <= Date()
         }
-        
+
         for reminder in expired {
             guard let pet = reminder.pet else { continue }
             if let event = convertReminderToEvent.execute(for: pet, reminder, autoConvert: true) {
@@ -113,9 +126,14 @@ final class HomeViewModel: ObservableObject {
             }
             completeReminder(reminder)
         }
-        
+
         if !expired.isEmpty {
-            try? loadEvents()
+            do {
+                self.reminders = try getReminders.execute()
+                self.events = try getEvents.execute()
+            } catch {
+                self.errorMessage = error.localizedDescription
+            }
         }
     }
     
