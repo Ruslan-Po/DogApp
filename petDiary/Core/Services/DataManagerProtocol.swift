@@ -4,7 +4,7 @@ protocol DataManagerProtocol{
     // MARK: - Pets
     func getPet() throws -> [Pet]
     func savePet(_ pet: Pet)
-    func updatePet(_ pet: Pet,_ newPet: Pet)
+    func updatePet(_ pet: Pet)
     func deletePet(_ pet: Pet)
     
     // MARK: - Reminders
@@ -18,6 +18,12 @@ protocol DataManagerProtocol{
     func deleteEvent(_ event: Event)
     func getEvents() throws -> [Event]
     func updateEvent(_ event: Event, _ newEvent: Event)
+    
+    // MARK: - Profile
+    func getProfile() throws -> [Profile]
+    func saveProfile(_ profile: Profile)
+    func updateProfile(_ profile: Profile, _ newProfile: Profile)
+    func deleteProfile(_ profile: Profile)
 }
 
 

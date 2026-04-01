@@ -8,7 +8,6 @@ final class ReminderViewModel: ObservableObject{
     private let getPets: GetPetUseCaseProtocol
     
     @Published var pets: [Pet]? = nil
-
     @Published var reminders: [Reminder] = []
     
     init(saveReminder: SaveReminderUseCaseProtocol,
@@ -22,6 +21,7 @@ final class ReminderViewModel: ObservableObject{
     func addReminder(title: String,
                      category: EventCategory,
                      isRepeating: Bool,
+                     interval: RepeatInterval?,
                      scheduleDate: Date,
                      doneTime: Date,
                      isDone: Bool,
@@ -33,6 +33,7 @@ final class ReminderViewModel: ObservableObject{
             category: category,
             scheduleDate: scheduleDate,
             isRepeating: isRepeating,
+            repeatInterval: interval,
             isEnable: true,
             doneTime: doneTime,
             doneCondition: isDone)
@@ -45,6 +46,7 @@ final class ReminderViewModel: ObservableObject{
                         title: String,
                         category: EventCategory,
                         isRepeating: Bool,
+                        interval: RepeatInterval?,
                         scheduleDate: Date,
                         doneTime: Date,
                         isDone: Bool)
@@ -56,6 +58,7 @@ final class ReminderViewModel: ObservableObject{
             category: category,
             scheduleDate: scheduleDate,
             isRepeating: isRepeating,
+            repeatInterval: interval,
             isEnable: reminder.isEnable,
             doneTime: doneTime,
             doneCondition: isDone

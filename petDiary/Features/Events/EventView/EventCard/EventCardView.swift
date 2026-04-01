@@ -9,25 +9,23 @@ struct EventCardView : View {
             Image(event.category.icon)
                 .renderingMode(.template)
                 .resizable()
-                .scaledToFit()
-                .frame(width: 28, height: 28)
+                .scaledToFill()
+                .frame(width: 40, height: 40)
                 .foregroundStyle(.blue)
-                .padding(8)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.blue.opacity(0.1))
-                )
+                //.padding(8)
             
-            Text(event.title)
-                .font(.headline)
-            
-            Text(event.pet?.name ?? "")
+            VStack(alignment: .leading){
+                Text(event.title)
+                    .font(.headline)
+                
+                Text(event.pet?.name ?? "")
+            }
             
             Text(event.date.formatted(date: .abbreviated, time: .shortened))
                 .font(.caption)
             
         } .padding()
-            .background(Color.brandBackgroundLight)
+           .background(Color.brandBackground)
             .cornerRadius(12)
     }
 }

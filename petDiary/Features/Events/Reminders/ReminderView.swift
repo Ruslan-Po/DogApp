@@ -11,7 +11,7 @@ struct ReminderView: View {
     @State private var scheduleDate: Date = Date()
     @State private var isDone: Bool = false
     @State private var doneTime: Date = Date()
-    
+    @State private var interval: RepeatInterval = .daily
     @State private var pet: Pet? = nil
     
     init(viewModel: ReminderViewModel,
@@ -66,6 +66,19 @@ struct ReminderView: View {
                 
                 Toggle("Повторять", isOn: $isRepeating)
                 
+                if isRepeating {
+                    HStack{
+                        Text("Repeat interval")
+                        Picker("repeat interval", selection: $interval) {
+                            ForEach(RepeatInterval.allCases, id: \.self) {
+                                Text($0.rawValue.capitalized)
+                                    .tag($0)
+                            }
+                        }
+                    }
+                }
+               
+                
                 Button ("Сохранить"){
                     
                     switch mode {
@@ -75,6 +88,7 @@ struct ReminderView: View {
                             title: title,
                             category: selectedCategory,
                             isRepeating: isRepeating,
+                            interval: interval,
                             scheduleDate: scheduleDate,
                             doneTime: doneTime,
                             isDone: isDone,
@@ -86,6 +100,7 @@ struct ReminderView: View {
                             title: title,
                             category: selectedCategory,
                             isRepeating: isRepeating,
+                            interval: interval,
                             scheduleDate: scheduleDate,
                             doneTime: doneTime,
                             isDone: isDone

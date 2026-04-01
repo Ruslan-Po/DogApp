@@ -9,6 +9,7 @@ struct HomeBuilder {
         let remindersRepository = ReminderRepository(dataManager: dataManager)
         let eventRepository = EventRepository(dataManager: dataManager)
         let getPet = GetPetUseCase(repository: petRepository)
+        let profileRepository = ProfileRepository(dataManager: dataManager)
         let getReminders = GetRemindersUseCase(repository: remindersRepository)
         let getEvents = GetEventsUseCase(repository: eventRepository)
         let addEvent = SaveEventUseCase(repository: eventRepository)
@@ -16,6 +17,8 @@ struct HomeBuilder {
         let removeEvent = RemoveEventUseCase(repository: eventRepository)
         let removeReminder = RemoveReminderUseCase(repository: remindersRepository)
         let convertReminderToEvent = ConvertReminderToEventUseCase(repository: eventRepository)
+        let removeSingleReminder = RemoveSingleReminderUseCase(repository: remindersRepository)
+        let getProfile = GetProfileUseCase(repository: profileRepository)
         
         let viewModel = HomeViewModel(getPet: getPet,
                                       getReminders: getReminders,
@@ -24,7 +27,9 @@ struct HomeBuilder {
                                       removeReminder: removeReminder,
                                       convertReminderToEvent: convertReminderToEvent,
                                       addReminder: addReminder,
-                                      addEvent: addEvent)
+                                      addEvent: addEvent,
+                                      removeSingleReminder: removeSingleReminder,
+                                     getProfile: getProfile)
         return HomeView(viewModel: viewModel)
     }
 }

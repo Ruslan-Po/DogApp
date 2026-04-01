@@ -1,7 +1,6 @@
 import Foundation
 import SwiftData
 
-
 @Model
 final class Reminder {
     @Attribute(.unique) var id: UUID
@@ -16,8 +15,8 @@ final class Reminder {
     var updatedAt: Date
     var doneTime: Date
     var doneCondition: Bool
-    
-    
+    var seriesId: UUID?
+
     init(id: UUID,
          pet: Pet? = nil,
          title: String,
@@ -27,13 +26,14 @@ final class Reminder {
          repeatInterval: RepeatInterval? = nil,
          isEnable: Bool,
          doneTime: Date,
-        doneCondition: Bool = false)
+         doneCondition: Bool = false,
+         seriesId: UUID? = nil)
     {
         self.id = id
         self.pet = pet
         self.title = title
         self.category = category
-        self.scheduleDate = Date()
+        self.scheduleDate = scheduleDate
         self.isRepeating = isRepeating
         self.repeatInterval = repeatInterval
         self.isEnable = isEnable
@@ -41,8 +41,9 @@ final class Reminder {
         self.updatedAt = Date()
         self.doneTime = doneTime
         self.doneCondition = doneCondition
+        self.seriesId = seriesId
     }
-    
+
     func update(other: Reminder) -> Bool {
         var hasChange: Bool = false
         
@@ -70,7 +71,7 @@ final class Reminder {
             repeatInterval = other.repeatInterval
             hasChange = true
         }
-        
+        if hasChange { updatedAt = Date() }
         return hasChange
     }
 }

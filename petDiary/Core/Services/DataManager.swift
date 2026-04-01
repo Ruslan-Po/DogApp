@@ -19,12 +19,10 @@ final class DataManager: DataManagerProtocol {
     func savePet(_ pet: Pet) {
         context.insert(pet)
         try? context.save()
-        print("Pet saved: \(pet.name)")
     }
     
-    func updatePet(_ pet: Pet,_ newPet: Pet)  {
-        if pet.update(other: newPet){
-            try? context.save()}
+    func updatePet(_ pet: Pet) {
+        try? context.save()
     }
     
     func deletePet(_ pet: Pet) {
@@ -92,4 +90,28 @@ final class DataManager: DataManagerProtocol {
             try? context.save()
         }
     }
+    
+    //MARK: - Profile
+    func getProfile() throws -> [Profile] {
+        let descriptor = FetchDescriptor<Profile>()
+        guard let user = try? context.fetch(descriptor) else { return [] }
+        return user
+    }
+    
+    func saveProfile(_ profile: Profile) {
+        context.insert(profile)
+        try? context.save()
+    }
+    
+    func updateProfile(_ profile: Profile, _ newProfile: Profile) {
+        if profile.update(other: newProfile) {
+            try? context.save()
+        }
+    }
+    
+    func deleteProfile(_ profile: Profile) {
+        context.delete(profile)
+        try? context.save()
+    }
+    
 }

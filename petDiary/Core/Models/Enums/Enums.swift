@@ -52,22 +52,31 @@ enum Gender: String, Codable, CaseIterable {
 enum RepeatInterval: String, Codable, CaseIterable {
     case daily
     case weekly
+    case monthly
     
     var title: String {
         switch self {
         case .daily: return "Daily"
         case .weekly: return "Weekly"
+        case .monthly : return "Monthly"
         }
     }
 }
 
 enum DataManagerError: Error {
     case petNotFound
+    case profileNotFound
+    
 }
 
 enum ReminderViewMode {
     case add(Pet?)
     case edit(Reminder)
+}
+
+enum AutoConvertReminder {
+    case yes
+    case no
 }
 
 enum EventViewMode{
@@ -78,4 +87,56 @@ enum EventViewMode{
 enum NavigationDirection {
     case forward
     case backward
+}
+
+enum Allergen: String, CaseIterable, Identifiable {
+    case chicken
+    case beef
+    case pork
+    case fish
+    case dairy
+    case eggs
+    case wheat
+    case corn
+    case soy
+    case lamb
+    case dust
+    case pollen
+    case fleas
+    case mold
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .chicken: return "Chicken"
+        case .beef: return "Beef"
+        case .pork: return "Pork"
+        case .fish: return "Fish"
+        case .dairy: return "Dairy"
+        case .eggs: return "Eggs"
+        case .wheat: return "Wheat"
+        case .corn: return "Corn"
+        case .soy: return "Soy"
+        case .lamb: return "Lamb"
+        case .dust: return "Dust"
+        case .pollen: return "Pollen"
+        case .fleas: return "Fleas"
+        case .mold: return "Mold"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .chicken, .beef, .pork, .lamb: return "fork.knife"
+        case .fish: return "fish"
+        case .dairy: return "cup.and.saucer"
+        case .eggs: return "oval"
+        case .wheat, .corn, .soy: return "leaf"
+        case .dust: return "aqi.medium"
+        case .pollen: return "allergens"
+        case .fleas: return "ant"
+        case .mold: return "humidity"
+        }
+    }
 }

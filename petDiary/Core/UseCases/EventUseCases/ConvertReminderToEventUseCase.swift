@@ -1,7 +1,7 @@
 import Foundation
 
 protocol ConvertReminderToEventUseCaseProtocol {
-    func execute  (for pet: Pet, _ reminder: Reminder) -> Event
+    func execute  (for pet: Pet, _ reminder: Reminder, autoConvert: Bool ) -> Event?
 }
 
 final class ConvertReminderToEventUseCase: ConvertReminderToEventUseCaseProtocol {
@@ -11,7 +11,8 @@ final class ConvertReminderToEventUseCase: ConvertReminderToEventUseCaseProtocol
         self.repository = repository
     }
     
-    func execute(for pet: Pet,_ reminder: Reminder) -> Event {
+    func execute(for pet: Pet, _ reminder: Reminder, autoConvert: Bool) -> Event? {
+        guard !autoConvert || reminder.scheduleDate <= Date() else { return nil }
         let event = Event(
             id: UUID(),
             pet: pet,
@@ -19,7 +20,7 @@ final class ConvertReminderToEventUseCase: ConvertReminderToEventUseCaseProtocol
             title: reminder.title,
             date: reminder.doneTime,
             note: nil
-    )
+        )
         return event
     }
 }

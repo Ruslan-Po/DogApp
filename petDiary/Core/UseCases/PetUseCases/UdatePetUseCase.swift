@@ -2,8 +2,9 @@ import Foundation
 
 
 protocol UpdatePetUseCaseProtocol {
-    func execute(pet: Pet, newData: Pet)
+    func execute(pet: Pet)
 }
+
 
 final class UpdatePetUseCase: UpdatePetUseCaseProtocol {
     private let repository: PetRepositoryProtocol
@@ -11,7 +12,7 @@ final class UpdatePetUseCase: UpdatePetUseCaseProtocol {
         self.repository = repository
     }
     
-    func execute(pet: Pet, newData: Pet) {
-        repository.update(pet, newData)
-    }
+    func execute(pet: Pet) {
+           repository.update(pet)
+       }
 }

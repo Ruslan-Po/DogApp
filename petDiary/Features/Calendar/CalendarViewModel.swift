@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import SwiftUI
 
 final class CalendarViewModel: ObservableObject {
     private let getEvents: GetEventsUseCaseProtocol
@@ -64,8 +65,17 @@ final class CalendarViewModel: ObservableObject {
     }
     
     func removeReminder(_ reminder: Reminder) {
-        removeReminder.execute(reminder)
-        reminders.removeAll(where: { $0.id == reminder.id })
+        guard reminder.pet != nil else { return }
+        removeReminder.execute(reminder, from: reminders)
+        withAnimation {
+            if let seriesId = reminder.seriesId {
+                reminders = reminders.filter {
+                    !($0.seriesId == seriesId && $0.scheduleDate >= reminder.scheduleDate)
+                }
+            } else {
+                reminders = reminders.filter { $0.id != reminder.id }
+            }
+        }
     }
     
     

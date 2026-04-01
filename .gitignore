@@ -15,3 +15,4 @@ DerivedData/
 *.dSYM
 Pods/
 .swiftpm/
+.claude/

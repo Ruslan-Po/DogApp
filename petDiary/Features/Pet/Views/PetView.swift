@@ -3,37 +3,31 @@ import PhotosUI
 
 struct PetView: View {
     @StateObject var viewModel: PetViewModel
-    
-    @State var name: String = ""
-    @State var showEdit: Bool = false
-    @State var showAdd: Bool = false
-    @State var description: String?
-    
+
+    @State private var showEdit: Bool = false
+    @State private var showAdd: Bool = false
+
     @State private var selectedPhoto: PhotosPickerItem?
-    @State private var avatarData: Data?
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .center, spacing: 20) {
-                
-                if let pets = viewModel.pets{
+
+                if let pets = viewModel.pets {
                     PetScrollView(pets: pets,
                                   selectedPet: viewModel.selectedPet,
-                                  onPetSelected: {pet in viewModel.selectPet(pet)},
-                                  onAddNewPet: {showAdd = true})
+                                  onPetSelected: { pet in viewModel.selectPet(pet) },
+                                  onAddNewPet: { showAdd = true })
                 }
-                
-                
-                HStack (alignment: .center , spacing: 20 ){
-                    
-                    PhotosPicker (selection: $selectedPhoto , matching: .images ){
-                        if let data = avatarData, let uiImage = UIImage(data: data){
+
+                HStack(alignment: .center, spacing: 20) {
+                    PhotosPicker(selection: $selectedPhoto, matching: .images) {
+                        if let data = viewModel.selectedPet?.avatar, let uiImage = UIImage(data: data) {
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 100, height: 100)
                                 .clipShape(Circle())
-                            
                         } else {
                             Image(systemName: "pawprint.circle.fill")
                                 .resizable()
@@ -41,72 +35,63 @@ struct PetView: View {
                                 .frame(width: 100, height: 100)
                                 .foregroundStyle(.gray)
                         }
-                    }.onChange(of: selectedPhoto) { _, newValue in
+                    }
+                    .onChange(of: selectedPhoto) { _, newValue in
                         Task {
-                            avatarData = try? await newValue?.loadTransferable(type: Data.self)
-                            viewModel.updatePet { $0.avatar = avatarData }
-                            
+                            let data = try? await newValue?.loadTransferable(type: Data.self)
+                            viewModel.updatePet { $0.avatar = data }
                         }
                     }
-                    
                 }
-                Button {
-                    removePet()
-                } label: {
-                    Text("remove pet")
+
+                Button { removePet() } label: { Text("remove pet") }
+                Button { showEdit = true } label: { Text("Edit Pet") }
+
+                HStack {
+                    Text("Gender").foregroundStyle(.secondary)
+                    Text(viewModel.selectedPet?.gender?.title ?? "Unknown")
                 }
-                Button {
-                    showEdit = true
-                } label: {
-                    Text("Edit Pet")
+
+                Text(viewModel.selectedPet?.detail ?? "Description")
+                Text(viewModel.selectedPet?.foodBrand ?? "foodBrand")
+                Text(viewModel.selectedPet?.vetContact ?? "vetContact")
+
+                if let allergens = viewModel.selectedPet?.allergens, !allergens.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Allergens")
+                            .font(.headline)
+                        AllergenTagsView(allergens: allergens)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                
-                Text(description ?? "Description")
-                
-                
             }
-            .onAppear{
-                getData()
-                avatarData = viewModel.selectedPet?.avatar
-                description = viewModel.selectedPet?.detail
-                
-            }
-            .onChange(of: viewModel.selectedPet) { _, newPet in
-                avatarData = newPet?.avatar
-                description = newPet?.detail
+            .onAppear {
+               try? viewModel.loadPets()
             }
             .sheet(isPresented: $showEdit, onDismiss: {
-                getData()
-                description = viewModel.selectedPet?.detail
-                avatarData = viewModel.selectedPet?.avatar
+                try? viewModel.loadPets()
             }) {
                 if let pet = viewModel.selectedPet {
                     EditPetBuilder.build(for: pet)
                 }
             }
-            .sheet(
-                isPresented: $showAdd, onDismiss: getData){AddPetViewBuilder.build()}
-        }.padding(20)
-    }
-    
-    func getData(){
-        do{
-            let currentPet = try viewModel.getPet()
-            self.name = currentPet.first?.name ?? ""
-        } catch {
-            print("Ошибка: \(error)")
+            .sheet(isPresented: $showAdd) {
+                AddPetViewBuilder.build { newPetID in
+                    try? viewModel.loadPetsAndSelect(newPetID)
+                }
+            
+            }
         }
+        .padding(20)
     }
-    
-    func removePet(){
+
+    func removePet() {
         do {
-            if let pet = viewModel.selectedPet{
+            if let pet = viewModel.selectedPet {
                 try viewModel.removePet(pet: pet)
             }
-            
-        }catch {
-            print("Нету нахуй")
+        } catch {
+            print("Ошибка удаления: \(error)")
         }
     }
 }
-

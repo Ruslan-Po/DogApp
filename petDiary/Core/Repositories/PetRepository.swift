@@ -21,8 +21,8 @@ final class PetRepository: PetRepositoryProtocol {
 
     }
     
-    func update(_ pet: Pet,_ new: Pet ) {
-        dataManager.updatePet(pet, new)
+    func update(_ pet: Pet) {
+        dataManager.updatePet(pet)
     }
 }
 

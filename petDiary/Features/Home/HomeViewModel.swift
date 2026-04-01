@@ -11,6 +11,8 @@ final class HomeViewModel: ObservableObject {
     private var removeEvent: RemoveEventUseCaseProtocol
     private var removeReminder: RemoveReminderUseCaseProtocol
     private var convertReminderToEvent: ConvertReminderToEventUseCaseProtocol
+    private let removeSingleReminder: RemoveSingleReminderUseCaseProtocol
+    private let getProfile: GetProfileUseCaseProtocol
     
     @Published var pet: [Pet]?
     @Published var reminders: [Reminder] = []
@@ -18,6 +20,10 @@ final class HomeViewModel: ObservableObject {
     @Published var events: [Event] = []
     @Published var selectedPet: Pet?
     @Published var filterPetId: UUID? = nil
+    @Published var autoConvertEnabled: Bool = false
+    private var autoConvertTimer: AnyCancellable?
+    
+    
     
     init(getPet: GetPetUseCaseProtocol,
          getReminders: GetRemindersUseCaseProtocol,
@@ -26,7 +32,9 @@ final class HomeViewModel: ObservableObject {
          removeReminder: RemoveReminderUseCaseProtocol,
          convertReminderToEvent: ConvertReminderToEventUseCaseProtocol,
          addReminder: SaveReminderUseCaseProtocol,
-         addEvent: SaveEventUseCaseProtocol) {
+         addEvent: SaveEventUseCaseProtocol,
+         removeSingleReminder: RemoveSingleReminderUseCaseProtocol,
+         getProfile: GetProfileUseCaseProtocol) {
         self.getPet = getPet
         self.getReminders = getReminders
         self.getEvents = getEvents
@@ -35,6 +43,8 @@ final class HomeViewModel: ObservableObject {
         self.convertReminderToEvent = convertReminderToEvent
         self.addEvent = addEvent
         self.addReminder = addReminder
+        self.removeSingleReminder = removeSingleReminder
+        self.getProfile = getProfile
     }
     
     func loadData() {
@@ -48,11 +58,17 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    func removeReminder(_ reminder: Reminder)  {
+    func removeReminder(_ reminder: Reminder) {
         guard reminder.pet != nil else { return }
-        removeReminder.execute(reminder)
+        removeReminder.execute(reminder, from: reminders)
         withAnimation {
-            reminders = reminders.filter {$0.id != reminder.id}
+            if let seriesId = reminder.seriesId {
+                reminders = reminders.filter {
+                    !($0.seriesId == seriesId && $0.scheduleDate >= reminder.scheduleDate)
+                }
+            } else {
+                reminders = reminders.filter { $0.id != reminder.id }
+            }
         }
     }
     
@@ -74,9 +90,48 @@ final class HomeViewModel: ObservableObject {
         events = try getEvents.execute()
     }
     
+    private func updateAutoConvertTimer() {
+        autoConvertTimer?.cancel()
+        guard autoConvertEnabled else { return }
+        
+        autoConvertTimer = Timer.publish(every: 60, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                self?.autoConvertExpiredReminders()
+            }
+    }
+    
+    private func autoConvertExpiredReminders() {
+        let expired = reminders.filter {
+            !$0.doneCondition && $0.scheduleDate <= Date()
+        }
+        
+        for reminder in expired {
+            guard let pet = reminder.pet else { continue }
+            if let event = convertReminderToEvent.execute(for: pet, reminder, autoConvert: true) {
+                addEvent.execute(for: pet, event)
+            }
+            completeReminder(reminder)
+        }
+        
+        if !expired.isEmpty {
+            try? loadEvents()
+        }
+    }
+    
+    
     func convertToEvent(for pet: Pet, _ reminder: Reminder) {
-        let newEvent = convertReminderToEvent.execute(for: pet, reminder)
-        addEvent.execute(for: pet, newEvent)
+            if let event = convertReminderToEvent.execute(for: pet, reminder, autoConvert: false) {
+                addEvent.execute(for: pet, event)
+            }
+        }
+    
+    func completeReminder(_ reminder: Reminder) {
+        guard reminder.pet != nil else { return }
+        removeSingleReminder.execute(reminder)
+        withAnimation {
+            reminders = reminders.filter { $0.id != reminder.id }
+        }
     }
     
     func selectPet(_ pet: Pet) {
@@ -88,12 +143,29 @@ final class HomeViewModel: ObservableObject {
         guard let filterPetId else { return events }
         return events.filter { $0.pet?.id == filterPetId }
     }
-
+    
     var filteredReminders: [Reminder] {
-        guard let filterPetId else { return reminders }
-        return reminders.filter { $0.pet?.id == filterPetId }
+        let all = filterPetId == nil
+        ? reminders
+        : reminders.filter { $0.pet?.id == filterPetId }
+        
+        let single = all.filter { $0.seriesId == nil }
+        
+        let seriesNearest: [Reminder] = Dictionary(
+            grouping: all.filter { $0.seriesId != nil },
+            by: { $0.seriesId! }
+        )
+            .compactMap { _, items in
+                items
+                    .filter { !$0.doneCondition }
+                    .sorted { $0.scheduleDate < $1.scheduleDate }
+                    .first
+            }
+        
+        return (single + seriesNearest)
+            .sorted { $0.scheduleDate < $1.scheduleDate }
     }
-
+    
     var filterPet: Pet? {
         guard let filterPetId else { return nil }
         return pet?.first { $0.id == filterPetId }

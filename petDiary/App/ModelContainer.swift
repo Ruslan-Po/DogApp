@@ -6,10 +6,12 @@ extension ModelContainer {
             return try ModelContainer(
                 for: Pet.self,
                 Event.self,
-                Reminder.self
+                Reminder.self,
+                Profile.self,
             )
         } catch {
             fatalError("Failed to create ModelContainer: \(error)")
         }
     }()
 }
+ 
