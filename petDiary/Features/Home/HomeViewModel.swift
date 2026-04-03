@@ -60,12 +60,12 @@ final class HomeViewModel: ObservableObject {
     }
 
     private func loadAutoConvertSetting() {
-        if let profile = try? getProfile.execute() {
-            let newValue = profile.autoConvertReminders
-            if newValue != autoConvertEnabled {
-                autoConvertEnabled = newValue
-                updateAutoConvertTimer()
-            }
+        let newValue = (try? getProfile.execute())?.autoConvertReminders ?? false
+        if newValue != autoConvertEnabled {
+            autoConvertEnabled = newValue
+            updateAutoConvertTimer()
+        } else if autoConvertEnabled {
+            autoConvertExpiredReminders()
         }
     }
     
@@ -84,12 +84,10 @@ final class HomeViewModel: ObservableObject {
     }
     
     func removeEvent(_ event: Event) {
-        print("Before delete: \(events.count)")
         removeEvent.execute(event)
         withAnimation {
             events = events.filter { $0.id != event.id }
         }
-        print("After delete: \(events.count)")
     }
     
     
@@ -118,31 +116,42 @@ final class HomeViewModel: ObservableObject {
         let expired = reminders.filter {
             !$0.doneCondition && $0.scheduleDate <= Date()
         }
+        guard !expired.isEmpty else { return }
 
         for reminder in expired {
             guard let pet = reminder.pet else { continue }
-            if let event = convertReminderToEvent.execute(for: pet, reminder, autoConvert: true) {
-                addEvent.execute(for: pet, event)
-            }
+            let event = Event(
+                id: UUID(),
+                pet: pet,
+                category: reminder.category,
+                title: reminder.title,
+                date: reminder.scheduleDate,
+                note: nil
+            )
+            addEvent.execute(for: pet, event)
             completeReminder(reminder)
         }
 
-        if !expired.isEmpty {
-            do {
-                self.reminders = try getReminders.execute()
-                self.events = try getEvents.execute()
-            } catch {
-                self.errorMessage = error.localizedDescription
-            }
+        do {
+            self.reminders = try getReminders.execute()
+            self.events = try getEvents.execute()
+        } catch {
+            self.errorMessage = error.localizedDescription
         }
     }
     
     
     func convertToEvent(for pet: Pet, _ reminder: Reminder) {
-            if let event = convertReminderToEvent.execute(for: pet, reminder, autoConvert: false) {
-                addEvent.execute(for: pet, event)
-            }
-        }
+        let event = Event(
+            id: UUID(),
+            pet: pet,
+            category: reminder.category,
+            title: reminder.title,
+            date: Date(),
+            note: nil
+        )
+        addEvent.execute(for: pet, event)
+    }
     
     func completeReminder(_ reminder: Reminder) {
         guard reminder.pet != nil else { return }

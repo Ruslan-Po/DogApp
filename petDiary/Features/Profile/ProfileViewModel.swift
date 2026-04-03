@@ -53,17 +53,23 @@ final class ProfileViewModel: ObservableObject {
     
 
 
-       func loadProfile() {
-           if let profile = try? getUser.execute() {
-               self.autoConvertReminders = profile.autoConvertReminders
-           }
-       }
+    func loadProfile() {
+        let profile = getOrCreateProfile()
+        self.autoConvertReminders = profile.autoConvertReminders
+    }
 
-       func updateAutoConvert(_ value: Bool) {
-           guard let profile = try? getUser.execute() else { return }
-           profile.autoConvertReminders = value
-           // updateProfile usecase уже есть
-           try? updateUserData(profile, profile)
-       }
-   }
+    func updateAutoConvert(_ value: Bool) {
+        let profile = getOrCreateProfile()
+        profile.autoConvertReminders = value
+    }
+
+    private func getOrCreateProfile() -> Profile {
+        if let profile = try? getUser.execute() {
+            return profile
+        }
+        let profile = Profile(id: UUID(), autoConvertReminders: false)
+        saveUser.execute(profile)
+        return profile
+    }
+}
 

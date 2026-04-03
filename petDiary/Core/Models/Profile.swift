@@ -25,15 +25,15 @@ final class Profile {
     
     func update(other: Profile) -> Bool {
         var hasChanges: Bool = false
-        if other.name != nil {
+        if name != other.name {
             self.name = other.name
             hasChanges = true
         }
-        if other.telephone != nil {
+        if telephone != other.telephone {
             self.telephone = other.telephone
             hasChanges = true
         }
-        if other.address != nil {
+        if address != other.address {
             self.address = other.address
             hasChanges = true
         }
