@@ -13,9 +13,11 @@ struct Coordinator: View {
         TabItem(image: "petHome", title: "home", tag: .home),
         TabItem(image: "pets", title: "pets", tag: .pets),
         TabItem(image: "petCalendar", title: "calendar",tag: .calendar),
-        TabItem(image: "petProfile", title: "profile",tag: .profile)
+        TabItem(image: "petProfile", title: "profile",tag: .profile),
+        TabItem(image: "learning", title : "Learning", tag: .courses)
     ]
-    
+   
+
     @State var coordinatorTags: CoordinatorTags = .home
     
     var body: some View {
@@ -30,11 +32,12 @@ struct Coordinator: View {
                 NavigationStack {
                     CalendarBuilder.build()
                 } .tag(CoordinatorTags.calendar)
+                Courses().tag(CoordinatorTags.courses)
                 ProfileBuilder.build()
                     .tag(CoordinatorTags.profile)
             }
             
-            HStack (spacing: 40){
+            HStack (spacing: 35){
                 ForEach(pages) { page in
                     TabItemView(item: page, selector: $coordinatorTags)
                 }

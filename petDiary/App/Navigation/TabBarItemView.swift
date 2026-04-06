@@ -13,7 +13,7 @@ struct TabItemView: View {
         } label: {
             Image(item.image)
                 .resizable()
-                .frame(width: 50 , height: 50)
+                .frame(width: 40 , height: 40)
                 .foregroundColor(isSelected ? .petzenOlive : .brandBackgroundLight)
         }
     }

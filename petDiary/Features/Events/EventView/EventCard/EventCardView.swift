@@ -20,11 +20,20 @@ struct EventCardView : View {
                 
                 Text(event.pet?.name ?? "")
             }
+            Spacer()
+            VStack(alignment: .trailing, spacing: 5) {
+                Text(event.date.formatted(.dateTime
+                    .day()
+                    .month(.abbreviated)
+                ))
+                Text(event.date.formatted(.dateTime
+                    .hour()
+                    .minute()
+                ))
+            }
+            .font(.system(size: 20))
             
-            Text(event.date.formatted(date: .abbreviated, time: .shortened))
-                .font(.caption)
-            
-        } .padding()
+        } .padding(.all, 15)
            .background(Color.brandBackground)
             .cornerRadius(12)
     }

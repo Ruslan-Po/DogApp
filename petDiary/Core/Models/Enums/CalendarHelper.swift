@@ -35,12 +35,12 @@ enum CalendarHelper {
         
         return days
     }
-    /// Следующий месяц
+
     static func nextMonth(from date: Date) -> Date {
         calendar.date(byAdding: .month, value: 1, to: date) ?? date
     }
     
-    /// Предыдущий месяц
+
     static func previousMonth(from date: Date) -> Date {
         calendar.date(byAdding: .month, value: -1, to: date) ?? date
     }

@@ -5,4 +5,5 @@ enum CoordinatorTags : String, Hashable {
     case calendar = "petCalendar"
     case profile = "petProfile"
     case pets = "pets"
+    case courses = "courses"
 }

@@ -3,12 +3,46 @@ import SwiftUI
 
 struct ProfileView: View {
     @StateObject var viewModel: ProfileViewModel
+    @FocusState private var focusedField: ProfileField?
+
+    enum ProfileField {
+        case name, telephone, address
+    }
 
     var body: some View {
         List {
-            Section("Уведомления") {
+            Section("Profile") {
                 HStack {
-                    Label("Уведомления о напоминаниях", systemImage: "bell.fill")
+                    Label("Name", systemImage: "person")
+                    Spacer()
+                    TextField("Your name", text: $viewModel.name)
+                        .multilineTextAlignment(.trailing)
+                        .focused($focusedField, equals: .name)
+                        .onSubmit { saveAndNext(.telephone) }
+                }
+
+                HStack {
+                    Label("Phone", systemImage: "phone")
+                    Spacer()
+                    TextField("Phone number", text: $viewModel.telephone)
+                        .multilineTextAlignment(.trailing)
+                        .keyboardType(.phonePad)
+                        .focused($focusedField, equals: .telephone)
+                }
+
+                HStack {
+                    Label("Address", systemImage: "mappin.and.ellipse")
+                    Spacer()
+                    TextField("Address", text: $viewModel.address)
+                        .multilineTextAlignment(.trailing)
+                        .focused($focusedField, equals: .address)
+                        .onSubmit { saveAndNext(nil) }
+                }
+            }
+
+            Section("Notifications") {
+                HStack {
+                    Label("Reminders", systemImage: "bell.fill")
                     Spacer()
                     Toggle("", isOn: $viewModel.notificationsEnabled)
                         .labelsHidden()
@@ -18,9 +52,9 @@ struct ProfileView: View {
                 }
             }
 
-            Section("Автоматизация") {
+            Section("Automation") {
                 HStack {
-                    Label("Авто-конвертация напоминаний", systemImage: "clock.arrow.circlepath")
+                    Label("Auto-convert reminders", systemImage: "clock.arrow.circlepath")
                     Spacer()
                     Toggle("", isOn: $viewModel.autoConvertReminders)
                         .labelsHidden()
@@ -31,7 +65,7 @@ struct ProfileView: View {
 
                 if viewModel.autoConvertReminders {
                     Label(
-                        "Истёкшие напоминания автоматически становятся событиями",
+                        "Expired reminders automatically become events",
                         systemImage: "info.circle"
                     )
                     .font(.caption)
@@ -39,7 +73,15 @@ struct ProfileView: View {
                 }
             }
         }
-        .navigationTitle("Настройки")
+        .navigationTitle("Settings")
         .onAppear { viewModel.loadProfile() }
+        .onChange(of: focusedField) { _, _ in
+            viewModel.saveField()
+        }
+    }
+
+    private func saveAndNext(_ next: ProfileField?) {
+        viewModel.saveField()
+        focusedField = next
     }
 }

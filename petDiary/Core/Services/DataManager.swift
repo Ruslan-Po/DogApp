@@ -27,6 +27,7 @@ final class DataManager: DataManagerProtocol {
     
     func deletePet(_ pet: Pet) {
         context.delete(pet)
+        try? context.save()
     }
     
     
@@ -38,6 +39,7 @@ final class DataManager: DataManagerProtocol {
     
     func deleteReminder(_ reminder: Reminder) {
         context.delete(reminder)
+        try? context.save()
     }
     
     func getReminders()  -> [Reminder] {

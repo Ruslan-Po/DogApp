@@ -22,7 +22,7 @@ struct PetScrollView: View {
                         .font(.largeTitle)
                         .foregroundColor(.blue)
                 }
-            }
+            }.padding(.horizontal, 10)
         }
     }
 }

@@ -4,28 +4,43 @@ struct ReminderCardView: View {
     @Bindable var reminder: Reminder
     
     var body: some View {
-        HStack {
+        
+        HStack(alignment: .center) {
             Toggle("TODO", isOn: $reminder.doneCondition).toggleStyle(CheckboxToggleStyle())
-            Image(reminder.category.icon)
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 28, height: 28)
-                            .foregroundStyle(.blue)
-                            .padding(8)
-                           
-
-            Text(reminder.title)
-                .font(.headline)
-            
-            Text(reminder.pet?.name ?? "")
-            
-            Text(reminder.scheduleDate.formatted(date: .abbreviated, time: .shortened))
-                .font(.caption)
-            
-        } .padding()
-            .background(Color.brandBackground)
-            .cornerRadius(12)
+            Spacer()
+            HStack {
+                
+                Image(reminder.category.icon)
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 35, height: 35)
+                    .foregroundStyle(reminder.scheduleDate <= Date() ? .red : .blue)
+                    .padding(8)
+                
+                VStack(alignment: .leading ){
+                    Text(reminder.title)
+                        .font(.headline)
+                    
+                    Text(reminder.pet?.name ?? "")
+                }
+                Spacer()
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(reminder.scheduleDate.formatted(.dateTime
+                        .day()
+                        .month(.abbreviated)
+                    ))
+                    Text(reminder.scheduleDate.formatted(.dateTime
+                        .hour()
+                        .minute()
+                    ))
+                }
+                .font(.system(size: 20))
+        
+            } .padding()
+                .background(Color.brandBackground)
+                .cornerRadius(12)
+        }
     }
 }
 
