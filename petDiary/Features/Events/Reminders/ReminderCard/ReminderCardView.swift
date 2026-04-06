@@ -15,9 +15,9 @@ struct ReminderCardView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 35, height: 35)
-                    .foregroundStyle(reminder.scheduleDate <= Date() ? .red : .blue)
+                    .foregroundStyle(reminder.scheduleDate <= Date() ? Color.petzenCoral : Color.petzenTeal)
                     .padding(8)
-                
+                  
                 VStack(alignment: .leading ){
                     Text(reminder.title)
                         .font(.headline)
@@ -38,8 +38,11 @@ struct ReminderCardView: View {
                 .font(.system(size: 20))
         
             } .padding()
-                .background(Color.brandBackground)
                 .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.brandBackground, lineWidth: 2)
+                )
         }
     }
 }

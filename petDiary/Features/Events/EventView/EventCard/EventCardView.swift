@@ -11,8 +11,9 @@ struct EventCardView : View {
                 .resizable()
                 .scaledToFill()
                 .frame(width: 40, height: 40)
-                .foregroundStyle(.blue)
-                //.padding(8)
+                .foregroundStyle(Color.petzenTeal)
+ 
+
             
             VStack(alignment: .leading){
                 Text(event.title)
@@ -34,8 +35,11 @@ struct EventCardView : View {
             .font(.system(size: 20))
             
         } .padding(.all, 15)
-           .background(Color.brandBackground)
-            .cornerRadius(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.brandBackground, lineWidth: 2)
+            )
+            
     }
 }
 

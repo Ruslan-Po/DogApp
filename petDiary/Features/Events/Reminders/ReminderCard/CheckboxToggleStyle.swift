@@ -7,7 +7,8 @@ struct CheckboxToggleStyle: ToggleStyle {
         } label: {
             Image(systemName: configuration.isOn ? "circle.fill": "circle")
                 .foregroundStyle(configuration.isOn ? .blue : .gray)
-                .font(.title2)
+                .font(.system(size: 24)) 
+            
         }
         .buttonStyle(.plain)
     }

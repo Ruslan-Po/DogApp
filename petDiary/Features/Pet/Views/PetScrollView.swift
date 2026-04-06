@@ -20,7 +20,7 @@ struct PetScrollView: View {
                 Button(action: onAddNewPet) {
                     Image(systemName: "plus")
                         .font(.largeTitle)
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color.brandSuccess)
                 }
             }.padding(.horizontal, 10)
         }

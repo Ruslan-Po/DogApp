@@ -16,8 +16,8 @@ struct HomeView: View {
             VStack {
 
                 if let pets = viewModel.pet, pets.count > 0 {
-                    Picker("Фильтр", selection: $viewModel.filterPetId) {
-                        Text("Все").tag(UUID?.none)
+                    Picker("Filter", selection: $viewModel.filterPetId) {
+                        Text("All").tag(UUID?.none)
                         ForEach(pets) { pet in
                             Text(pet.name).tag(UUID?.some(pet.id))
                         }
@@ -28,11 +28,28 @@ struct HomeView: View {
 
                 HStack {
                     if let pets = viewModel.pet, !pets.isEmpty {
-                        NavigationLink("Add Reminder") {
+                        NavigationLink {
                             ReminderBuilder.build(for: viewModel.filterPet)
+                        } label: {
+                            Text("Add Reminder")
+                                .font(.subheadline.bold())
+                                .foregroundStyle(.white)
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 16)
+                                .background(Color.petzenOlive)
+                                .cornerRadius(10)
                         }
-                        NavigationLink("Add Event") {
+
+                        NavigationLink {
                             EventBuilder.build(for: viewModel.filterPet)
+                        } label: {
+                            Text("Add Event")
+                                .font(.subheadline.bold())
+                                .foregroundStyle(.white)
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 16)
+                                .background(Color.petzenOlive)
+                                .cornerRadius(10)
                         }
                     }
                 }

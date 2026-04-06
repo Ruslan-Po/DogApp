@@ -14,7 +14,6 @@ struct PetView: View {
             Color.brandBackgroundLight.ignoresSafeArea()
             VStack(spacing: 0) {
                 VStack(spacing: 12) {
-                    
                     if let pets = viewModel.pets {
                         PetScrollView(pets: pets,
                                       selectedPet: viewModel.selectedPet,
@@ -46,9 +45,8 @@ struct PetView: View {
                         }
                         
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(viewModel.selectedPet?.name ?? "")
-                                .font(.title3.bold())
-                            HStack(spacing: 8) {
+
+                            VStack(spacing: 8) {
                                 Text(viewModel.selectedPet?.breed ?? "")
                                     .font(.subheadline)
                                     .foregroundStyle(.secondary)
@@ -61,9 +59,9 @@ struct PetView: View {
                         Spacer()
                         
                         Button { showEdit = true } label: {
-                            Image(systemName: "pencil.circle.fill")
-                                .font(.title2)
-                                .foregroundStyle(.blue)
+                            Image(systemName: "highlighter")
+                                .font(.system(size: 24))
+                                .foregroundStyle(Color.brandSuccess)
                         }
                     }
                     .padding(.horizontal)

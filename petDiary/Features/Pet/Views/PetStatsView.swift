@@ -32,7 +32,7 @@ struct PetStatsView: View {
     private var activityStats: some View {
         if !activityEvents.isEmpty {
             StatCard(
-                icon: "figure.walk",
+                icon: "activity",
                 title: "Walks",
                 rows: [
                     StatRow(label: "Total", value: "\(activityEvents.count)"),
@@ -54,10 +54,35 @@ struct PetStatsView: View {
         let withPortion = nutritionEvents.filter { $0.portionSize != nil }
         if !nutritionEvents.isEmpty {
             StatCard(
-                icon: "fork.knife",
+                icon: "nutrition",
                 title: "Nutrition",
                 rows: [
                     StatRow(label: "Total meals", value: "\(nutritionEvents.count)"),
+                    withPortion.isEmpty ? nil : StatRow(
+                        label: "Avg portion",
+                        value: "\(Int(withPortion.compactMap(\.portionSize).reduce(0, +) / Double(withPortion.count))) g"
+                    ),
+                    lastDateRow(nutritionEvents)
+                ].compactMap { $0 }
+            )
+        }
+    }
+    
+    // MARK: - Bath
+
+    private var bathEvents: [Event] {
+        events.filter { $0.category == .bath }
+    }
+
+    @ViewBuilder
+    private var bathStats: some View {
+        let withPortion = bathEvents.filter { $0.portionSize != nil }
+        if !bathEvents.isEmpty {
+            StatCard(
+                icon: "bath",
+                title: "Bath",
+                rows: [
+                    StatRow(label: "Total meals", value: "\(bathEvents.count)"),
                     withPortion.isEmpty ? nil : StatRow(
                         label: "Avg portion",
                         value: "\(Int(withPortion.compactMap(\.portionSize).reduce(0, +) / Double(withPortion.count))) g"
@@ -79,7 +104,7 @@ struct PetStatsView: View {
         if !groomingEvents.isEmpty {
             let sorted = groomingEvents.sorted { $0.date > $1.date }
             StatCard(
-                icon: "scissors",
+                icon: "grooming",
                 title: "Grooming",
                 rows: [
                     StatRow(label: "Total", value: "\(groomingEvents.count)"),
@@ -101,7 +126,7 @@ struct PetStatsView: View {
         if !healthEvents.isEmpty {
             let sorted = healthEvents.sorted { $0.date > $1.date }
             StatCard(
-                icon: "heart.text.square",
+                icon: "health",
                 title: "Health & Vaccinations",
                 rows: [
                     StatRow(label: "Total", value: "\(healthEvents.count)"),
@@ -161,8 +186,12 @@ struct StatCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 6) {
-                Image(systemName: icon)
-                    .foregroundStyle(.blue)
+                Image(icon)
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 35, height: 35)
+                    .foregroundStyle(Color.petzenTeal)
                 Text(title)
                     .font(.subheadline.bold())
             }
