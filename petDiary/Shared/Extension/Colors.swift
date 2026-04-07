@@ -13,6 +13,7 @@ extension Color {
     static let petzenCream = Color(red: 255/255, green: 248/255, blue: 231/255)
     static let petzenCoral = Color(red: 231/255, green: 111/255, blue: 81/255)
     static let petzenOlive = Color(red: 148/255, green: 166/255, blue: 132/255)
+    static let petzenRose = Color(red: 212/255, green: 165/255, blue: 165/255)
     
     // MARK: - Semantic
     static let brandPrimary = petzenYellow

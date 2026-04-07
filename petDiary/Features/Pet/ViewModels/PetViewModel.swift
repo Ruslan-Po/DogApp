@@ -58,7 +58,7 @@ final class PetViewModel: ObservableObject {
         return result
     }
 
-    // После добавления нового питомца — выбираем его по id
+
     func loadPetsAndSelect(_ petID: UUID) throws {
         let result = try loadPet.execute()
         self.pets = result

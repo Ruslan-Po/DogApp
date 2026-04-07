@@ -37,21 +37,20 @@ struct EventView: View {
         ZStack {
             Color.brandBackgroundLight.ignoresSafeArea()
             VStack(alignment: .leading, spacing: 20) {
-                
                 TextField("Название", text: $title)
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
                 
-                Text("Категория")
+                Text("Category")
                     .font(.headline)
                 
                 CategoryGridView(selected: $category)
                 
                 VStack() {
                     if pet == nil {
-                        Picker("Питомец", selection: $pet) {
-                            Text("Выбери питомца").tag(Pet?.none)
+                        Picker("Pet", selection: $pet) {
+                            Text("Choose a pet").tag(Pet?.none)
                             ForEach(viewModel.pets ?? []) { p in
                                 Text(p.name).tag(p as Pet?)
                             }
@@ -60,12 +59,12 @@ struct EventView: View {
                     } else {
                         Text(pet!.name)
                     }
-                    DatePicker("Дата и время", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                    DatePicker("Datetime", selection: $date, displayedComponents: [.date, .hourAndMinute])
                         .padding()
                 }
 
                 if category == .nutrition {
-                    TextField("Размер порции (г)", text: $portionSizeGrams)
+                    TextField("Serving size (g)", text: $portionSizeGrams)
                         .keyboardType(.numberPad)
                         .padding()
                         .background(Color(.systemGray6))
@@ -95,6 +94,7 @@ struct EventView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(title.isEmpty)
+                Spacer() 
             }.task {
                 viewModel.loadPets()
             }

@@ -34,7 +34,7 @@ struct DayDetailView: View {
                 ScrollView {
                     VStack(spacing: 8) {
                         if !dayReminders.isEmpty {
-                            sectionLabel("Напоминания")
+                            sectionLabel("Reminders")
                             ForEach(dayReminders, id: \.id) { reminder in
                                 ReminderRow(reminder: reminder) {
                                     viewModel.removeReminder(reminder)
@@ -43,7 +43,7 @@ struct DayDetailView: View {
                         }
                         
                         if !dayEvents.isEmpty {
-                            sectionLabel("События")
+                            sectionLabel("Events")
                             ForEach(dayEvents, id: \.id) { event in
                                 EventRow(event: event) {
                                     viewModel.removeEvent(event)
@@ -106,7 +106,7 @@ struct DayDetailView: View {
         var body: some View {
             HStack(spacing: 12) {
                 RoundedRectangle(cornerRadius: 2)
-                    .fill(Color.brandAccent)
+                    .fill(Color.petzenYellow)
                     .frame(width: 3)
                 
                 VStack(alignment: .leading, spacing: 2) {
@@ -128,12 +128,15 @@ struct DayDetailView: View {
             }
             .padding(12)
             .background(Color.brandBackgroundLight)
-            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.brandBackground, lineWidth: 2)
+            )
             .swipeActions(edge: .trailing) {
                 Button(role: .destructive) {
                     onDelete()
                 } label: {
-                    Label("Удалить", systemImage: "trash")
+                    Label("Remove", systemImage: "trash")
                 }
             }
         }
@@ -176,12 +179,16 @@ struct DayDetailView: View {
             }
             .padding(12)
             .background(Color.brandBackgroundLight)
-            .cornerRadius(10)
+            //.cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.brandBackground, lineWidth: 2)
+            )
             .swipeActions(edge: .trailing) {
                 Button(role: .destructive) {
                     onDelete()
                 } label: {
-                    Label("Удалить", systemImage: "trash")
+                    Label("Remove", systemImage: "trash")
                 }
             }
         }

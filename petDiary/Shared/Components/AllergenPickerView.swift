@@ -4,7 +4,7 @@ struct AllergenPickerView: View {
     @Binding var allergens: [String]
     @State private var newAllergen: String = ""
     @State private var isExpanded: Bool = false
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Button {
@@ -33,13 +33,14 @@ struct AllergenPickerView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-
+            
             if !allergens.isEmpty {
                 AllergenTagsView(allergens: allergens, onRemove: { allergen in
                     allergens.removeAll { $0 == allergen }
-                })
+                }
+                )
             }
-
+            
             if isExpanded {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 8)], spacing: 8) {
                     ForEach(Allergen.allCases) { allergen in
@@ -71,7 +72,7 @@ struct AllergenPickerView: View {
                         .buttonStyle(.plain)
                     }
                 }
-
+                
                 HStack {
                     TextField("Custom allergen...", text: $newAllergen)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -86,7 +87,7 @@ struct AllergenPickerView: View {
             }
         }
     }
-
+    
     private func addCustomAllergen() {
         let trimmed = newAllergen.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty, !allergens.contains(trimmed) else { return }
@@ -98,7 +99,7 @@ struct AllergenPickerView: View {
 struct AllergenTagsView: View {
     let allergens: [String]
     var onRemove: ((String) -> Void)?
-
+    
     var body: some View {
         FlowLayout(spacing: 6) {
             ForEach(allergens, id: \.self) { allergen in
@@ -131,12 +132,12 @@ struct AllergenTagsView: View {
 
 struct FlowLayout: Layout {
     var spacing: CGFloat = 6
-
+    
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         let result = arrange(proposal: proposal, subviews: subviews)
         return result.size
     }
-
+    
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         let result = arrange(proposal: proposal, subviews: subviews)
         for (index, position) in result.positions.enumerated() {
@@ -146,7 +147,7 @@ struct FlowLayout: Layout {
             )
         }
     }
-
+    
     private func arrange(proposal: ProposedViewSize, subviews: Subviews) -> (positions: [CGPoint], size: CGSize) {
         let maxWidth = proposal.width ?? .infinity
         var positions: [CGPoint] = []
@@ -154,7 +155,7 @@ struct FlowLayout: Layout {
         var y: CGFloat = 0
         var rowHeight: CGFloat = 0
         var maxX: CGFloat = 0
-
+        
         for subview in subviews {
             let size = subview.sizeThatFits(.unspecified)
             if x + size.width > maxWidth, x > 0 {
@@ -167,7 +168,7 @@ struct FlowLayout: Layout {
             x += size.width + spacing
             maxX = max(maxX, x)
         }
-
+        
         return (positions, CGSize(width: maxX, height: y + rowHeight))
     }
 }

@@ -34,37 +34,39 @@ struct ReminderView: View {
     }
     
     var body: some View {
-        ScrollView {
+        ZStack{
+            Color.brandBackgroundLight.ignoresSafeArea()
+            ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 
-                TextField("Название", text: $title)
+                TextField("Title", text: $title)
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
                 
-                Text("Категория")
+                Text("Category")
                     .font(.headline)
                 
                 CategoryGridView(selected: $selectedCategory)
                 
-                VStack() {
+                VStack(alignment: .leading, spacing: 30) {
+                    Text ("For")
                     if let pet = pet {
                         Text(pet.name)
                     } else {
-                        Picker("Питомец", selection: $pet) {
-                            Text("Выберите питомца").tag(Pet?.none)
+                        Picker("Pet", selection: $pet) {
+                            Text("Choose a pet").tag(Pet?.none)
                             ForEach(viewModel.pets ?? []) { pet in
                                 Text(pet.name).tag(pet as Pet?)
                             }
                         }
                         .pickerStyle(.menu)
                     }
-                    DatePicker("Дата и время", selection: $scheduleDate, displayedComponents: [.date, .hourAndMinute])
+                    DatePicker("Datetime", selection: $scheduleDate, displayedComponents: [.date, .hourAndMinute])
                         .padding()
                 }
                 
-                
-                Toggle("Повторять", isOn: $isRepeating)
+                Toggle("Repeat", isOn: $isRepeating)
                 
                 if isRepeating {
                     HStack{
@@ -77,9 +79,9 @@ struct ReminderView: View {
                         }
                     }
                 }
-               
                 
-                Button ("Сохранить"){
+                
+                Button ("Save"){
                     
                     switch mode {
                     case .add:
@@ -111,6 +113,7 @@ struct ReminderView: View {
                 .buttonStyle(.borderedProminent)
                 .disabled(title.isEmpty)
             }
+        }
             .task {
                 viewModel.loadPets()
             }

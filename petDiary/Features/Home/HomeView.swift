@@ -74,12 +74,12 @@ struct HomeView: View {
                                         Button(role: .destructive) {
                                             viewModel.removeReminder(reminder)
                                         } label: {
-                                            Label("Удалить", systemImage: "trash")
+                                            Label("Remove", systemImage: "trash")
                                         }
                                         Button {
                                             editingReminder = reminder
                                         } label: {
-                                            Label("Изменить", systemImage: "pencil")
+                                            Label("Edit", systemImage: "pencil")
                                         }
                                         .tint(.orange)
                                     }
@@ -107,13 +107,13 @@ struct HomeView: View {
                                         Button(role: .destructive) {
                                             viewModel.removeEvent(event)
                                         } label: {
-                                            Label("Удалить", systemImage: "trash")
+                                            Label("Remove", systemImage: "trash")
                                         }
 
                                         Button {
                                             editingEvent = event
                                         } label: {
-                                            Label("Изменить", systemImage: "pencil")
+                                            Label("Edit", systemImage: "pencil")
                                         }
                                         .tint(.orange)
                                     }

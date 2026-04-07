@@ -46,13 +46,19 @@ struct PetView: View {
                         
                         VStack(alignment: .leading, spacing: 4) {
 
-                            VStack(spacing: 8) {
+                            VStack(alignment: .leading, spacing: 8) {
                                 Text(viewModel.selectedPet?.breed ?? "")
                                     .font(.subheadline)
                                     .foregroundStyle(.secondary)
                                 Text(viewModel.selectedPet?.gender?.title ?? "")
                                     .font(.subheadline)
                                     .foregroundStyle(.secondary)
+                                if let age = viewModel.selectedPet?.ageFormatted {
+                                    Text(age)
+                                        .font(.subheadline)
+                                        .foregroundStyle(.secondary)
+                                }
+                                
                             }
                         }
                         
@@ -115,6 +121,7 @@ struct PetView: View {
             }
             .onAppear {
                 _ = try? viewModel.loadPets()
+
             }
             .sheet(isPresented: $showEdit, onDismiss: {
                 _ = try? viewModel.loadPets()

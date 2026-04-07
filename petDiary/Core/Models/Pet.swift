@@ -56,7 +56,17 @@ final class Pet: Hashable, Identifiable {
     }
 
     var age: Int {
-        Calendar.current.dateComponents([.year], from: birthDate, to: Date()).year ?? 0
+        Calendar.current.dateComponents([.year, .month], from: birthDate, to: Date()).year  ?? 0
+    }
+    
+    var ageFormatted: String {
+        let components = Calendar.current.dateComponents([.year, .month], from: birthDate, to: Date())
+        let years = components.year ?? 0
+        let months = components.month ?? 0
+        
+        if years == 0 { return "\(months) m." }
+        if months == 0 { return "\(years) y." }
+        return "\(years) y. \(months) mon."
     }
 
     func update(other: Pet) -> Bool {

@@ -8,15 +8,13 @@ struct CalendarView: View {
             Color.brandBackgroundLight.ignoresSafeArea()
             
             VStack(spacing: 0) {
-                // MARK: Хедер с навигацией по месяцам
+
                 monthNavigationHeader
                 
-                // MARK: Сетка календаря со свайп-жестом
                 calendarSection
                 
                 Divider()
                 
-                // MARK: Детали выбранного дня (разворачивается снизу)
                 dayDetailSection
                     .frame(maxHeight: .infinity)
             }
@@ -30,7 +28,7 @@ struct CalendarView: View {
     
     private var monthNavigationHeader: some View {
         HStack {
-            // Кнопка "Назад"
+  
             Button {
                 withAnimation(.easeInOut(duration: 0.3)) {
                     viewModel.goToPreviousMonth()
@@ -44,7 +42,7 @@ struct CalendarView: View {
             
             Spacer()
             
-            // Название месяца
+
             Text(viewModel.monthName)
                 .font(.headline)
                 .fontWeight(.semibold)
@@ -52,7 +50,7 @@ struct CalendarView: View {
             
             Spacer()
             
-            // Кнопка "Вперёд"
+
             Button {
                 withAnimation(.easeInOut(duration: 0.3)) {
                     viewModel.goToNextMonth()
@@ -74,10 +72,12 @@ struct CalendarView: View {
         CalendarGridView(viewModel: viewModel)
             .padding(.horizontal, 12)
             .padding(.bottom, 8)
-            // Transition зависит от направления навигации
+            
             .transition(monthTransition)
             .gesture(swipeGesture)
     }
+    
+   
     
     // MARK: - Секция деталей дня
     @ViewBuilder
@@ -90,15 +90,15 @@ struct CalendarView: View {
                     Image(systemName: "hand.tap")
                         .font(.system(size: 28))
                         .foregroundColor(.secondary.opacity(0.5))
-                    Text("Выберите день")
+                    Text("Choose a day")
                         .font(.subheadline)
                         .foregroundColor(.secondary.opacity(0.5))
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity) // оба варианта занимают одинаковое место
-        .background(Color.brandBackground) // единый фон снаружи
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.brandBackgroundLight)
     }
     
     // MARK: - Свайп-жест
@@ -106,19 +106,19 @@ struct CalendarView: View {
     private var swipeGesture: some Gesture {
         DragGesture(minimumDistance: 50, coordinateSpace: .local)
             .onEnded { value in
-                // Определяем направление по горизонтальной составляющей
+                
                 let horizontalAmount = value.translation.width
                 let verticalAmount = abs(value.translation.height)
                 
-                // Игнорируем если жест больше вертикальный (скролл)
+               
                 guard abs(horizontalAmount) > verticalAmount else { return }
                 
                 withAnimation(.easeInOut(duration: 0.3)) {
                     if horizontalAmount < 0 {
-                        // Свайп влево → следующий месяц
+                      
                         viewModel.goToNextMonth()
                     } else {
-                        // Свайп вправо → предыдущий месяц
+                   
                         viewModel.goToPreviousMonth()
                     }
                 }

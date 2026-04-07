@@ -44,11 +44,11 @@ struct DayCell: View {
     private var indicatorRow: some View {
         HStack {
             if hasEvent {
-                Circle().fill(Color.red)
+                Circle().fill(Color.petzenTeal)
                     .frame(width: indicationSize, height: indicationSize)
             }
             if hasReminder {
-                Circle().fill(Color.yellow)
+                Circle().fill(Color.petzenYellow)
                     .frame(width: indicationSize, height: indicationSize)
             }
             if !hasEvent && !hasReminder {

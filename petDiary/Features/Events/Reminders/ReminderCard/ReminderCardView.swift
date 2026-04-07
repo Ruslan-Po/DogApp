@@ -4,7 +4,6 @@ struct ReminderCardView: View {
     @Bindable var reminder: Reminder
     
     var body: some View {
-        
         HStack(alignment: .center) {
             Toggle("TODO", isOn: $reminder.doneCondition).toggleStyle(CheckboxToggleStyle())
             Spacer()
