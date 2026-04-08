@@ -17,22 +17,22 @@ struct EventCardView : View {
             
             VStack(alignment: .leading){
                 Text(event.title)
-                    .font(.headline)
+                    .cruinn(.black, size: 20)
                 
                 Text(event.pet?.name ?? "")
+                    .cruinn(.medium, size: 14)
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 5) {
                 Text(event.date.formatted(.dateTime
                     .day()
                     .month(.abbreviated)
-                ))
+                )).cruinn(.regular, size: 20)
                 Text(event.date.formatted(.dateTime
                     .hour()
                     .minute()
-                ))
+                )).cruinn(.regular, size: 20)
             }
-            .font(.system(size: 20))
             
         } .padding(.all, 15)
             .overlay(

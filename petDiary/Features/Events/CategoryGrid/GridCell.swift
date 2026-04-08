@@ -15,6 +15,7 @@ struct GridCell: View {
                     .frame(width: 50, height: 50)
                     .foregroundStyle(isSelected ? Color.petzenCoral : Color.petzenOlive)
                 Text(category.title)
+                    .cruinn(.medium, size: 12)
                     .lineLimit(1)
                 
             }

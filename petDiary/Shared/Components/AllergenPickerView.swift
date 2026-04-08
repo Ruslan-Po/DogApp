@@ -14,12 +14,12 @@ struct AllergenPickerView: View {
             } label: {
                 HStack {
                     Text("Allergens")
-                        .font(.caption)
+                        .cruinn(.bold, size: 18)
                         .foregroundStyle(.secondary)
                     Spacer()
                     if !allergens.isEmpty {
                         Text("\(allergens.count)")
-                            .font(.caption2)
+                            .cruinn(.medium, size: 11)
                             .foregroundStyle(.white)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
@@ -54,9 +54,9 @@ struct AllergenPickerView: View {
                         } label: {
                             HStack(spacing: 4) {
                                 Image(systemName: allergen.icon)
-                                    .font(.caption)
+                                    .font(.system(size: 12))
                                 Text(allergen.title)
-                                    .font(.caption)
+                                    .cruinn(.medium, size: 12)
                             }
                             .padding(.horizontal, 10)
                             .padding(.vertical, 6)
@@ -75,6 +75,7 @@ struct AllergenPickerView: View {
                 
                 HStack {
                     TextField("Custom allergen...", text: $newAllergen)
+                        .font(.custom(Cruinn.regular.rawValue, size: 14))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .onSubmit { addCustomAllergen() }
                     Button(action: addCustomAllergen) {
@@ -106,10 +107,10 @@ struct AllergenTagsView: View {
                 HStack(spacing: 4) {
                     if let known = Allergen(rawValue: allergen.lowercased()) {
                         Image(systemName: known.icon)
-                            .font(.caption2)
+                            .font(.system(size: 10))
                     }
                     Text(allergen)
-                        .font(.caption)
+                        .cruinn(.regular, size: 12)
                     if let onRemove {
                         Button {
                             onRemove(allergen)

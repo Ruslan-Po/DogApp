@@ -19,20 +19,22 @@ struct ReminderCardView: View {
                   
                 VStack(alignment: .leading ){
                     Text(reminder.title)
+                        .cruinn(.black, size: 20)
                         .font(.headline)
                     
                     Text(reminder.pet?.name ?? "")
+                        .cruinn(.medium, size: 14)
                 }
                 Spacer()
                 VStack(alignment: .trailing, spacing: 2) {
                     Text(reminder.scheduleDate.formatted(.dateTime
                         .day()
                         .month(.abbreviated)
-                    ))
+                    )).cruinn(.regular, size: 20)
                     Text(reminder.scheduleDate.formatted(.dateTime
                         .hour()
                         .minute()
-                    ))
+                    )).cruinn(.regular, size: 20)
                 }
                 .font(.system(size: 20))
         

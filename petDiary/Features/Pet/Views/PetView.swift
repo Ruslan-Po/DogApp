@@ -48,14 +48,14 @@ struct PetView: View {
 
                             VStack(alignment: .leading, spacing: 8) {
                                 Text(viewModel.selectedPet?.breed ?? "")
-                                    .font(.subheadline)
+                                    .cruinn(.regular, size: 14)
                                     .foregroundStyle(.secondary)
                                 Text(viewModel.selectedPet?.gender?.title ?? "")
-                                    .font(.subheadline)
+                                    .cruinn(.regular, size: 14)
                                     .foregroundStyle(.secondary)
                                 if let age = viewModel.selectedPet?.ageFormatted {
                                     Text(age)
-                                        .font(.subheadline)
+                                        .cruinn(.regular, size: 14)
                                         .foregroundStyle(.secondary)
                                 }
                                 
@@ -81,27 +81,33 @@ struct PetView: View {
                         
                         if let detail = viewModel.selectedPet?.detail, !detail.isEmpty {
                             Text(detail)
-                                .font(.subheadline)
+                                .cruinn(.regular, size: 14)
                         }
-                        
+
                         if let food = viewModel.selectedPet?.foodBrand, !food.isEmpty {
                             HStack {
-                                Text("Food").foregroundStyle(.secondary).font(.caption)
-                                Text(food).font(.subheadline)
+                                Text("Food")
+                                    .cruinn(.light, size: 12)
+                                    .foregroundStyle(.secondary)
+                                Text(food)
+                                    .cruinn(.medium, size: 14)
                             }
                         }
-                        
+
                         if let vet = viewModel.selectedPet?.vetContact, !vet.isEmpty {
                             HStack {
-                                Text("Vet").foregroundStyle(.secondary).font(.caption)
-                                Text(vet).font(.subheadline)
+                                Text("Vet")
+                                    .cruinn(.light, size: 12)
+                                    .foregroundStyle(.secondary)
+                                Text(vet)
+                                    .cruinn(.medium, size: 14)
                             }
                         }
-                        
+
                         if let allergens = viewModel.selectedPet?.allergens, !allergens.isEmpty {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Allergens")
-                                    .font(.headline)
+                                    .cruinn(.bold, size: 18)
                                 AllergenTagsView(allergens: allergens)
                             }
                         }
@@ -112,7 +118,7 @@ struct PetView: View {
                         
                         Button(role: .destructive) { removePet() } label: {
                             Text("Remove pet")
-                                .font(.subheadline)
+                                .cruinn(.medium, size: 14)
                         }
                         .padding(.top, 8)
                     }

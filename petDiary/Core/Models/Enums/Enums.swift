@@ -140,3 +140,16 @@ enum Allergen: String, CaseIterable, Identifiable {
         }
     }
 }
+
+
+enum Cruinn: String {
+    case thin = "Cruinn-Thin"
+    case light = "Cruinn-Light"
+    case regular = "Cruinn"
+    case medium = "Cruinn-Medium"
+    case bold = "Cruinn-Bold"
+    case black = "Cruinn-Black"
+}
+
+
+

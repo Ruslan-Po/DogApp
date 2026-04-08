@@ -38,26 +38,32 @@ struct EventView: View {
             Color.brandBackgroundLight.ignoresSafeArea()
             VStack(alignment: .leading, spacing: 20) {
                 TextField("Название", text: $title)
+                    .font(.custom(Cruinn.regular.rawValue, size: 16))
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
-                
+
                 Text("Category")
-                    .font(.headline)
+                    .cruinn(.bold, size: 18)
                 
                 CategoryGridView(selected: $category)
                 
                 VStack() {
                     if pet == nil {
                         Picker("Pet", selection: $pet) {
-                            Text("Choose a pet").tag(Pet?.none)
+                            Text("Choose a pet")
+                                .cruinn(.regular, size: 16)
+                                .tag(Pet?.none)
                             ForEach(viewModel.pets ?? []) { p in
-                                Text(p.name).tag(p as Pet?)
+                                Text(p.name)
+                                    .cruinn(.regular, size: 16)
+                                    .tag(p as Pet?)
                             }
                         }
                         .pickerStyle(.menu)
                     } else {
                         Text(pet!.name)
+                            .cruinn(.medium, size: 16)
                     }
                     DatePicker("Datetime", selection: $date, displayedComponents: [.date, .hourAndMinute])
                         .padding()
@@ -65,13 +71,14 @@ struct EventView: View {
 
                 if category == .nutrition {
                     TextField("Serving size (g)", text: $portionSizeGrams)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .keyboardType(.numberPad)
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
                 }
 
-                Button ("Сохранить"){
+                Button {
                     let portion = Double(portionSizeGrams)
 
                     switch mode {
@@ -91,8 +98,15 @@ struct EventView: View {
                                               portionSize: portion)
                     }
                     dismiss()
+                } label: {
+                    Text("Сохранить")
+                        .cruinn(.bold, size: 18)
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 16)
+                        .background(Color.petzenOlive)
+                        .cornerRadius(10)
                 }
-                .buttonStyle(.borderedProminent)
                 .disabled(title.isEmpty)
                 Spacer() 
             }.task {

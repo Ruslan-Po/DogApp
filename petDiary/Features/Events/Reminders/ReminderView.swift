@@ -40,31 +40,41 @@ struct ReminderView: View {
             VStack(alignment: .leading, spacing: 20) {
                 
                 TextField("Title", text: $title)
+                    .font(.custom(Cruinn.regular.rawValue, size: 16))
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
                 
-                Text("Category")
-                    .font(.headline)
-                
-                CategoryGridView(selected: $selectedCategory)
-                
-                VStack(alignment: .leading, spacing: 30) {
-                    Text ("For")
+                HStack{
+                    Text("Reminder for: ")
+                        .cruinn(.medium, size: 16)
                     if let pet = pet {
                         Text(pet.name)
+                            .cruinn(.medium, size: 16)
                     } else {
                         Picker("Pet", selection: $pet) {
-                            Text("Choose a pet").tag(Pet?.none)
+                            Text("Choose a pet")
+                                .cruinn(.regular, size: 16)
+                                .tag(Pet?.none)
                             ForEach(viewModel.pets ?? []) { pet in
-                                Text(pet.name).tag(pet as Pet?)
+                                Text(pet.name)
+                                    .cruinn(.regular, size: 16)
+                                    .tag(pet as Pet?)
                             }
                         }
                         .pickerStyle(.menu)
                     }
-                    DatePicker("Datetime", selection: $scheduleDate, displayedComponents: [.date, .hourAndMinute])
-                        .padding()
                 }
+
+                Text("Category")
+                    .cruinn(.bold, size: 18)
+                
+                CategoryGridView(selected: $selectedCategory)
+                
+                
+                DatePicker("Datetime", selection: $scheduleDate, displayedComponents: [.date, .hourAndMinute])
+                    .padding()
+          
                 
                 Toggle("Repeat", isOn: $isRepeating)
                 
@@ -81,7 +91,7 @@ struct ReminderView: View {
                 }
                 
                 
-                Button ("Save"){
+                Button {
                     
                     switch mode {
                     case .add:
@@ -109,8 +119,15 @@ struct ReminderView: View {
                         )
                     }
                     dismiss()
+                } label: {
+                    Text("Save")
+                        .cruinn(.bold, size: 18)
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 16)
+                        .background(Color.petzenOlive)
+                        .cornerRadius(10)
                 }
-                .buttonStyle(.borderedProminent)
                 .disabled(title.isEmpty)
             }
         }

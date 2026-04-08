@@ -7,8 +7,7 @@ struct PetCardScrollView: View {
         
         HStack{
             Text(pet.name)
-                .font(.title)
-                .fontWeight(.bold)
+                .cruinn(.bold, size: 20)
             Spacer()
             
         }.padding(.vertical ,10 )

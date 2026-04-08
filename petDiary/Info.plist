@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Cruinn Black.ttf</string>
+		<string>Cruinn Bold.ttf</string>
+		<string>Cruinn Light.ttf</string>
+		<string>Cruinn Medium.ttf</string>
+		<string>Cruinn Regular.ttf</string>
+		<string>Cruinn Thin.ttf</string>
+	</array>
+</dict>
+</plist>

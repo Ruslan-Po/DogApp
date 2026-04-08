@@ -47,11 +47,13 @@ struct AddPetView: View {
                     }
                     
                     TextField("Name", text: $name)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
+
                     DatePicker("Birth Date", selection: $birthDate, displayedComponents: .date)
-                    
+
                     TextField("Breed", text: $breed)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
                     Picker("Gender", selection: $gender) {
@@ -63,13 +65,16 @@ struct AddPetView: View {
                     .pickerStyle(.segmented)
                     
                     TextField("Details", text: $details, axis: .vertical)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .lineLimit(3...6)
-                    
+
                     TextField("Food brand", text: $foodBrand)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
+
                     TextField("Vet contact", text: $vetContact)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
                     AllergenPickerView(allergens: $allergens)
@@ -78,6 +83,12 @@ struct AddPetView: View {
                         addPet()
                     } label: {
                         Text("Add Pet")
+                            .cruinn(.bold, size: 18)
+                            .foregroundStyle(.white)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 16)
+                            .background(Color.petzenOlive)
+                            .cornerRadius(10)
                     }
                 }
                 .padding()

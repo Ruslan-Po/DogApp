@@ -18,22 +18,25 @@ struct CreateProfileView: View {
                     .foregroundStyle(.blue)
 
                 Text("About you")
-                    .font(.title2.bold())
+                    .cruinn(.bold, size: 24)
 
                 Text("This info helps personalize your experience")
-                    .font(.subheadline)
+                    .cruinn(.regular, size: 14)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
 
                 VStack(spacing: 12) {
                     TextField("Your name", text: $name)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
 
                     TextField("Phone number", text: $telephone)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.phonePad)
 
                     TextField("Address", text: $address)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
 
@@ -41,15 +44,19 @@ struct CreateProfileView: View {
                     createProfile()
                 } label: {
                     Text("Continue")
+                        .cruinn(.bold, size: 18)
+                        .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(Color.petzenOlive)
+                        .cornerRadius(10)
                 }
-                .buttonStyle(.borderedProminent)
 
                 Button {
                     createProfile()
                 } label: {
                     Text("Skip")
-                        .font(.subheadline)
+                        .cruinn(.regular, size: 14)
                         .foregroundStyle(.secondary)
                 }
             }

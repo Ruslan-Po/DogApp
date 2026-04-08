@@ -6,12 +6,12 @@ struct PetStatsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Statistics")
-                .font(.headline)
+                .cruinn(.bold, size: 20)
 
             if events.isEmpty {
                 Text("No events yet")
+                    .cruinn(.regular, size: 14)
                     .foregroundStyle(.secondary)
-                    .font(.subheadline)
             } else {
                 activityStats
                 nutritionStats
@@ -193,17 +193,17 @@ struct StatCard: View {
                     .frame(width: 35, height: 35)
                     .foregroundStyle(Color.petzenTeal)
                 Text(title)
-                    .font(.subheadline.bold())
+                    .cruinn(.bold, size: 16)
             }
 
             ForEach(rows) { row in
                 HStack {
                     Text(row.label)
+                        .cruinn(.regular, size: 13)
                         .foregroundStyle(.secondary)
-                        .font(.caption)
                     Spacer()
                     Text(row.value)
-                        .font(.caption)
+                        .cruinn(.medium, size: 13)
                 }
             }
         }

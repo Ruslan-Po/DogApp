@@ -17,9 +17,15 @@ struct HomeView: View {
 
                 if let pets = viewModel.pet, pets.count > 0 {
                     Picker("Filter", selection: $viewModel.filterPetId) {
-                        Text("All").tag(UUID?.none)
+                        Text("All")
+                            .cruinn(.bold, size: 18)
+                            .tag(UUID?.none)
                         ForEach(pets) { pet in
-                            Text(pet.name).tag(UUID?.some(pet.id))
+                            Text(pet.name)
+                                .cruinn(.regular, size:14)
+                                .tag(UUID?
+                                .some(pet.id))
+                                
                         }
                     }
                     .pickerStyle(.segmented)
@@ -32,7 +38,7 @@ struct HomeView: View {
                             ReminderBuilder.build(for: viewModel.filterPet)
                         } label: {
                             Text("Add Reminder")
-                                .font(.subheadline.bold())
+                                .cruinn(.bold, size: 18)
                                 .foregroundStyle(.white)
                                 .padding(.vertical, 10)
                                 .padding(.horizontal, 16)
@@ -44,7 +50,7 @@ struct HomeView: View {
                             EventBuilder.build(for: viewModel.filterPet)
                         } label: {
                             Text("Add Event")
-                                .font(.subheadline.bold())
+                                .cruinn(.bold, size: 18)
                                 .foregroundStyle(.white)
                                 .padding(.vertical, 10)
                                 .padding(.horizontal, 16)
@@ -130,6 +136,10 @@ struct HomeView: View {
             }
             .onAppear {
                 viewModel.loadData()
+                UISegmentedControl.appearance().setTitleTextAttributes(
+                    [.font: UIFont(name: Cruinn.bold.rawValue, size: 14) ?? UIFont.boldSystemFont(ofSize: 14)],
+                    for: .normal
+                )
             }
             .sheet(item: $editingEvent, onDismiss: viewModel.loadData) { event in
                 EventBuilder.buildEdit(with: event)
@@ -145,7 +155,13 @@ struct HomeView: View {
                 }
             }
         }
-        .onAppear { viewModel.loadData() }
+        .onAppear {
+            viewModel.loadData()
+            for family in UIFont.familyNames.sorted() {
+                let names = UIFont.fontNames(forFamilyName: family)
+                print("Family: \(family) -- Fonts: \(names)")
+            }
+        }
     }
 }
 
@@ -174,3 +190,6 @@ struct CollapsibleSectionHeader: View {
         .buttonStyle(.plain)
     }
 }
+
+
+

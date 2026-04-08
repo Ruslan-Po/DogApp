@@ -58,21 +58,26 @@ struct EditPetView: View {
                     }
 
                     TextField("Name", text: $name)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
+
                     DatePicker("Birth Date", selection: $birthDate, displayedComponents: .date)
 
                     TextField("Breed", text: $breed)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
 
                     TextField("Description", text: $details, axis: .vertical)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .lineLimit(3...6)
 
                     TextField("Food Brand", text: $foodBrand)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
 
                     TextField("Vet Contact", text: $vetContact)
+                        .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
 
                     Picker("Gender", selection: $gender) {
@@ -90,6 +95,12 @@ struct EditPetView: View {
                         dismiss()
                     } label: {
                         Text("Update")
+                            .cruinn(.bold, size: 18)
+                            .foregroundStyle(.white)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 16)
+                            .background(Color.petzenOlive)
+                            .cornerRadius(10)
                     }
                 }
                 .padding()
