@@ -46,34 +46,34 @@ struct AddPetView: View {
                         }
                     }
                     
-                    TextField("Name", text: $name)
+                    TextField("pet.name".localized, text: $name)
                         .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
 
-                    DatePicker("Birth Date", selection: $birthDate, displayedComponents: .date)
+                    DatePicker("pet.birthDate".localized, selection: $birthDate, displayedComponents: .date)
 
-                    TextField("Breed", text: $breed)
+                    TextField("pet.breed".localized, text: $breed)
                         .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
-                    Picker("Gender", selection: $gender) {
-                        Text("Unknown").tag(Gender?.none)
+                    Picker("pet.gender".localized, selection: $gender) {
+                        Text("common.unknown".localized).tag(Gender?.none)
                         ForEach(Gender.allCases, id: \.self) { g in
                             Text(g.title).tag(Gender?.some(g))
                         }
                     }
                     .pickerStyle(.segmented)
                     
-                    TextField("Details", text: $details, axis: .vertical)
+                    TextField("pet.details".localized, text: $details, axis: .vertical)
                         .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .lineLimit(3...6)
 
-                    TextField("Food brand", text: $foodBrand)
+                    TextField("pet.foodBrand".localized, text: $foodBrand)
                         .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
 
-                    TextField("Vet contact", text: $vetContact)
+                    TextField("pet.vetContact".localized, text: $vetContact)
                         .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
@@ -82,7 +82,7 @@ struct AddPetView: View {
                     Button {
                         addPet()
                     } label: {
-                        Text("Add Pet")
+                        Text("pet.addPet".localized)
                             .cruinn(.bold, size: 18)
                             .foregroundStyle(.white)
                             .padding(.vertical, 10)

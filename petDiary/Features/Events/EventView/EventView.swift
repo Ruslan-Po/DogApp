@@ -37,21 +37,21 @@ struct EventView: View {
         ZStack {
             Color.brandBackgroundLight.ignoresSafeArea()
             VStack(alignment: .leading, spacing: 20) {
-                TextField("Название", text: $title)
+                TextField("event.title".localized, text: $title)
                     .font(.custom(Cruinn.regular.rawValue, size: 16))
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
 
-                Text("Category")
+                Text("event.category".localized)
                     .cruinn(.bold, size: 18)
                 
                 CategoryGridView(selected: $category)
                 
                 VStack() {
                     if pet == nil {
-                        Picker("Pet", selection: $pet) {
-                            Text("Choose a pet")
+                        Picker("event.pet".localized, selection: $pet) {
+                            Text("event.choosePet".localized)
                                 .cruinn(.regular, size: 16)
                                 .tag(Pet?.none)
                             ForEach(viewModel.pets ?? []) { p in
@@ -65,12 +65,12 @@ struct EventView: View {
                         Text(pet!.name)
                             .cruinn(.medium, size: 16)
                     }
-                    DatePicker("Datetime", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                    DatePicker("event.datetime".localized, selection: $date, displayedComponents: [.date, .hourAndMinute])
                         .padding()
                 }
 
                 if category == .nutrition {
-                    TextField("Serving size (g)", text: $portionSizeGrams)
+                    TextField("event.servingSize".localized, text: $portionSizeGrams)
                         .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .keyboardType(.numberPad)
                         .padding()
@@ -99,7 +99,7 @@ struct EventView: View {
                     }
                     dismiss()
                 } label: {
-                    Text("Сохранить")
+                    Text("common.save".localized)
                         .cruinn(.bold, size: 18)
                         .foregroundStyle(.white)
                         .padding(.vertical, 10)

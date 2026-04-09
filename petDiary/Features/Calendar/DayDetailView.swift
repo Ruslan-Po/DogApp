@@ -34,7 +34,7 @@ struct DayDetailView: View {
                 ScrollView {
                     VStack(spacing: 8) {
                         if !dayReminders.isEmpty {
-                            sectionLabel("Reminders")
+                            sectionLabel("home.reminders".localized)
                             ForEach(dayReminders, id: \.id) { reminder in
                                 ReminderRow(reminder: reminder) {
                                     viewModel.removeReminder(reminder)
@@ -43,7 +43,7 @@ struct DayDetailView: View {
                         }
                         
                         if !dayEvents.isEmpty {
-                            sectionLabel("Events")
+                            sectionLabel("home.events".localized)
                             ForEach(dayEvents, id: \.id) { event in
                                 EventRow(event: event) {
                                     viewModel.removeEvent(event)
@@ -80,7 +80,7 @@ struct DayDetailView: View {
             Image(systemName: "calendar.badge.checkmark")
                 .font(.system(size: 32))
                 .foregroundColor(.textSecondary)
-            Text("Нет событий")
+            Text("calendar.noEvents".localized)
                 .font(.subheadline)
                 .foregroundColor(.textSecondary)
         }
@@ -136,7 +136,7 @@ struct DayDetailView: View {
                 Button(role: .destructive) {
                     onDelete()
                 } label: {
-                    Label("Remove", systemImage: "trash")
+                    Label("common.remove".localized, systemImage: "trash")
                 }
             }
         }
@@ -188,7 +188,7 @@ struct DayDetailView: View {
                 Button(role: .destructive) {
                     onDelete()
                 } label: {
-                    Label("Remove", systemImage: "trash")
+                    Label("common.remove".localized, systemImage: "trash")
                 }
             }
         }

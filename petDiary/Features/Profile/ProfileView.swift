@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @StateObject var viewModel: ProfileViewModel
+    @EnvironmentObject var languageManager: LanguageManager
     @FocusState private var focusedField: ProfileField?
 
     enum ProfileField {
@@ -11,15 +12,15 @@ struct ProfileView: View {
 
     var body: some View {
         List {
-            Section("Profile") {
+            Section("profile.section".localized) {
                 HStack {
                     Label {
-                        Text("Name").cruinn(.medium, size: 14)
+                        Text("profile.name".localized).cruinn(.medium, size: 14)
                     } icon: {
                         Image(systemName: "person")
                     }
                     Spacer()
-                    TextField("Your name", text: $viewModel.name)
+                    TextField("profile.yourName".localized, text: $viewModel.name)
                         .font(.custom(Cruinn.regular.rawValue, size: 14))
                         .multilineTextAlignment(.trailing)
                         .focused($focusedField, equals: .name)
@@ -28,12 +29,12 @@ struct ProfileView: View {
 
                 HStack {
                     Label {
-                        Text("Phone").cruinn(.medium, size: 14)
+                        Text("profile.phone".localized).cruinn(.medium, size: 14)
                     } icon: {
                         Image(systemName: "phone")
                     }
                     Spacer()
-                    TextField("Phone number", text: $viewModel.telephone)
+                    TextField("profile.phoneNumber".localized, text: $viewModel.telephone)
                         .font(.custom(Cruinn.regular.rawValue, size: 14))
                         .multilineTextAlignment(.trailing)
                         .keyboardType(.phonePad)
@@ -42,12 +43,12 @@ struct ProfileView: View {
 
                 HStack {
                     Label {
-                        Text("Address").cruinn(.medium, size: 14)
+                        Text("profile.address".localized).cruinn(.medium, size: 14)
                     } icon: {
                         Image(systemName: "mappin.and.ellipse")
                     }
                     Spacer()
-                    TextField("Address", text: $viewModel.address)
+                    TextField("profile.address".localized, text: $viewModel.address)
                         .font(.custom(Cruinn.regular.rawValue, size: 14))
                         .multilineTextAlignment(.trailing)
                         .focused($focusedField, equals: .address)
@@ -55,10 +56,10 @@ struct ProfileView: View {
                 }
             }
 
-            Section("Notifications") {
+            Section("profile.notifications".localized) {
                 HStack {
                     Label {
-                        Text("Reminders").cruinn(.medium, size: 14)
+                        Text("profile.reminders".localized).cruinn(.medium, size: 14)
                     } icon: {
                         Image(systemName: "bell.fill")
                     }
@@ -71,10 +72,10 @@ struct ProfileView: View {
                 }
             }
 
-            Section("Automation") {
+            Section("profile.automation".localized) {
                 HStack {
                     Label {
-                        Text("Auto-convert reminders").cruinn(.medium, size: 14)
+                        Text("profile.autoConvert".localized).cruinn(.medium, size: 14)
                     } icon: {
                         Image(systemName: "clock.arrow.circlepath")
                     }
@@ -88,7 +89,7 @@ struct ProfileView: View {
 
                 if viewModel.autoConvertReminders {
                     Label {
-                        Text("Expired reminders automatically become events")
+                        Text("profile.autoConvertDescription".localized)
                             .cruinn(.light, size: 12)
                     } icon: {
                         Image(systemName: "info.circle")
@@ -96,8 +97,34 @@ struct ProfileView: View {
                     .foregroundStyle(.secondary)
                 }
             }
+
+            Section {
+                ForEach(AppLanguage.allCases) { lang in
+                    Button {
+                        languageManager.current = lang
+                    } label: {
+                        HStack {
+                            Text(lang.icon)
+                            Text(lang.title)
+                                .cruinn(.medium, size: 14)
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            if languageManager.current == lang {
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(Color.petzenTeal)
+                            }
+                        }
+                    }
+                }
+            } header: {
+                HStack {
+                    Image(systemName: "globe")
+                    Text("profile.language".localized)
+                        .cruinn(.medium, size: 14)
+                }
+            }
         }
-        .navigationTitle("Settings")
+        .navigationTitle("profile.title".localized)
         .onAppear { viewModel.loadProfile() }
         .onChange(of: focusedField) { _, _ in
             viewModel.saveField()

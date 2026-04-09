@@ -16,8 +16,8 @@ struct HomeView: View {
             VStack {
 
                 if let pets = viewModel.pet, pets.count > 0 {
-                    Picker("Filter", selection: $viewModel.filterPetId) {
-                        Text("All")
+                    Picker("common.filter".localized, selection: $viewModel.filterPetId) {
+                        Text("common.all".localized)
                             .cruinn(.bold, size: 18)
                             .tag(UUID?.none)
                         ForEach(pets) { pet in
@@ -37,7 +37,7 @@ struct HomeView: View {
                         NavigationLink {
                             ReminderBuilder.build(for: viewModel.filterPet)
                         } label: {
-                            Text("Add Reminder")
+                            Text("home.addReminder".localized)
                                 .cruinn(.bold, size: 18)
                                 .foregroundStyle(.white)
                                 .padding(.vertical, 10)
@@ -49,7 +49,7 @@ struct HomeView: View {
                         NavigationLink {
                             EventBuilder.build(for: viewModel.filterPet)
                         } label: {
-                            Text("Add Event")
+                            Text("home.addEvent".localized)
                                 .cruinn(.bold, size: 18)
                                 .foregroundStyle(.white)
                                 .padding(.vertical, 10)
@@ -80,12 +80,12 @@ struct HomeView: View {
                                         Button(role: .destructive) {
                                             viewModel.removeReminder(reminder)
                                         } label: {
-                                            Label("Remove", systemImage: "trash")
+                                            Label("common.remove".localized, systemImage: "trash")
                                         }
                                         Button {
                                             editingReminder = reminder
                                         } label: {
-                                            Label("Edit", systemImage: "pencil")
+                                            Label("common.edit".localized, systemImage: "pencil")
                                         }
                                         .tint(.orange)
                                     }
@@ -100,7 +100,7 @@ struct HomeView: View {
                             }
                         }
                     } header: {
-                        CollapsibleSectionHeader(title: "Reminders", isExpanded: $remindersExpanded)
+                        CollapsibleSectionHeader(title: "home.reminders".localized, isExpanded: $remindersExpanded)
                     }
 
                     Section {
@@ -113,20 +113,20 @@ struct HomeView: View {
                                         Button(role: .destructive) {
                                             viewModel.removeEvent(event)
                                         } label: {
-                                            Label("Remove", systemImage: "trash")
+                                            Label("common.remove".localized, systemImage: "trash")
                                         }
 
                                         Button {
                                             editingEvent = event
                                         } label: {
-                                            Label("Edit", systemImage: "pencil")
+                                            Label("common.edit".localized, systemImage: "pencil")
                                         }
                                         .tint(.orange)
                                     }
                             }
                         }
                     } header: {
-                        CollapsibleSectionHeader(title: "Events", isExpanded: $eventsExpanded)
+                        CollapsibleSectionHeader(title: "home.events".localized, isExpanded: $eventsExpanded)
                     }
                 }
                 .animation(.default, value: remindersExpanded)

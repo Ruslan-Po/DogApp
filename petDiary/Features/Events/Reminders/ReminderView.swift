@@ -39,21 +39,21 @@ struct ReminderView: View {
             ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 
-                TextField("Title", text: $title)
+                TextField("reminder.title".localized, text: $title)
                     .font(.custom(Cruinn.regular.rawValue, size: 16))
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
                 
                 HStack{
-                    Text("Reminder for: ")
+                    Text("reminder.reminderFor".localized)
                         .cruinn(.medium, size: 16)
                     if let pet = pet {
                         Text(pet.name)
                             .cruinn(.medium, size: 16)
                     } else {
-                        Picker("Pet", selection: $pet) {
-                            Text("Choose a pet")
+                        Picker("event.pet".localized, selection: $pet) {
+                            Text("event.choosePet".localized)
                                 .cruinn(.regular, size: 16)
                                 .tag(Pet?.none)
                             ForEach(viewModel.pets ?? []) { pet in
@@ -66,22 +66,22 @@ struct ReminderView: View {
                     }
                 }
 
-                Text("Category")
+                Text("event.category".localized)
                     .cruinn(.bold, size: 18)
                 
                 CategoryGridView(selected: $selectedCategory)
                 
                 
-                DatePicker("Datetime", selection: $scheduleDate, displayedComponents: [.date, .hourAndMinute])
+                DatePicker("event.datetime".localized, selection: $scheduleDate, displayedComponents: [.date, .hourAndMinute])
                     .padding()
           
                 
-                Toggle("Repeat", isOn: $isRepeating)
+                Toggle("reminder.repeat".localized, isOn: $isRepeating)
                 
                 if isRepeating {
                     HStack{
-                        Text("Repeat interval")
-                        Picker("repeat interval", selection: $interval) {
+                        Text("reminder.repeatInterval".localized)
+                        Picker("reminder.repeatInterval".localized, selection: $interval) {
                             ForEach(RepeatInterval.allCases, id: \.self) {
                                 Text($0.rawValue.capitalized)
                                     .tag($0)
@@ -120,7 +120,7 @@ struct ReminderView: View {
                     }
                     dismiss()
                 } label: {
-                    Text("Save")
+                    Text("common.save".localized)
                         .cruinn(.bold, size: 18)
                         .foregroundStyle(.white)
                         .padding(.vertical, 10)

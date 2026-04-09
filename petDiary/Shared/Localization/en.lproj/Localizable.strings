@@ -1,0 +1,134 @@
+/*
+   Localizable.strings (English)
+   petDiary
+*/
+
+// MARK: - Common
+"common.save" = "Save";
+"common.cancel" = "Cancel";
+"common.edit" = "Edit";
+"common.remove" = "Remove";
+"common.update" = "Update";
+"common.continue" = "Continue";
+"common.skip" = "Skip";
+"common.unknown" = "Unknown";
+"common.all" = "All";
+"common.filter" = "Filter";
+
+// MARK: - Home
+"home.addReminder" = "Add Reminder";
+"home.addEvent" = "Add Event";
+"home.reminders" = "Reminders";
+"home.events" = "Events";
+
+// MARK: - Pet
+"pet.addPet" = "Add Pet";
+"pet.editPet" = "Edit Pet";
+"pet.removePet" = "Remove pet";
+"pet.name" = "Name";
+"pet.breed" = "Breed";
+"pet.birthDate" = "Birth Date";
+"pet.gender" = "Gender";
+"pet.details" = "Details";
+"pet.description" = "Description";
+"pet.foodBrand" = "Food brand";
+"pet.vetContact" = "Vet contact";
+"pet.food" = "Food";
+"pet.vet" = "Vet";
+"pet.allergens" = "Allergens";
+
+// MARK: - Event
+"event.title" = "Title";
+"event.category" = "Category";
+"event.pet" = "Pet";
+"event.choosePet" = "Choose a pet";
+"event.datetime" = "Datetime";
+"event.servingSize" = "Serving size (g)";
+
+// MARK: - Reminder
+"reminder.title" = "Title";
+"reminder.reminderFor" = "Reminder for: ";
+"reminder.repeat" = "Repeat";
+"reminder.repeatInterval" = "Repeat interval";
+
+// MARK: - Statistics
+"stats.statistics" = "Statistics";
+"stats.noEvents" = "No events yet";
+"stats.walks" = "Walks";
+"stats.nutrition" = "Nutrition";
+"stats.bath" = "Bath";
+"stats.grooming" = "Grooming";
+"stats.healthVaccinations" = "Health & Vaccinations";
+"stats.total" = "Total";
+"stats.totalMeals" = "Total meals";
+"stats.avgTime" = "Avg time";
+"stats.avgPortion" = "Avg portion";
+"stats.avgInterval" = "Avg interval";
+"stats.last" = "Last";
+"stats.recent" = "Recent";
+"stats.days" = "%d days";
+
+// MARK: - Profile
+"profile.title" = "Settings";
+"profile.section" = "Profile";
+"profile.name" = "Name";
+"profile.yourName" = "Your name";
+"profile.phone" = "Phone";
+"profile.phoneNumber" = "Phone number";
+"profile.address" = "Address";
+"profile.notifications" = "Notifications";
+"profile.reminders" = "Reminders";
+"profile.automation" = "Automation";
+"profile.autoConvert" = "Auto-convert reminders";
+"profile.autoConvertDescription" = "Expired reminders automatically become events";
+"profile.language" = "Language";
+
+// MARK: - Onboarding
+"onboarding.aboutYou" = "About you";
+"onboarding.aboutYouDescription" = "This info helps personalize your experience";
+
+// MARK: - Calendar
+"calendar.chooseDay" = "Choose a day";
+"calendar.noEvents" = "No events";
+
+// MARK: - Courses
+"courses.title" = "Courses";
+
+// MARK: - Allergens
+"allergen.customPlaceholder" = "Custom allergen...";
+"allergen.selected" = "%d selected";
+
+// MARK: - Event Categories
+"category.health" = "Health";
+"category.activity" = "Activity";
+"category.nutrition" = "Nutrition";
+"category.grooming" = "Grooming";
+"category.bath" = "Bath";
+"category.training" = "Training";
+"category.toilet" = "Toilet";
+"category.other" = "Other";
+
+// MARK: - Gender
+"gender.male" = "Male";
+"gender.female" = "Female";
+
+// MARK: - Repeat Interval
+"interval.daily" = "Daily";
+"interval.weekly" = "Weekly";
+"interval.monthly" = "Monthly";
+
+// MARK: - Allergen Types
+"allergen.chicken" = "Chicken";
+"allergen.beef" = "Beef";
+"allergen.pork" = "Pork";
+"allergen.fish" = "Fish";
+"allergen.dairy" = "Dairy";
+"allergen.eggs" = "Eggs";
+"allergen.wheat" = "Wheat";
+"allergen.corn" = "Corn";
+"allergen.soy" = "Soy";
+"allergen.lamb" = "Lamb";
+"allergen.dust" = "Dust";
+"allergen.pollen" = "Pollen";
+"allergen.fleas" = "Fleas";
+"allergen.mold" = "Mold";

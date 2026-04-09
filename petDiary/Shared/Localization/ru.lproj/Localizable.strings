@@ -1,0 +1,134 @@
+/*
+   Localizable.strings (Russian)
+   petDiary
+*/
+
+// MARK: - Common
+"common.save" = "Сохранить";
+"common.cancel" = "Отменить";
+"common.edit" = "Изменить";
+"common.remove" = "Удалить";
+"common.update" = "Обновить";
+"common.continue" = "Продолжить";
+"common.skip" = "Пропустить";
+"common.unknown" = "Не указан";
+"common.all" = "Все";
+"common.filter" = "Фильтр";
+
+// MARK: - Home
+"home.addReminder" = "Напоминание";
+"home.addEvent" = "Событие";
+"home.reminders" = "Напоминания";
+"home.events" = "События";
+
+// MARK: - Pet
+"pet.addPet" = "Добавить питомца";
+"pet.editPet" = "Редактировать";
+"pet.removePet" = "Удалить питомца";
+"pet.name" = "Имя";
+"pet.breed" = "Порода";
+"pet.birthDate" = "Дата рождения";
+"pet.gender" = "Пол";
+"pet.details" = "Подробности";
+"pet.description" = "Описание";
+"pet.foodBrand" = "Марка корма";
+"pet.vetContact" = "Контакт ветеринара";
+"pet.food" = "Корм";
+"pet.vet" = "Ветеринар";
+"pet.allergens" = "Аллергены";
+
+// MARK: - Event
+"event.title" = "Название";
+"event.category" = "Категория";
+"event.pet" = "Питомец";
+"event.choosePet" = "Выберите питомца";
+"event.datetime" = "Дата и время";
+"event.servingSize" = "Размер порции (г)";
+
+// MARK: - Reminder
+"reminder.title" = "Название";
+"reminder.reminderFor" = "Напоминание для: ";
+"reminder.repeat" = "Повторять";
+"reminder.repeatInterval" = "Интервал повторения";
+
+// MARK: - Statistics
+"stats.statistics" = "Статистика";
+"stats.noEvents" = "Нет событий";
+"stats.walks" = "Прогулки";
+"stats.nutrition" = "Питание";
+"stats.bath" = "Купание";
+"stats.grooming" = "Груминг";
+"stats.healthVaccinations" = "Здоровье и вакцинация";
+"stats.total" = "Всего";
+"stats.totalMeals" = "Всего приёмов пищи";
+"stats.avgTime" = "Среднее время";
+"stats.avgPortion" = "Средняя порция";
+"stats.avgInterval" = "Средний интервал";
+"stats.last" = "Последний";
+"stats.recent" = "Недавние";
+"stats.days" = "%d дней";
+
+// MARK: - Profile
+"profile.title" = "Настройки";
+"profile.section" = "Профиль";
+"profile.name" = "Имя";
+"profile.yourName" = "Ваше имя";
+"profile.phone" = "Телефон";
+"profile.phoneNumber" = "Номер телефона";
+"profile.address" = "Адрес";
+"profile.notifications" = "Уведомления";
+"profile.reminders" = "Напоминания";
+"profile.automation" = "Автоматизация";
+"profile.autoConvert" = "Автоконвертация напоминаний";
+"profile.autoConvertDescription" = "Просроченные напоминания автоматически становятся событиями";
+"profile.language" = "Язык";
+
+// MARK: - Onboarding
+"onboarding.aboutYou" = "О вас";
+"onboarding.aboutYouDescription" = "Эта информация поможет персонализировать ваш опыт";
+
+// MARK: - Calendar
+"calendar.chooseDay" = "Выберите день";
+"calendar.noEvents" = "Нет событий";
+
+// MARK: - Courses
+"courses.title" = "Курсы";
+
+// MARK: - Allergens
+"allergen.customPlaceholder" = "Свой аллерген...";
+"allergen.selected" = "%d выбрано";
+
+// MARK: - Event Categories
+"category.health" = "Здоровье";
+"category.activity" = "Активность";
+"category.nutrition" = "Питание";
+"category.grooming" = "Груминг";
+"category.bath" = "Купание";
+"category.training" = "Тренировка";
+"category.toilet" = "Туалет";
+"category.other" = "Другое";
+
+// MARK: - Gender
+"gender.male" = "Мальчик";
+"gender.female" = "Девочка";
+
+// MARK: - Repeat Interval
+"interval.daily" = "Ежедневно";
+"interval.weekly" = "Еженедельно";
+"interval.monthly" = "Ежемесячно";
+
+// MARK: - Allergen Types
+"allergen.chicken" = "Курица";
+"allergen.beef" = "Говядина";
+"allergen.pork" = "Свинина";
+"allergen.fish" = "Рыба";
+"allergen.dairy" = "Молочные";
+"allergen.eggs" = "Яйца";
+"allergen.wheat" = "Пшеница";
+"allergen.corn" = "Кукуруза";
+"allergen.soy" = "Соя";
+"allergen.lamb" = "Баранина";
+"allergen.dust" = "Пыль";
+"allergen.pollen" = "Пыльца";
+"allergen.fleas" = "Блохи";
+"allergen.mold" = "Плесень";

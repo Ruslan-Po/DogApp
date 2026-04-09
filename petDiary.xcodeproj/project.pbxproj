@@ -14,17 +14,29 @@
 		47D410FC2F864B5F007BB063 /* Exceptions for "petDiary" folder in "petDiary" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				"/Localized: Shared/Localization/Localizable.strings",
+				Core/Info.plist,
 			);
 			target = 47B558B52F3B5100002959EE /* petDiary */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		47FAE6EF2F87A72D0029B86B /* Exceptions for "petDiary" folder in "Compile Sources" phase from "petDiary" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 47B558B22F3B5100002959EE /* Sources */;
+			membershipExceptions = (
+				"/Localized: Shared/Localization/Localizable.strings",
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		47B558B82F3B5100002959EE /* petDiary */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				47D410FC2F864B5F007BB063 /* Exceptions for "petDiary" folder in "petDiary" target */,
+				47FAE6EF2F87A72D0029B86B /* Exceptions for "petDiary" folder in "Compile Sources" phase from "petDiary" target */,
 			);
 			path = petDiary;
 			sourceTree = "<group>";
@@ -270,7 +282,7 @@
 				DEVELOPMENT_TEAM = S88XU9BB5M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = petDiary/Info.plist;
+				INFOPLIST_FILE = petDiary/Core/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -309,7 +321,7 @@
 				DEVELOPMENT_TEAM = S88XU9BB5M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = petDiary/Info.plist;
+				INFOPLIST_FILE = petDiary/Core/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

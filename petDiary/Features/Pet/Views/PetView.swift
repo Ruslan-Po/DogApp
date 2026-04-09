@@ -86,7 +86,7 @@ struct PetView: View {
 
                         if let food = viewModel.selectedPet?.foodBrand, !food.isEmpty {
                             HStack {
-                                Text("Food")
+                                Text("pet.food".localized)
                                     .cruinn(.light, size: 12)
                                     .foregroundStyle(.secondary)
                                 Text(food)
@@ -96,7 +96,7 @@ struct PetView: View {
 
                         if let vet = viewModel.selectedPet?.vetContact, !vet.isEmpty {
                             HStack {
-                                Text("Vet")
+                                Text("pet.vet".localized)
                                     .cruinn(.light, size: 12)
                                     .foregroundStyle(.secondary)
                                 Text(vet)
@@ -106,7 +106,7 @@ struct PetView: View {
 
                         if let allergens = viewModel.selectedPet?.allergens, !allergens.isEmpty {
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Allergens")
+                                Text("pet.allergens".localized)
                                     .cruinn(.bold, size: 18)
                                 AllergenTagsView(allergens: allergens)
                             }
@@ -117,7 +117,7 @@ struct PetView: View {
                         }
                         
                         Button(role: .destructive) { removePet() } label: {
-                            Text("Remove pet")
+                            Text("pet.removePet".localized)
                                 .cruinn(.medium, size: 14)
                         }
                         .padding(.top, 8)

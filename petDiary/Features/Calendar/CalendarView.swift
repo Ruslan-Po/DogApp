@@ -90,7 +90,7 @@ struct CalendarView: View {
                     Image(systemName: "hand.tap")
                         .font(.system(size: 28))
                         .foregroundColor(.secondary.opacity(0.5))
-                    Text("Choose a day")
+                    Text("calendar.chooseDay".localized)
                         .font(.subheadline)
                         .foregroundColor(.secondary.opacity(0.5))
                 }

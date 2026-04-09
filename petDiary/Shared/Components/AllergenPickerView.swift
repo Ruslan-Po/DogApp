@@ -13,7 +13,7 @@ struct AllergenPickerView: View {
                 }
             } label: {
                 HStack {
-                    Text("Allergens")
+                    Text("pet.allergens".localized)
                         .cruinn(.bold, size: 18)
                         .foregroundStyle(.secondary)
                     Spacer()
@@ -74,7 +74,7 @@ struct AllergenPickerView: View {
                 }
                 
                 HStack {
-                    TextField("Custom allergen...", text: $newAllergen)
+                    TextField("allergen.customPlaceholder".localized, text: $newAllergen)
                         .font(.custom(Cruinn.regular.rawValue, size: 14))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .onSubmit { addCustomAllergen() }

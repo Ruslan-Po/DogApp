@@ -5,11 +5,11 @@ struct PetStatsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Statistics")
+            Text("stats.statistics".localized)
                 .cruinn(.bold, size: 20)
 
             if events.isEmpty {
-                Text("No events yet")
+                Text("stats.noEvents".localized)
                     .cruinn(.regular, size: 14)
                     .foregroundStyle(.secondary)
             } else {
@@ -33,10 +33,10 @@ struct PetStatsView: View {
         if !activityEvents.isEmpty {
             StatCard(
                 icon: "activity",
-                title: "Walks",
+                title: "stats.walks".localized,
                 rows: [
-                    StatRow(label: "Total", value: "\(activityEvents.count)"),
-                    StatRow(label: "Avg time", value: averageTimeOfDay(activityEvents)),
+                    StatRow(label: "stats.total".localized, value: "\(activityEvents.count)"),
+                    StatRow(label: "stats.avgTime".localized, value: averageTimeOfDay(activityEvents)),
                     lastDateRow(activityEvents)
                 ]
             )
@@ -55,11 +55,11 @@ struct PetStatsView: View {
         if !nutritionEvents.isEmpty {
             StatCard(
                 icon: "nutrition",
-                title: "Nutrition",
+                title: "stats.nutrition".localized,
                 rows: [
-                    StatRow(label: "Total meals", value: "\(nutritionEvents.count)"),
+                    StatRow(label: "stats.totalMeals".localized, value: "\(nutritionEvents.count)"),
                     withPortion.isEmpty ? nil : StatRow(
-                        label: "Avg portion",
+                        label: "stats.avgPortion".localized,
                         value: "\(Int(withPortion.compactMap(\.portionSize).reduce(0, +) / Double(withPortion.count))) g"
                     ),
                     lastDateRow(nutritionEvents)
@@ -80,11 +80,11 @@ struct PetStatsView: View {
         if !bathEvents.isEmpty {
             StatCard(
                 icon: "bath",
-                title: "Bath",
+                title: "stats.bath".localized,
                 rows: [
-                    StatRow(label: "Total meals", value: "\(bathEvents.count)"),
+                    StatRow(label: "stats.total".localized, value: "\(bathEvents.count)"),
                     withPortion.isEmpty ? nil : StatRow(
-                        label: "Avg portion",
+                        label: "stats.avgPortion".localized,
                         value: "\(Int(withPortion.compactMap(\.portionSize).reduce(0, +) / Double(withPortion.count))) g"
                     ),
                     lastDateRow(nutritionEvents)
@@ -105,11 +105,11 @@ struct PetStatsView: View {
             let sorted = groomingEvents.sorted { $0.date > $1.date }
             StatCard(
                 icon: "grooming",
-                title: "Grooming",
+                title: "stats.grooming".localized,
                 rows: [
-                    StatRow(label: "Total", value: "\(groomingEvents.count)"),
-                    StatRow(label: "Last", value: sorted.first?.date.formatted(date: .abbreviated, time: .omitted) ?? "-"),
-                    sorted.count > 1 ? StatRow(label: "Avg interval", value: averageInterval(sorted)) : nil
+                    StatRow(label: "stats.total".localized, value: "\(groomingEvents.count)"),
+                    StatRow(label: "stats.last".localized, value: sorted.first?.date.formatted(date: .abbreviated, time: .omitted) ?? "-"),
+                    sorted.count > 1 ? StatRow(label: "stats.avgInterval".localized, value: averageInterval(sorted)) : nil
                 ].compactMap { $0 }
             )
         }
@@ -127,11 +127,11 @@ struct PetStatsView: View {
             let sorted = healthEvents.sorted { $0.date > $1.date }
             StatCard(
                 icon: "health",
-                title: "Health & Vaccinations",
+                title: "stats.healthVaccinations".localized,
                 rows: [
-                    StatRow(label: "Total", value: "\(healthEvents.count)"),
-                    StatRow(label: "Last", value: sorted.first?.date.formatted(date: .abbreviated, time: .omitted) ?? "-"),
-                    StatRow(label: "Recent", value: sorted.prefix(3).map(\.title).joined(separator: ", "))
+                    StatRow(label: "stats.total".localized, value: "\(healthEvents.count)"),
+                    StatRow(label: "stats.last".localized, value: sorted.first?.date.formatted(date: .abbreviated, time: .omitted) ?? "-"),
+                    StatRow(label: "stats.recent".localized, value: sorted.prefix(3).map(\.title).joined(separator: ", "))
                 ]
             )
         }
@@ -141,7 +141,7 @@ struct PetStatsView: View {
 
     private func lastDateRow(_ events: [Event]) -> StatRow {
         let last = events.sorted { $0.date > $1.date }.first
-        return StatRow(label: "Last", value: last?.date.formatted(date: .abbreviated, time: .shortened) ?? "-")
+        return StatRow(label: "stats.last".localized, value: last?.date.formatted(date: .abbreviated, time: .shortened) ?? "-")
     }
 
     private func averageTimeOfDay(_ events: [Event]) -> String {

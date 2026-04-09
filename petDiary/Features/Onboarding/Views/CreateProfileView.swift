@@ -17,25 +17,25 @@ struct CreateProfileView: View {
                     .frame(width: 80, height: 80)
                     .foregroundStyle(.blue)
 
-                Text("About you")
+                Text("onboarding.aboutYou".localized)
                     .cruinn(.bold, size: 24)
 
-                Text("This info helps personalize your experience")
+                Text("onboarding.aboutYouDescription".localized)
                     .cruinn(.regular, size: 14)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
 
                 VStack(spacing: 12) {
-                    TextField("Your name", text: $name)
+                    TextField("profile.yourName".localized, text: $name)
                         .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
 
-                    TextField("Phone number", text: $telephone)
+                    TextField("profile.phoneNumber".localized, text: $telephone)
                         .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.phonePad)
 
-                    TextField("Address", text: $address)
+                    TextField("profile.address".localized, text: $address)
                         .font(.custom(Cruinn.regular.rawValue, size: 16))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
@@ -43,7 +43,7 @@ struct CreateProfileView: View {
                 Button {
                     createProfile()
                 } label: {
-                    Text("Continue")
+                    Text("common.continue".localized)
                         .cruinn(.bold, size: 18)
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
@@ -55,7 +55,7 @@ struct CreateProfileView: View {
                 Button {
                     createProfile()
                 } label: {
-                    Text("Skip")
+                    Text("common.skip".localized)
                         .cruinn(.regular, size: 14)
                         .foregroundStyle(.secondary)
                 }
