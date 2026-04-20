@@ -37,6 +37,7 @@ struct PetView: View {
                                     .foregroundStyle(.gray)
                             }
                         }
+                        .buttonStyle(.plain)
                         .onChange(of: selectedPhoto) { _, newValue in
                             Task {
                                 let data = try? await newValue?.loadTransferable(type: Data.self)
@@ -69,8 +70,9 @@ struct PetView: View {
                                 .font(.system(size: 24))
                                 .foregroundStyle(Color.brandSuccess)
                         }
+                        .buttonStyle(.plain)
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 16)
                 }
                 .padding(.bottom, 8)
                 
@@ -122,7 +124,8 @@ struct PetView: View {
                         }
                         .padding(.top, 8)
                     }
-                    .padding()
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 16)
                 }
             }
             .onAppear {

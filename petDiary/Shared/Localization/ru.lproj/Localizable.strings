@@ -50,6 +50,7 @@
 "reminder.reminderFor" = "Напоминание для: ";
 "reminder.repeat" = "Повторять";
 "reminder.repeatInterval" = "Интервал повторения";
+"reminder.notification.body" = "Не забудь про %@!";
 
 // MARK: - Statistics
 "stats.statistics" = "Статистика";

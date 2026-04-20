@@ -39,17 +39,18 @@ struct CalendarView: View {
                     .foregroundColor(Color.brandPrimary)
                     .frame(width: 44, height: 44)
             }
-            
+            .buttonStyle(.plain)
+
             Spacer()
-            
+
 
             Text(viewModel.monthName)
                 .font(.headline)
                 .fontWeight(.semibold)
                 .animation(nil, value: viewModel.currentDate) // текст не анимируем
-            
+
             Spacer()
-            
+
 
             Button {
                 withAnimation(.easeInOut(duration: 0.3)) {
@@ -61,16 +62,17 @@ struct CalendarView: View {
                     .foregroundColor(Color.brandPrimary)
                     .frame(width: 44, height: 44)
             }
+            .buttonStyle(.plain)
         }
-        .padding(.horizontal, 8)
+        .padding(.horizontal, 16)
         .padding(.vertical, 4)
     }
-    
+
     // MARK: - Секция сетки со свайп-жестом
-    
+
     private var calendarSection: some View {
         CalendarGridView(viewModel: viewModel)
-            .padding(.horizontal, 12)
+            .padding(.horizontal, 16)
             .padding(.bottom, 8)
             
             .transition(monthTransition)

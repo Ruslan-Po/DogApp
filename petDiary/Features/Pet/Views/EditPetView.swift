@@ -49,6 +49,7 @@ struct EditPetView: View {
                                 .foregroundStyle(.gray)
                         }
                     }
+                    .buttonStyle(.plain)
                     .onChange(of: selectedPhoto) { _, newValue in
                         Task {
                             if let item = newValue {
@@ -102,6 +103,7 @@ struct EditPetView: View {
                             .background(Color.petzenOlive)
                             .cornerRadius(10)
                     }
+                    .buttonStyle(.plain)
                 }
                 .padding()
             }

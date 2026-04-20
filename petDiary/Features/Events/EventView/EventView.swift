@@ -36,83 +36,86 @@ struct EventView: View {
     var body: some View {
         ZStack {
             Color.brandBackgroundLight.ignoresSafeArea()
-            VStack(alignment: .leading, spacing: 20) {
-                TextField("event.title".localized, text: $title)
-                    .font(.custom(Cruinn.regular.rawValue, size: 16))
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(12)
-
-                Text("event.category".localized)
-                    .cruinn(.bold, size: 18)
-                
-                CategoryGridView(selected: $category)
-                
-                VStack() {
-                    if pet == nil {
-                        Picker("event.pet".localized, selection: $pet) {
-                            Text("event.choosePet".localized)
-                                .cruinn(.regular, size: 16)
-                                .tag(Pet?.none)
-                            ForEach(viewModel.pets ?? []) { p in
-                                Text(p.name)
-                                    .cruinn(.regular, size: 16)
-                                    .tag(p as Pet?)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                    } else {
-                        Text(pet!.name)
-                            .cruinn(.medium, size: 16)
-                    }
-                    DatePicker("event.datetime".localized, selection: $date, displayedComponents: [.date, .hourAndMinute])
-                        .padding()
-                }
-
-                if category == .nutrition {
-                    TextField("event.servingSize".localized, text: $portionSizeGrams)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    TextField("event.title".localized, text: $title)
                         .font(.custom(Cruinn.regular.rawValue, size: 16))
-                        .keyboardType(.numberPad)
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
-                }
 
-                Button {
-                    let portion = Double(portionSizeGrams)
-
-                    switch mode {
-                    case .add:
-                        guard let pet = self.pet else { return }
-                        viewModel.addEvent(title: title,
-                                           category: category,
-                                           date: date,
-                                           note: note,
-                                           pet: pet,
-                                           portionSize: portion)
-                    case .edit(let event):
-                        viewModel.updateEvent(event,
-                                              title: title,
-                                              date: date,
-                                              note: note,
-                                              portionSize: portion)
-                    }
-                    dismiss()
-                } label: {
-                    Text("common.save".localized)
+                    Text("event.category".localized)
                         .cruinn(.bold, size: 18)
-                        .foregroundStyle(.white)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 16)
-                        .background(Color.petzenOlive)
-                        .cornerRadius(10)
+
+                    CategoryGridView(selected: $category)
+
+                    VStack {
+                        if pet == nil {
+                            Picker("event.pet".localized, selection: $pet) {
+                                Text("event.choosePet".localized)
+                                    .cruinn(.regular, size: 16)
+                                    .tag(Pet?.none)
+                                ForEach(viewModel.pets ?? []) { p in
+                                    Text(p.name)
+                                        .cruinn(.regular, size: 16)
+                                        .tag(p as Pet?)
+                                }
+                            }
+                            .pickerStyle(.menu)
+                        } else {
+                            Text(pet!.name)
+                                .cruinn(.medium, size: 16)
+                        }
+                        DatePicker("event.datetime".localized, selection: $date, displayedComponents: [.date, .hourAndMinute])
+                            .padding()
+                    }
+
+                    if category == .nutrition {
+                        TextField("event.servingSize".localized, text: $portionSizeGrams)
+                            .font(.custom(Cruinn.regular.rawValue, size: 16))
+                            .keyboardType(.numberPad)
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(12)
+                    }
+
+                    Button {
+                        let portion = Double(portionSizeGrams)
+
+                        switch mode {
+                        case .add:
+                            guard let pet = self.pet else { return }
+                            viewModel.addEvent(title: title,
+                                               category: category,
+                                               date: date,
+                                               note: note,
+                                               pet: pet,
+                                               portionSize: portion)
+                        case .edit(let event):
+                            viewModel.updateEvent(event,
+                                                  title: title,
+                                                  date: date,
+                                                  note: note,
+                                                  portionSize: portion)
+                        }
+                        dismiss()
+                    } label: {
+                        Text("common.save".localized)
+                            .cruinn(.bold, size: 18)
+                            .foregroundStyle(.white)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 16)
+                            .background(Color.petzenOlive)
+                            .cornerRadius(10)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(title.isEmpty)
                 }
-                .disabled(title.isEmpty)
-                Spacer() 
-            }.task {
+                .padding()
+            }
+            .task {
                 viewModel.loadPets()
             }
-            .padding()
         }
     }
 }

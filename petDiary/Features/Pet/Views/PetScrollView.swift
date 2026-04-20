@@ -22,7 +22,11 @@ struct PetScrollView: View {
                         .font(.largeTitle)
                         .foregroundColor(Color.brandSuccess)
                 }
-            }.padding(.horizontal, 10)
+                .buttonStyle(.plain)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 2)
         }
+        .scrollIndicators(.hidden)
     }
 }

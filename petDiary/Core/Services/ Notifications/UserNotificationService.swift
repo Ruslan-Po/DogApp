@@ -23,19 +23,17 @@ struct NotificationService {
     
     static func scheduleNotification(reminder: Reminder) async throws {
         let content = UNMutableNotificationContent()
-        content.title = "\(reminder.title)"
+        content.title = reminder.title
         content.sound = .default
-        content.body = " Don't forget about PET"
-        
-        let component = Calendar.current.dateComponents([.year, .month , .day, .hour, .minute], from: reminder.scheduleDate)
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: component, repeats: false)
-        
-        let request = UNNotificationRequest(identifier: reminder.id.uuidString, content: content, trigger: trigger)
-        
-        try await UNUserNotificationCenter.current().add(request)
-        
 
+        let petName = reminder.pet?.name ?? ""
+        let bodyTemplate = NSLocalizedString("reminder.notification.body", comment: "")
+        content.body = String(format: bodyTemplate, petName)
+
+        let component = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: reminder.scheduleDate)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: component, repeats: false)
+        let request = UNNotificationRequest(identifier: reminder.id.uuidString, content: content, trigger: trigger)
+        try await UNUserNotificationCenter.current().add(request)
     }
     
     static func cancelNotification() {

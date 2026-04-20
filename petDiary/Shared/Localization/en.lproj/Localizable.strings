@@ -50,6 +50,7 @@
 "reminder.reminderFor" = "Reminder for: ";
 "reminder.repeat" = "Repeat";
 "reminder.repeatInterval" = "Repeat interval";
+"reminder.notification.body" = "Don't forget about %@!";
 
 // MARK: - Statistics
 "stats.statistics" = "Statistics";

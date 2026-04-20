@@ -16,5 +16,6 @@ struct TabItemView: View {
                 .frame(width: 40 , height: 40)
                 .foregroundColor(isSelected ? .petzenOlive : .brandBackgroundLight)
         }
+        .buttonStyle(.plain)
     }
 }

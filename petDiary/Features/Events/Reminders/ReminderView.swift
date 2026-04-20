@@ -128,6 +128,7 @@ struct ReminderView: View {
                         .background(Color.petzenOlive)
                         .cornerRadius(10)
                 }
+                .buttonStyle(.plain)
                 .disabled(title.isEmpty)
             }
         }

@@ -107,7 +107,6 @@ final class HomeViewModel: ObservableObject {
     }
     
     private func updateAutoConvertTimer() {
-        print("ТЫ ДЕ НАХУЙ")
         autoConvertTimer?.cancel()
         guard autoConvertEnabled else { return }
 
@@ -161,13 +160,50 @@ final class HomeViewModel: ObservableObject {
             note: nil
         )
         addEvent.execute(for: pet, event)
+        events.append(event)
     }
-    
+
+    /// Конвертирует напоминание в событие и удаляет его.
+    /// Порядок критичен:
+    ///   1. Захватить данные модели ДО любых изменений
+    ///   2. Создать событие (пока reminder жив)
+    ///   3. Убрать из массива (SwiftUI отвязывается от модели)
+    ///   4. Удалить из SwiftData на следующем тике — после того как
+    ///      SwiftUI обработал удаление строки из списка
+    func convertAndComplete(_ reminder: Reminder) {
+        guard let pet = reminder.pet else { return }
+
+        // 1. Снимаем все значения пока объект ещё жив
+        let reminderId = reminder.id
+        let category   = reminder.category
+        let title      = reminder.title
+
+        // 2. Создаём событие
+        let event = Event(id: UUID(), pet: pet, category: category, title: title, date: Date(), note: nil)
+        addEvent.execute(for: pet, event)
+        events.append(event)
+
+        // 3. Убираем из observable-массива — SwiftUI убирает ReminderCardView из дерева
+        withAnimation {
+            reminders = reminders.filter { $0.id != reminderId }
+        }
+
+        // 4. Удаляем из SwiftData на следующем тике RunLoop,
+        //    после того как SwiftUI завершил обработку изменения массива
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            await Task.yield()
+            self.removeSingleReminder.execute(reminder)
+            self.loadData()
+        }
+    }
+
     func completeReminder(_ reminder: Reminder) {
         guard reminder.pet != nil else { return }
+        let reminderId = reminder.id   // захватить до удаления
         removeSingleReminder.execute(reminder)
         withAnimation {
-            reminders = reminders.filter { $0.id != reminder.id }
+            reminders = reminders.filter { $0.id != reminderId }
         }
     }
     

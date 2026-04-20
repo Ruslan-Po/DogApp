@@ -45,6 +45,7 @@ struct HomeView: View {
                                 .background(Color.petzenOlive)
                                 .cornerRadius(10)
                         }
+                        .buttonStyle(.plain)
 
                         NavigationLink {
                             EventBuilder.build(for: viewModel.filterPet)
@@ -57,6 +58,7 @@ struct HomeView: View {
                                 .background(Color.petzenOlive)
                                 .cornerRadius(10)
                         }
+                        .buttonStyle(.plain)
                     }
                 }
 
@@ -67,13 +69,10 @@ struct HomeView: View {
                                 ReminderCardView(reminder: reminder)
                                     .listRowBackground(Color.brandBackgroundLight)
                                     .listRowSeparator(.hidden)
+                                    .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
                                     .onChange(of: reminder.doneCondition) { _, isDone in
                                         if isDone {
-                                            if let pet = reminder.pet {
-                                                viewModel.convertToEvent(for: pet, reminder)
-                                            }
-                                            viewModel.completeReminder(reminder)
-                                            viewModel.loadData()
+                                            viewModel.convertAndComplete(reminder)
                                         }
                                     }
                                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -101,6 +100,8 @@ struct HomeView: View {
                         }
                     } header: {
                         CollapsibleSectionHeader(title: "home.reminders".localized, isExpanded: $remindersExpanded)
+                            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 4, trailing: 16))
+                            .listRowBackground(Color.brandBackgroundLight)
                     }
 
                     Section {
@@ -109,6 +110,7 @@ struct HomeView: View {
                                 EventCardView(event: event)
                                     .listRowBackground(Color.brandBackgroundLight)
                                     .listRowSeparator(.hidden)
+                                    .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
                                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                         Button(role: .destructive) {
                                             viewModel.removeEvent(event)
@@ -127,6 +129,8 @@ struct HomeView: View {
                         }
                     } header: {
                         CollapsibleSectionHeader(title: "home.events".localized, isExpanded: $eventsExpanded)
+                            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 4, trailing: 16))
+                            .listRowBackground(Color.brandBackgroundLight)
                     }
                 }
                 .animation(.default, value: remindersExpanded)
@@ -157,10 +161,6 @@ struct HomeView: View {
         }
         .onAppear {
             viewModel.loadData()
-            for family in UIFont.familyNames.sorted() {
-                let names = UIFont.fontNames(forFamilyName: family)
-                print("Family: \(family) -- Fonts: \(names)")
-            }
         }
     }
 }
@@ -177,7 +177,7 @@ struct CollapsibleSectionHeader: View {
         } label: {
             HStack {
                 Text(title)
-                    .font(.headline)
+                    .cruinn(.bold, size: 18)
                     .foregroundStyle(.primary)
                 Spacer()
                 Image(systemName: "chevron.down")
@@ -185,6 +185,9 @@ struct CollapsibleSectionHeader: View {
                     .foregroundStyle(.secondary)
                     .animation(.easeInOut(duration: 0.2), value: isExpanded)
             }
+            .padding(.vertical, 6)
+            .frame(maxWidth: .infinity)
+            .background(Color.brandBackgroundLight)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
